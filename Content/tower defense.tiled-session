@@ -1,0 +1,48 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "myMap.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "Animated water tiles.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "Grass Tileset.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "myMap.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 479,
+                "y": 809
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/33677/Documents/projets/git/tower defense/tower Defense/Content",
+    "map.height": 17,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
+    "openFiles": [
+        "myMap.tmx",
+        "Grass Tileset.tsx",
+        "Animated water tiles.tsx"
+    ],
+    "project": "tower defense.tiled-project",
+    "recentFiles": [
+        "Animated water tiles.tsx",
+        "Grass Tileset.tsx",
+        "myMap.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
+}
