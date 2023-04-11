@@ -20,37 +20,32 @@ namespace tower_Defense.Animation
             liste = liste.FindAll(spriteMissile => spriteMissile.missileID.Contains(name));
             return this;
         }
-        /*
-    public SpriteMissileFilter QteGt(int qte)
-    {
-        liste = liste.FindAll(tower => tower.qte > qte);
-        return this;
-    }
 
-    public SpriteMissileFilter QteLt(int qte)
-    {
-        liste = liste.FindAll(tower => tower.qte < qte);
-        return this;
-    }
+        public SpriteMissileFilter ImpactCollision()
+        {
+            liste = liste.FindAll(spriteMissile => spriteMissile.isCollision);
+            return this;
+        }
 
-    public SpriteMissileFilter CooldownShootIsUp()
-    {
-        liste = liste.FindAll(tower => tower.cdTir);
-        return this;
-    }
-    public SpriteMissileFilter Attack()
-    {
-        liste.ForEach(tower => tower.attack());
-        return this;
-    }
+        public SpriteMissileFilter CollisionFinished()
+        {
+            liste = liste.FindAll(spriteMissile => spriteMissile.isExploded);
+            return this;
+        }
+        
+        public SpriteMissileFilter CooldownShootIsUp()
+        {
+            liste = liste.FindAll(spriteMissile => spriteMissile.isCooldownShootUp);
+            return this;
+        }
+        public SpriteMissileFilter GameIsPaused()
+        {
+            liste.ForEach(spriteMissile => spriteMissile.GameIsPaused());
+            return this;
+        }
 
-    public SpriteMissileFilter RestartCooldown()
-    {
-        liste.ForEach(tower => tower.startCd = true);
-        return this;
-    }
 
-        */
+
 
         public List<SpriteMissile> Build()
         {
