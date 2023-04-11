@@ -46,8 +46,8 @@ namespace tower_Defense.Scenes
 
         // Ennemies
         private SpriteEnnemy ennemySprite;
-        private TDSprite ennemyTDSprite;
-
+        // Missiles
+        private SpriteMissile spriteMissile;
         // Textes
         private string LevelAndWave;
         private int level = 1;
@@ -179,7 +179,7 @@ namespace tower_Defense.Scenes
             _tower = (Tower)pSender;
             if (_tower.towerID == "ICONROTATEWEAPON")
             {
-                return;
+                  _tower.towerID = "ROTATEWEAPON";
             }
             if (_tower.towerID == "ICONTOWERUP")
             {
@@ -200,8 +200,6 @@ namespace tower_Defense.Scenes
             _tower.towerID = "UPGRADE";
                 }
             }
-
-
         }
         public void onHoverThreeStates(Button pSender)
         {
@@ -285,7 +283,6 @@ namespace tower_Defense.Scenes
             _button.OnClick = onClickDefault;
             _button.OnHover = onHoverDefault;
             listActors.Add(_button);
-
             _button = new Button(mainGame, "PLAY", new Vector2(Screen.Width / 2 , Screen.Height / 2 ));
             _button.OnClick = onClickPlay;
             _button.OnHover = onHoverDefault;
@@ -299,10 +296,33 @@ namespace tower_Defense.Scenes
                 new Vector2(Screen.Width - 100, 160));           
             _button.OnClick = onClickSpeedUp;
             _button.OnHover = onHoverThreeStates;
+            int offset = 0;
+            for (int i = 1; i < 9; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    if (i == 8) continue;
+                    if (i == 7)
+                    {
+                        spriteMissile = SpriteMissile.AddMissile(mainGame, mainGame._spriteBatch,
+                         "MISSILETOWER7LEVELX",
+              new Vector2(100 + offset, 1000), new Vector2(0, -15));
+                    }
+                    else
+                    {
+                        spriteMissile = SpriteMissile.AddMissile(mainGame, mainGame._spriteBatch,
+                         "MISSILETOWER" + i.ToString() + "LEVEL" + j.ToString(),
+              new Vector2(100 + offset, 1000), new Vector2(0, -15));
+                    }
+                    offset += 40;
+                }
+            }
+           
+
+
+
             listActors.Add(_button);
             base.Load();
-            base.Load();
-
         }
 
         public override void UnLoad()
@@ -315,16 +335,11 @@ namespace tower_Defense.Scenes
             List<Tower> towerList = listActors.Where(button => button.GetType() == typeof(Tower)).Select(button => (Tower)button).ToList();
             towerList.ForEach(tower => tower.BuildTowerType(this, gameTime, tower, _tower));
             if (!isGamePaused) towerList.ForEach(tower => tower.BuildMenuChooseTower(this,  tower, _tower));
-            towerList.ForEach(tower => tower.BuildMenuToRemove(this, tower, _tower));
-            
-
-
-
+            towerList.ForEach(tower => tower.BuildMenuToRemove(this, tower, _tower));   
 
             timerWaves += gameIsSpeedUp ?
                (float)gameTime.ElapsedGameTime.TotalSeconds * 20 :
                (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             if (timerWaves > 60f && !isWavesLaunch[0])
             {
                 wave += 1;
@@ -344,11 +359,11 @@ namespace tower_Defense.Scenes
                     if (ennemy._HP <= 0) ennemy.ToRemove = true;
                 }
                 timerEnnemies = 0;
+
+
             }
             SpriteEnnemy.lstEnnemy.RemoveAll(ennemy => ennemy._HP <= 0);
-            TDSprite.lstSprites.RemoveAll(ennemy => ennemy.ToRemove);
-
-            
+            TDSprite.lstSprites.RemoveAll(ennemy => ennemy.ToRemove);            
             _mapTiled.Update(gameTime);
             TDSprite.UpdateAll(gameTime);
             SpriteButton.UpdateAll(gameTime);

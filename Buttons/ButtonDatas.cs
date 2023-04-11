@@ -20,6 +20,45 @@ namespace tower_Defense.Buttons
         {
             
             Textures.Add("TOWERTILEMAP", mainGame.Content.Load<Texture2D>("Tilesets/Grass Tileset"));
+            // 15 impacts
+            Textures.Add("IMPACTTOWER1LEVELX", mainGame.Content.Load<Texture2D>("Impact/Tower 01 - Weapon - Impact"));
+            Textures.Add("IMPACTTOWER2LEVEL1", mainGame.Content.Load<Texture2D>("Impact/Tower 02 - Level 01 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER2LEVEL2", mainGame.Content.Load<Texture2D>("Impact/Tower 02 - Level 02 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER2LEVEL3", mainGame.Content.Load<Texture2D>("Impact/Tower 02 - Level 03 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER3LEVEL1", mainGame.Content.Load<Texture2D>("Impact/Tower 03 - Level 01 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER3LEVEL2", mainGame.Content.Load<Texture2D>("Impact/Tower 03 - Level 02 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER3LEVEL3", mainGame.Content.Load<Texture2D>("Impact/Tower 03 - Level 03 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER4LEVEL1", mainGame.Content.Load<Texture2D>("Impact/Tower 04 - Level 01 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER4LEVEL2", mainGame.Content.Load<Texture2D>("Impact/Tower 04 - Level 02 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER4LEVEL3", mainGame.Content.Load<Texture2D>("Impact/Tower 04 - Level 03 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER5LEVEL1", mainGame.Content.Load<Texture2D>("Impact/Tower 05 - Level 01 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER5LEVEL2", mainGame.Content.Load<Texture2D>("Impact/Tower 05 - Level 02 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER5LEVEL3", mainGame.Content.Load<Texture2D>("Impact/Tower 05 - Level 03 - Projectile - Impact"));
+            Textures.Add("IMPACTTOWER6LEVELX", mainGame.Content.Load<Texture2D>("Impact/Tower 06 - Weapon - Impact"));
+            Textures.Add("IMPACTTOWER7LEVELX", mainGame.Content.Load<Texture2D>("Impact/Tower 07 - Level X - Projectile - Impact"));
+            // 22 missiles for 8 towers with 3 levels (tower 7 has only 1 missile)
+            Textures.Add("MISSILETOWER1LEVEL1", mainGame.Content.Load<Texture2D>("Projectile/Tower 01 - Level 01 - Projectile"));
+            Textures.Add("MISSILETOWER1LEVEL2", mainGame.Content.Load<Texture2D>("Projectile/Tower 01 - Level 02 - Projectile"));
+            Textures.Add("MISSILETOWER1LEVEL3", mainGame.Content.Load<Texture2D>("Projectile/Tower 01 - Level 03 - Projectile"));
+            Textures.Add("MISSILETOWER2LEVEL1", mainGame.Content.Load<Texture2D>("Projectile/Tower 02 - Level 01 - Projectile"));
+            Textures.Add("MISSILETOWER2LEVEL2", mainGame.Content.Load<Texture2D>("Projectile/Tower 02 - Level 02 - Projectile"));
+            Textures.Add("MISSILETOWER2LEVEL3", mainGame.Content.Load<Texture2D>("Projectile/Tower 02 - Level 03 - Projectile"));
+            Textures.Add("MISSILETOWER3LEVEL1", mainGame.Content.Load<Texture2D>("Projectile/Tower 03 - Level 01 - Projectile"));
+            Textures.Add("MISSILETOWER3LEVEL2", mainGame.Content.Load<Texture2D>("Projectile/Tower 03 - Level 02 - Projectile"));
+            Textures.Add("MISSILETOWER3LEVEL3", mainGame.Content.Load<Texture2D>("Projectile/Tower 03 - Level 03 - Projectile"));
+            Textures.Add("MISSILETOWER4LEVEL1", mainGame.Content.Load<Texture2D>("Projectile/Tower 04 - Level 01 - Projectile"));
+            Textures.Add("MISSILETOWER4LEVEL2", mainGame.Content.Load<Texture2D>("Projectile/Tower 04 - Level 02 - Projectile"));
+            Textures.Add("MISSILETOWER4LEVEL3", mainGame.Content.Load<Texture2D>("Projectile/Tower 04 - Level 03 - Projectile"));
+            Textures.Add("MISSILETOWER5LEVEL1", mainGame.Content.Load<Texture2D>("Projectile/Tower 05 - Level 01 - Projectile"));
+            Textures.Add("MISSILETOWER5LEVEL2", mainGame.Content.Load<Texture2D>("Projectile/Tower 05 - Level 02 - Projectile"));
+            Textures.Add("MISSILETOWER5LEVEL3", mainGame.Content.Load<Texture2D>("Projectile/Tower 05 - Level 03 - Projectile"));
+            Textures.Add("MISSILETOWER6LEVEL1", mainGame.Content.Load<Texture2D>("Projectile/Tower 06 - Level 01 - Projectile"));
+            Textures.Add("MISSILETOWER6LEVEL2", mainGame.Content.Load<Texture2D>("Projectile/Tower 06 - Level 02 - Projectile"));
+            Textures.Add("MISSILETOWER6LEVEL3", mainGame.Content.Load<Texture2D>("Projectile/Tower 06 - Level 03 - Projectile"));
+            Textures.Add("MISSILETOWER7LEVELX", mainGame.Content.Load<Texture2D>("Projectile/Tower 07 - Level X - Projectile"));
+            Textures.Add("MISSILETOWER8LEVEL1", mainGame.Content.Load<Texture2D>("Projectile/Tower 08 - Level 01 - Projectile"));
+            Textures.Add("MISSILETOWER8LEVEL2", mainGame.Content.Load<Texture2D>("Projectile/Tower 08 - Level 02 - Projectile"));
+            Textures.Add("MISSILETOWER8LEVEL3", mainGame.Content.Load<Texture2D>("Projectile/Tower 08 - Level 03 - Projectile"));
             // 24 weapons for 8 towers with 3 levels
             Textures.Add("WEAPONTOWER1LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 01 - Level 01 - Weapon"));
             Textures.Add("WEAPONTOWER1LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 01 - Level 02 - Weapon"));
@@ -60,7 +99,6 @@ namespace tower_Defense.Buttons
             Textures.Add("GUI WOODEN PIXEL ART", mainGame.Content.Load<Texture2D>("GUI/Wooden Pixel Art GUI 32x32"));
             Textures.Add("PLAY", mainGame.Content.Load<Texture2D>("Buttons/button"));
             Textures.Add("ICONS", mainGame.Content.Load<Texture2D>("GUI/Transparent Icons"));
-
         }
     }
 
@@ -106,7 +144,6 @@ namespace tower_Defense.Buttons
 
         public static void PopulateData()
         {
-
             Data.Add("PLAY", new ButtonGUIDatas
             {
                 ID = "Play",
@@ -125,7 +162,7 @@ namespace tower_Defense.Buttons
                 StepScale = 0.01f,
                 TimePerAnimation = 0.05f,
                 buttonAnimation = eButtonAnimation.UseAnimated
-            }); ; ;
+            });
             Data.Add("GAMESPEED", new ButtonGUIDatas
             {
                 ID = "GameSpeed",
@@ -156,7 +193,6 @@ namespace tower_Defense.Buttons
                 Scale = 1.5f,
                 buttonAnimation = eButtonAnimation.UseTileset
             });
-
 
             Data.Add("ICONTOWERUP", new ButtonGUIDatas
             {
@@ -645,8 +681,454 @@ namespace tower_Defense.Buttons
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
+            // 22 types for 8 types of towers and 3 levels of weapons (tower type 7 has only 1 projectile)
+            Data.Add("MISSILETOWER1LEVEL1", new ButtonGUIDatas
+            {
+                ID = "MissileTower1Level1",
+                NameTexture = "MISSILETOWER1LEVEL1",
+                FrameWidth = 8,
+                FrameHeight = 40,
+                ButtonFrames = new int[] { 0, 1, 2},
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER1LEVEL2", new ButtonGUIDatas
+            {
+                ID = "MissileTower1Level2",
+                NameTexture = "MISSILETOWER1LEVEL2",
+                FrameWidth = 15,
+                FrameHeight = 40,
+                ButtonFrames = new int[] { 0, 1, 2 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            }); 
+            Data.Add("MISSILETOWER1LEVEL3", new ButtonGUIDatas
+            {
+                ID = "MissileTower1Level3",
+                NameTexture = "MISSILETOWER1LEVEL3",
+                FrameWidth = 22,
+                FrameHeight = 40,
+                ButtonFrames = new int[] { 0, 1, 2 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER2LEVEL1", new ButtonGUIDatas
+            {
+                ID = "MissileTower2Level1",
+                NameTexture = "MISSILETOWER2LEVEL1",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                ButtonFrames = new int[] { 0, 1, 2, 3 ,4 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER2LEVEL2", new ButtonGUIDatas
+            {
+                ID = "MissileTower2Level2",
+                NameTexture = "MISSILETOWER2LEVEL2",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER2LEVEL3", new ButtonGUIDatas
+            {
+                ID = "MissileTower2Level3",
+                NameTexture = "MISSILETOWER2LEVEL3",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER3LEVEL1", new ButtonGUIDatas
+            {
+                ID = "MissileTower3Level1",
+                NameTexture = "MISSILETOWER3LEVEL1",
+                FrameWidth = 10,
+                FrameHeight = 10,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER3LEVEL2", new ButtonGUIDatas
+            {
+                ID = "MissileTower3Level2",
+                NameTexture = "MISSILETOWER3LEVEL2",
+                FrameWidth = 10,
+                FrameHeight = 10,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER3LEVEL3", new ButtonGUIDatas
+            {
+                ID = "MissileTower3Level3",
+                NameTexture = "MISSILETOWER3LEVEL3",
+                FrameWidth = 10,
+                FrameHeight = 10,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER4LEVEL1", new ButtonGUIDatas
+            {
+                ID = "MissileTower4Level1",
+                NameTexture = "MISSILETOWER4LEVEL1",
+                FrameWidth = 8,
+                FrameHeight = 8,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER4LEVEL2", new ButtonGUIDatas
+            {
+                ID = "MissileTower4Level2",
+                NameTexture = "MISSILETOWER4LEVEL2",
+                FrameWidth = 15,
+                FrameHeight = 12,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER4LEVEL3", new ButtonGUIDatas
+            {
+                ID = "MissileTower4Level3",
+                NameTexture = "MISSILETOWER4LEVEL3",
+                FrameWidth = 10,
+                FrameHeight = 10,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER5LEVEL1", new ButtonGUIDatas
+            {
+                ID = "MissileTower5Level1",
+                NameTexture = "MISSILETOWER5LEVEL1",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER5LEVEL2", new ButtonGUIDatas
+            {
+                ID = "MissileTower5Level2",
+                NameTexture = "MISSILETOWER5LEVEL2",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER5LEVEL3", new ButtonGUIDatas
+            {
+                ID = "MissileTower5Level3",
+                NameTexture = "MISSILETOWER5LEVEL3",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER6LEVEL1", new ButtonGUIDatas
+            {
+                ID = "MissileTower6Level1",
+                NameTexture = "MISSILETOWER6LEVEL1",
+                FrameWidth = 6,
+                FrameHeight = 26,
+                ButtonFrames = new int[] { 0, 1, 2 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER6LEVEL2", new ButtonGUIDatas
+            {
+                ID = "MissileTower6Level2",
+                NameTexture = "MISSILETOWER6LEVEL2",
+                FrameWidth = 8,
+                FrameHeight = 34,
+                ButtonFrames = new int[] { 0, 1, 2, 3 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER6LEVEL3", new ButtonGUIDatas
+            {
+                ID = "MissileTower6Level3",
+                NameTexture = "MISSILETOWER6LEVEL3",
+                FrameWidth = 10,
+                FrameHeight = 37,
+                ButtonFrames = new int[] { 0, 1, 2, 3 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER7LEVELX", new ButtonGUIDatas
+            {
+                ID = "MissileTower7LevelX",
+                NameTexture = "MISSILETOWER7LEVELX",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });          
+            Data.Add("MISSILETOWER8LEVEL1", new ButtonGUIDatas
+            {
+                ID = "MissileTower8Level1",
+                NameTexture = "MISSILETOWER8LEVEL1",
+                FrameWidth = 256,
+                FrameHeight = 256,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER8LEVEL2", new ButtonGUIDatas
+            {
+                ID = "MissileTower8Level2",
+                NameTexture = "MISSILETOWER8LEVEL2",
+                FrameWidth = 320,
+                FrameHeight = 320,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER8LEVEL3", new ButtonGUIDatas
+            {
+                ID = "MissileTower8Level3",
+                NameTexture = "MISSILETOWER8LEVEL3",
+                FrameWidth = 320,
+                FrameHeight = 320,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }, 
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            // 15 Impact Missiles
+            Data.Add("IMPACTTOWER1LEVELX", new ButtonGUIDatas
+            {
+                ID = "ImpactTower1Level1",
+                NameTexture = "IMPACTTOWER1LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER2LEVEL1", new ButtonGUIDatas
+            {
+                ID = "ImpactTower2Level1",
+                NameTexture = "IMPACTTOWER2LEVEL1",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER2LEVEL2", new ButtonGUIDatas
+            {
+                ID = "ImpactTower2Level2",
+                NameTexture = "IMPACTTOWER2LEVEL2",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER2LEVEL3", new ButtonGUIDatas
+            {
+                ID = "ImpactTower2Level3",
+                NameTexture = "IMPACTTOWER2LEVEL3",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER3LEVEL1", new ButtonGUIDatas
+            {
+                ID = "ImpactTower3Level1",
+                NameTexture = "IMPACTTOWER3LEVEL1",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER3LEVEL2", new ButtonGUIDatas
+            {
+                ID = "ImpactTower3Level2",
+                NameTexture = "IMPACTTOWER3LEVEL2",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER3LEVEL3", new ButtonGUIDatas
+            {
+                ID = "ImpactTower3Level3",
+                NameTexture = "IMPACTTOWER3LEVEL3",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER4LEVEL1", new ButtonGUIDatas
+            {
+                ID = "ImpactTower4Level1",
+                NameTexture = "IMPACTTOWER4LEVEL1",
+                FrameWidth = 72,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER4LEVEL2", new ButtonGUIDatas
+            {
+                ID = "ImpactTower4Level2",
+                NameTexture = "IMPACTTOWER4LEVEL2",
+                FrameWidth = 72,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER4LEVEL3", new ButtonGUIDatas
+            {
+                ID = "ImpactTower4Level3",
+                NameTexture = "IMPACTTOWER4LEVEL3",
+                FrameWidth = 72,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER5LEVEL1", new ButtonGUIDatas
+            {
+                ID = "ImpactTower5Level1",
+                NameTexture = "IMPACTTOWER5LEVEL1",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER5LEVEL2", new ButtonGUIDatas
+            {
+                ID = "ImpactTower5Level2",
+                NameTexture = "IMPACTTOWER5LEVEL2",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER5LEVEL3", new ButtonGUIDatas
+            {
+                ID = "ImpactTower5Level3",
+                NameTexture = "IMPACTTOWER5LEVEL3",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER6LEVELX", new ButtonGUIDatas
+            {
+                ID = "ImpactTower6Level6",
+                NameTexture = "IMPACTTOWER6LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER7LEVELX", new ButtonGUIDatas
+            {
+                ID = "ImpactTower7Level6",
+                NameTexture = "IMPACTTOWER7LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 },
+                ButtonFramesLenght = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
 
-            // 24 types for 8 towers and 3 weapons (42 is weapon type 4 level 2)
+            // 24 types for 8 types of towers and 3 levels of weapons (42 is weapon type 4 level 2)
             Data.Add("WEAPONTOWER1LEVEL1", new ButtonGUIDatas
             {
                 ID = "WeaponTower1Level1",

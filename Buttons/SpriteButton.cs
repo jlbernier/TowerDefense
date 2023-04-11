@@ -64,8 +64,6 @@ namespace tower_Defense.Buttons
         public int offsetTextureY { get; private set; }
         public int widthTexture { get; private set; }
         public int heightTexture { get; private set; }
-
-        //public Dictionary<string, string> properties { get; private set; }
         public SpriteBatch spriteBatch { get; }
         public List<BUTTONAnimation> animations;
         public BUTTONAnimation animationCourante;
@@ -233,20 +231,13 @@ namespace tower_Defense.Buttons
 
         static public void DrawAll(SpriteBatch spriteBatch)
         {
-            foreach (var sprite in SpriteButton.lstButtonSprites)
-            {
-                sprite.Draw(spriteBatch);
-            }
+            SpriteButton.lstButtonSprites.ForEach(sprite => sprite.Draw(spriteBatch));
         }
 
         static public void UpdateAll(GameTime pGametime)
         {
-            foreach (var sprite in SpriteButton.lstButtonSprites)
-            {
-                sprite.Update(pGametime);
-            }
-        }
-       
+            SpriteButton.lstButtonSprites.ForEach(sprite => sprite.Update(pGametime));            
+        }       
 
         public void AddAnimation(string pName, int[] pFrames, float pDureeFrame, int initOffsetX, int initOffsetY, bool pisLoop = true)
         {
@@ -257,7 +248,7 @@ namespace tower_Defense.Buttons
 
         public void RunAnimation(string pName)
         {
-            if (isPaused) return;
+            if (isPaused) return;     
             foreach (BUTTONAnimation element in animations)
             {
                 if (element.name == pName)
@@ -301,7 +292,7 @@ namespace tower_Defense.Buttons
             if (timeAnimation > animationCourante.dureeFrame)
             {
                 textureBox = new Rectangle(animationCourante.frames[frame] * frameWidth,
-             offsetTextureY, frameWidth, frameHeight);
+                offsetTextureY, frameWidth, frameHeight);
                 frame++;
                 if (frame >= animationCourante.frames.Count())
                 {
@@ -319,23 +310,15 @@ namespace tower_Defense.Buttons
             }
         }
 
-        public void UpdateTDRectangle(GameTime gameTime)
-        {
-
-        }
-
         public virtual void Update(GameTime gameTime)
         {
             if (isPaused) return;
             if (isAnimated) UpdateScale(gameTime);                
             if (isFrame) UpdateFrame(gameTime);
-            if (isTDRectangle) UpdateTDRectangle(gameTime);
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-           // Vector2 origine = new Vector2(textureBox.Width/2, textureBox.Height/2);
             Vector2 origine = new Vector2(scale*textureBox.Width/2, scale * textureBox.Height/2);
-           // float rotation = 0f;
             if (textureBoxRect != null && isTDRectangle) textureBoxRect.Draw(spriteBatch);
             spriteBatch.Draw(texture, position, textureBox, Color.White, rotation, origine, scale, SpriteEffects.None, 0f);
         }
