@@ -33,6 +33,7 @@ namespace tower_Defense.Map
         int tilesetLines;
         public List<ITiles> lstTiles = new List<ITiles>();
         public List<ITiles> lstTilesAnimated = new List<ITiles>();
+        public List<ITiles> lstTilesTower = new List<ITiles>();
         protected MainGame mainGame;
         public MapTiled(MainGame mainGame) : base() { this.mainGame = mainGame; }
 
@@ -51,6 +52,7 @@ namespace tower_Defense.Map
             int nbLayers = map.Layers.Count;
             int nLayer = 0;
             bool isWater = false;
+            bool isTower = false;
             foreach (TmxLayer layer in map.Layers)
             {
                 if (layer.Visible)
@@ -66,6 +68,7 @@ namespace tower_Defense.Map
                             int tilesetColumn = 0;
                             for (int indexGID = 1; indexGID < lstTilesetsGrid.Count; indexGID++)
                             {
+                                isTower = (gid == 39)? true: false; 
                                 if (gid < lstTilesetsGrid[indexGID])
                                 {
                                     isWater = false;
@@ -111,6 +114,11 @@ namespace tower_Defense.Map
                             else
                             {
                                 lstTiles.Add(tile);
+                                if (isTower)
+                                {
+                                    lstTilesTower.Add(tile);
+                                    isTower = false;
+                                }
                             }
                         }
                         column++;

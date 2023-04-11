@@ -18,6 +18,7 @@ namespace tower_Defense.EnnemyGameplayNameSpace
         public SpriteEnnemy sprEnnemy;
         public Game _mainGame;
         public string waveID;
+        private bool gameIsSpeedUp;
 
         public EnnemyGameplay(MainGame mainGame) { _mainGame = mainGame; }
 
@@ -33,6 +34,8 @@ namespace tower_Defense.EnnemyGameplayNameSpace
                                Ennemy.Data[ennemyID].Velocity,
                                Ennemy.Data[ennemyID].InitDecalageX                              
                                );
+            if (gameIsSpeedUp)
+                sprEnnemy.isSpeedUp = true;
             sprEnnemy.Load(_mainGame ,ennemyID);
             sprEnnemy.IsMirrored = Ennemy.Data[ennemyID].isMirrored;
             sprEnnemy.AjouteAnimation("run",
@@ -50,9 +53,10 @@ namespace tower_Defense.EnnemyGameplayNameSpace
             Ennemy.Data[ennemyID].Velocity = -Ennemy.Data[ennemyID].Velocity;
         }
 
-        public void Start(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, int level = 1, int wave = 1)
+        public void Start(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, bool pGameIsSpeedUp = false, int level = 1, int wave = 1)
 
         {
+            gameIsSpeedUp = pGameIsSpeedUp;
             int position = 0;
             string ennemyID = "";
             int index = 1;            
@@ -64,7 +68,6 @@ namespace tower_Defense.EnnemyGameplayNameSpace
                     break;
                 }
             }
-
             index = 1;
             foreach (int i in Wave.Data[waveID].NumberEnnemies)
             {
@@ -78,35 +81,13 @@ namespace tower_Defense.EnnemyGameplayNameSpace
                     else if (index == 6) ennemyID = Wave.Data[waveID].EnnemyID6.ToString();
                     else if (index == 7) ennemyID = Wave.Data[waveID].EnnemyID7.ToString();
                     else if (index == 8) ennemyID = Wave.Data[waveID].EnnemyID8.ToString();
-
                     LeftRightEnnemy(ennemyID);
                     AddEnnemy(spriteBatch, graphics, ennemyID, position - graphics.PreferredBackBufferWidth);
                     position -= 40;
                     LeftRightEnnemy(ennemyID);
-
                 }
                 index++;
             }
-
-                       /*
-            LeftRightEnnemy("CLAMPBEETLE");
-            AddEnnemy(spriteBatch, graphics, "CLAMPBEETLE", -360 - graphics.PreferredBackBufferWidth);
-            LeftRightEnnemy("FIREBUG");
-            AddEnnemy(spriteBatch, graphics, "FIREBUG", -60 - graphics.PreferredBackBufferWidth);
-            LeftRightEnnemy("FIREWASP");
-            AddEnnemy(spriteBatch, graphics, "FIREWASP", -420 - graphics.PreferredBackBufferWidth);
-            LeftRightEnnemy("FLYING_LOCUST");
-            AddEnnemy(spriteBatch, graphics, "FLYING_LOCUST", -240 - graphics.PreferredBackBufferWidth);
-            LeftRightEnnemy("LEAFBUG");
-            AddEnnemy(spriteBatch, graphics, "LEAFBUG", 0 - graphics.PreferredBackBufferWidth);
-            LeftRightEnnemy("MAGMA_CRAB");
-            AddEnnemy(spriteBatch, graphics, "MAGMA_CRAB", -120 - graphics.PreferredBackBufferWidth);
-            LeftRightEnnemy("SCORPION");
-            AddEnnemy(spriteBatch, graphics, "SCORPION", -180 - graphics.PreferredBackBufferWidth);
-            LeftRightEnnemy("VOIDBUTTERFLY");
-            AddEnnemy(spriteBatch, graphics, "VOIDBUTTERFLY", -300 - graphics.PreferredBackBufferWidth);
-            */
-
         }
     }
 }

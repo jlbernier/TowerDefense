@@ -15,7 +15,7 @@ namespace tower_Defense.Scenes
             GamePlay,
             GameOver
         }
-        protected MainGame mainGame;
+        public MainGame mainGame;
         public Scene CurrentScene { get; set; }
         public GameState(MainGame pGame)
         {

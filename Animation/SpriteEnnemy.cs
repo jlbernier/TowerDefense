@@ -33,13 +33,15 @@ namespace tower_Defense.Animation
         private SoundEffect _sndLanding;
         static public List<SpriteEnnemy> lstEnnemy = new List<SpriteEnnemy>();
         public SpriteEnnemy(Game pGame, SpriteBatch pSpriteBatch, Texture2D pTexture, int pFrameWidth, int pFrameHeight, int pDecalageX, int pDecalageY, Vector2 pVelocity, int pInitDecalageX = 0): base(pGame, pSpriteBatch, pTexture, pFrameWidth, pFrameHeight, pDecalageX, pDecalageY, pVelocity, pInitDecalageX = 0)
-        {
+        {            
             lstEnnemy.Add(this);
         }
 
         public void Load(Game mainGame, string ennemyID)
         {
             _ennemyID = ennemyID;
+                        
+
             _HP = Ennemy.Data[_ennemyID].MaxHP;
             rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
             rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);           

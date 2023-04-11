@@ -43,8 +43,9 @@ namespace tower_Defense.Animation
         //protected Game mainGame;
         public float spriteX { get; set; }
         public float spriteY { get; set; }
-        public Vector2 velocity { get; set;  }  
+        public Vector2 velocity { get; set; }  
         public bool isSpeedUp;
+        public bool isPaused;
         public bool isVisible { get; set; }
         public bool isCentered { get; set; }
         public float zoom { get; set; }
@@ -139,7 +140,7 @@ namespace tower_Defense.Animation
         public virtual void Update(GameTime gameTime)
         {
                
-
+            if (isPaused) return;
             this.spriteX += this.velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
             this.spriteY += this.velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
            
@@ -171,9 +172,9 @@ namespace tower_Defense.Animation
         public virtual void Draw(GameTime gameTime)
         {
             if (!isVisible) return;
-
-            int calculDecalage = largeurFrame;
-            Rectangle source = new Rectangle(0, 0, 0, 0);
+            
+                int calculDecalage = largeurFrame;
+                Rectangle source = new Rectangle(0, 0, 0, 0);
             if (animationCourante.decalageX > 0)
             {
                 calculDecalage = animationCourante.frames[frame] * animationCourante.decalageX;
@@ -186,6 +187,7 @@ namespace tower_Defense.Animation
                 source = new Rectangle(animationCourante.frames[frame] * largeurFrame,
                   animationCourante.decalageY, largeurFrame, hauteurFrame);
             }
+            
             Vector2 origine = new Vector2(0, 0);
             if (isCentered)
             {

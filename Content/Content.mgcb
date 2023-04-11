@@ -188,6 +188,30 @@
 /processorParam:TextureFormat=Color
 /build:Grass Tileset.png
 
+#begin GUI/BoundingBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/BoundingBox.png
+
+#begin GUI/Transparent Icons.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/Transparent Icons.png
+
 #begin GUI/Wooden Pixel Art GUI 32x32.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -223,6 +247,25 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Misc/Tower Construction.png
+
+#begin SmallFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:SmallFont.spritefont
+
+#begin Tilesets/Grass Tileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tilesets/Grass Tileset.png
 
 #begin Tower/Tower 01.png
 /importer:TextureImporter

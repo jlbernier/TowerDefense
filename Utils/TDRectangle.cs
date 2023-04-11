@@ -11,7 +11,7 @@ namespace tower_Defense.Utils
 {
     public class TDRectangle : IDisposable
     {
-        public enum Type { fill, outline };
+        public enum Type { fill, outline, outlineOnly };
         public Rectangle Rect;
         public Rectangle InsideRect;
         public Color FillColor;
@@ -46,6 +46,10 @@ namespace tower_Defense.Utils
             {
                 pSpriteBatch.Draw(_textureLine, Rect, LineColor);
                 pSpriteBatch.Draw(_textureFill, InsideRect, FillColor);
+            }
+            else if (_type == Type.outlineOnly)
+            {
+                pSpriteBatch.Draw(_textureLine, Rect, LineColor);
             }
             else
             {

@@ -17,10 +17,10 @@
         },
         "myMap.tmx": {
             "scale": 0.5,
-            "selectedLayer": 5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 479,
-                "y": 809
+                "x": 1575,
+                "y": 487
             }
         }
     },

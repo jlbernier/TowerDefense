@@ -18,12 +18,49 @@ namespace tower_Defense.Buttons
 
         public static void PopulateTextures(Game mainGame)
         {
+            
+            Textures.Add("TOWERTILEMAP", mainGame.Content.Load<Texture2D>("Tilesets/Grass Tileset"));
+            // 24 weapons for 8 towers with 3 levels
             Textures.Add("WEAPONTOWER1LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 01 - Level 01 - Weapon"));
+            Textures.Add("WEAPONTOWER1LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 01 - Level 02 - Weapon"));
+            Textures.Add("WEAPONTOWER1LEVEL3", mainGame.Content.Load<Texture2D>("Weapon/Tower 01 - Level 03 - Weapon"));
+            Textures.Add("WEAPONTOWER2LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 02 - Level 01 - Weapon"));
+            Textures.Add("WEAPONTOWER2LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 02 - Level 02 - Weapon"));
+            Textures.Add("WEAPONTOWER2LEVEL3", mainGame.Content.Load<Texture2D>("Weapon/Tower 02 - Level 03 - Weapon"));
+            Textures.Add("WEAPONTOWER3LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 03 - Level 01 - Weapon"));
+            Textures.Add("WEAPONTOWER3LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 03 - Level 02 - Weapon"));
+            Textures.Add("WEAPONTOWER3LEVEL3", mainGame.Content.Load<Texture2D>("Weapon/Tower 03 - Level 03 - Weapon"));
+            Textures.Add("WEAPONTOWER4LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 04 - Level 01 - Weapon"));
+            Textures.Add("WEAPONTOWER4LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 04 - Level 02 - Weapon"));
+            Textures.Add("WEAPONTOWER4LEVEL3", mainGame.Content.Load<Texture2D>("Weapon/Tower 04 - Level 03 - Weapon"));
+            Textures.Add("WEAPONTOWER5LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 05 - Level 01 - Weapon"));
+            Textures.Add("WEAPONTOWER5LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 05 - Level 02 - Weapon"));
+            Textures.Add("WEAPONTOWER5LEVEL3", mainGame.Content.Load<Texture2D>("Weapon/Tower 05 - Level 03 - Weapon"));
+            Textures.Add("WEAPONTOWER6LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 06 - Level 01 - Weapon"));
+            Textures.Add("WEAPONTOWER6LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 06 - Level 02 - Weapon"));
+            Textures.Add("WEAPONTOWER6LEVEL3", mainGame.Content.Load<Texture2D>("Weapon/Tower 06 - Level 03 - Weapon"));
+            Textures.Add("WEAPONTOWER7LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 07 - Level 01 - Weapon"));
+            Textures.Add("WEAPONTOWER7LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 07 - Level 02 - Weapon"));
+            Textures.Add("WEAPONTOWER7LEVEL3", mainGame.Content.Load<Texture2D>("Weapon/Tower 07 - Level 03 - Weapon"));
+            Textures.Add("WEAPONTOWER8LEVEL1", mainGame.Content.Load<Texture2D>("Weapon/Tower 08 - Level 01 - Weapon"));
+            Textures.Add("WEAPONTOWER8LEVEL2", mainGame.Content.Load<Texture2D>("Weapon/Tower 08 - Level 02 - Weapon"));
+            Textures.Add("WEAPONTOWER8LEVEL3", mainGame.Content.Load<Texture2D>("Weapon/Tower 08 - Level 03 - Weapon"));
+            // 3 levels construction
             Textures.Add("TOWERCONSTRUCTION", mainGame.Content.Load<Texture2D>("Misc/Tower Construction"));
+            // 3 levels per png
             Textures.Add("TOWER1", mainGame.Content.Load<Texture2D>("Tower/Tower 01"));
-            Textures.Add("BUTTON1", mainGame.Content.Load<Texture2D>("Button/button1"));
+            Textures.Add("TOWER2", mainGame.Content.Load<Texture2D>("Tower/Tower 02"));
+            Textures.Add("TOWER3", mainGame.Content.Load<Texture2D>("Tower/Tower 03"));
+            Textures.Add("TOWER4", mainGame.Content.Load<Texture2D>("Tower/Tower 04"));
+            Textures.Add("TOWER5", mainGame.Content.Load<Texture2D>("Tower/Tower 05"));
+            Textures.Add("TOWER6", mainGame.Content.Load<Texture2D>("Tower/Tower 06"));
+            Textures.Add("TOWER7", mainGame.Content.Load<Texture2D>("Tower/Tower 07"));
+            Textures.Add("TOWER8", mainGame.Content.Load<Texture2D>("Tower/Tower 08"));
+            Textures.Add("BOUNDINGBOX", mainGame.Content.Load<Texture2D>("GUI/BoundingBox"));
             Textures.Add("GUI WOODEN PIXEL ART", mainGame.Content.Load<Texture2D>("GUI/Wooden Pixel Art GUI 32x32"));
             Textures.Add("PLAY", mainGame.Content.Load<Texture2D>("Buttons/button"));
+            Textures.Add("ICONS", mainGame.Content.Load<Texture2D>("GUI/Transparent Icons"));
+
         }
     }
 
@@ -42,10 +79,15 @@ namespace tower_Defense.Buttons
         public int OffsetPushY;
         public int OffsetX;
         public int OffsetY;
+        public int OffsetCenterY;
         public bool IsLoop;
         public int[] ButtonFrames;
         public float ButtonFramesLenght;
         public float Scale;
+        public float MaxScale;
+        public float MinScale;
+        public float StepScale;
+        public float TimePerAnimation;
         public ButtonGUI.eButtonAnimation buttonAnimation;
         public ButtonGUIDatas() { }
     }
@@ -57,35 +99,468 @@ namespace tower_Defense.Buttons
             None,
             UseTileset,
             UseFrames,
-            UseAnimation            
+            UseAnimated,
+            UseTDRectangle
         }
         public static Dictionary<string, ButtonGUIDatas> Data = new Dictionary<string, ButtonGUIDatas>();
 
         public static void PopulateData()
         {
-            Data.Add("WEAPONTOWER1LEVEL1", new ButtonGUIDatas
+
+            Data.Add("PLAY", new ButtonGUIDatas
             {
-                ID = "WeaponTower1Level1",
-                NameTexture = "WEAPONTOWER1LEVEL1",
-                FrameWidth = 96,
-                FrameHeight = 96,
-                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                ButtonFramesLenght = 8f / 12f,
-                IsLoop = true,
-                Scale = 1f,
-                buttonAnimation = eButtonAnimation.UseFrames
-            });
-            Data.Add("TOWER11", new ButtonGUIDatas
-            {
-                ID = "Tower1",
-                NameTexture = "TOWER1",
-                FrameWidth = 64,
-                FrameHeight = 128,
+                ID = "Play",
+                NameTexture = "PLAY",
+                FrameWidth = 190,
+                FrameHeight = 49,
                 InitOffsetX = 0,
+                InitOffsetY = 0,
+                OffsetSelectedX = 0,
+                OffsetSelectedY = 0,
+                OffsetPushX = 0,
+                OffsetPushY = 0,
+                Scale = 1f,
+                MaxScale = 1.05f,
+                MinScale = 0.95f,
+                StepScale = 0.01f,
+                TimePerAnimation = 0.05f,
+                buttonAnimation = eButtonAnimation.UseAnimated
+            }); ; ;
+            Data.Add("GAMESPEED", new ButtonGUIDatas
+            {
+                ID = "GameSpeed",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 4,
+                InitOffsetY = 32 * 0,
+                OffsetSelectedX = 32 * 9,
+                OffsetSelectedY = 32 * 0,
+                OffsetPushX = 32 * 18,
+                OffsetPushY = 32 * 0,
+                Scale = 1.5f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("PAUSE", new ButtonGUIDatas
+            {
+                ID = "Pause",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 0,
+                InitOffsetY = 32 * 27,
+                OffsetSelectedX = 32 * 9,
+                OffsetSelectedY = 32 * 0,
+                OffsetPushX = 32 * 18,
+                OffsetPushY = 32 * 0,
+                Scale = 1.5f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+
+
+            Data.Add("ICONTOWERUP", new ButtonGUIDatas
+            {
+                ID = "IconTowerUp",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 7,
+                InitOffsetY = 32 * 0,
+                OffsetSelectedX = 32 * 9,
+                OffsetSelectedY = 32 * 0,
+                OffsetPushX = 32 * 18,
+                OffsetPushY = 32 * 0,
+                Scale = 1.5f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+
+            Data.Add("ICONWEAPONUP", new ButtonGUIDatas
+            {
+                ID = "IconWeaponUP",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 5,
+                InitOffsetY = 32 * 0,
+                OffsetSelectedX = 32 * 9,
+                OffsetSelectedY = 32 * 0,
+                OffsetPushX = 32 * 18,
+                OffsetPushY = 32 * 0,
+                Scale = 1.5f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+
+            Data.Add("ICONROTATEWEAPON", new ButtonGUIDatas
+            {
+                ID = "IconRotateWeapon",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 3,
+                InitOffsetY = 32 * 20,
+                OffsetSelectedX = 32 * 9,
+                OffsetSelectedY = 32 * 0,
+                OffsetPushX = 32 * 18,
+                OffsetPushY = 32 * 0,
+                Scale = 1.5f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+
+            Data.Add("BOUNDINGBOX", new ButtonGUIDatas
+            {
+                ID = "BoundingBox",
+                NameTexture = "BOUNDINGBOX",
+                FrameWidth = 192,
+                FrameHeight = 256,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
 
+            // Wooden box
+            Data.Add("WOODENBOX", new ButtonGUIDatas
+            {
+                ID = "WoodenBox",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32*3,
+                FrameHeight = 32*3,
+                InitOffsetX = 32 * 5,
+                InitOffsetY = 32 * 20,             
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("WOODENLIFE", new ButtonGUIDatas
+            {
+                ID = "WoodenLifex",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32 * 3,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 4,
+                InitOffsetY = 32 * 34,
+                Scale = 2f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("CHAIN", new ButtonGUIDatas
+            {
+                ID = "Chain",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 16,
+                FrameHeight = 16,
+                InitOffsetX = 32 * 4,
+                InitOffsetY = 32 * 30,
+                Scale = 2f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+
+            // Gold, Life, etc.
+            Data.Add("GOLD", new ButtonGUIDatas
+            {
+                ID = "Gold",
+                NameTexture = "ICONS",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 10,
+                InitOffsetY = 32 * 12,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("HEART", new ButtonGUIDatas
+            {
+                ID = "Heart",
+                NameTexture = "ICONS",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 6,
+                InitOffsetY = 32 * 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            // Tower base where to build
+            Data.Add("TOWERTILEMAP", new ButtonGUIDatas
+            {
+                ID = "TowerTileMap",
+                NameTexture = "TOWERTILEMAP",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                InitOffsetX = 64 * 6,
+                InitOffsetY = 64 * 7,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTDRectangle
+            });
+            
+            // 8 types of towers in tilsets with 3 levels: tower 41 is type weapon 4 level tower 1
+            Data.Add("TOWER11", new ButtonGUIDatas
+            {
+                ID = "TOWER11",
+                NameTexture = "TOWER1",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 0,
+                OffsetCenterY = 0 ,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER12", new ButtonGUIDatas
+            {
+                ID = "TOWER12",
+                NameTexture = "TOWER1",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64,
+                OffsetCenterY = - 9,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER13", new ButtonGUIDatas
+            {
+                ID = "TOWER13",
+                NameTexture = "TOWER1",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64*2,
+                OffsetCenterY = - 9 - 9,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+
+            Data.Add("TOWER21", new ButtonGUIDatas
+            {
+                ID = "TOWER21",
+                NameTexture = "TOWER2",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetY = 64,
+                InitOffsetX = 0,
+                OffsetCenterY = 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            
+            Data.Add("TOWER22", new ButtonGUIDatas
+            {
+                ID = "TOWER22",
+                NameTexture = "TOWER2",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetY = 64,
+                InitOffsetX = 64,
+                OffsetCenterY = - 4,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            }); 
+            Data.Add("TOWER23", new ButtonGUIDatas
+            {
+                ID = "TOWER23",
+                NameTexture = "TOWER2",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetY = 64,
+                InitOffsetX = 64*2,
+                OffsetCenterY = - 9,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            }); ///
+            Data.Add("TOWER31", new ButtonGUIDatas
+            {
+                ID = "TOWER31",
+                NameTexture = "TOWER3",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 0,
+                OffsetCenterY = 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            }); 
+            Data.Add("TOWER32", new ButtonGUIDatas
+            {
+                ID = "TOWER32",
+                NameTexture = "TOWER3",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64,
+                OffsetCenterY = - 4,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            }); 
+            Data.Add("TOWER33", new ButtonGUIDatas
+            {
+                ID = "TOWER33",
+                NameTexture = "TOWER3",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64*2,
+                OffsetCenterY = - 9,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            }); 
+            Data.Add("TOWER41", new ButtonGUIDatas
+            {
+                ID = "TOWER41",
+                NameTexture = "TOWER4",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 0,
+                OffsetCenterY = 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER42", new ButtonGUIDatas
+            {
+                ID = "TOWER42",
+                NameTexture = "TOWER4",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX =64,
+                OffsetCenterY = - 4,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            }); 
+            Data.Add("TOWER43", new ButtonGUIDatas
+            {
+                ID = "TOWER43",
+                NameTexture = "TOWER4",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64*2,
+                Scale = 1f,
+                OffsetCenterY = - 9,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER51", new ButtonGUIDatas
+            {
+                ID = "TOWER51",
+                NameTexture = "TOWER5",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 0,
+                OffsetCenterY = 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER52", new ButtonGUIDatas
+            {
+                ID = "TOWER52",
+                NameTexture = "TOWER5",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64,
+                OffsetCenterY = - 4,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER53", new ButtonGUIDatas
+            {
+                ID = "TOWER53",
+                NameTexture = "TOWER5",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64 * 2,
+                OffsetCenterY = - 9,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER61", new ButtonGUIDatas
+            {
+                ID = "TOWER61",
+                NameTexture = "TOWER6",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 0,
+                OffsetCenterY = 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER62", new ButtonGUIDatas
+            {
+                ID = "TOWER62",
+                NameTexture = "TOWER6",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64,
+                OffsetCenterY = - 4,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER63", new ButtonGUIDatas
+            {
+                ID = "TOWER63",
+                NameTexture = "TOWER6",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64 * 2,
+                OffsetCenterY = - 9,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER71", new ButtonGUIDatas
+            {
+                ID = "TOWER71",
+                NameTexture = "TOWER7",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 0,
+                OffsetCenterY = 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER72", new ButtonGUIDatas
+            {
+                ID = "TOWER72",
+                NameTexture = "TOWER7",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64,
+                OffsetCenterY = -9,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER73", new ButtonGUIDatas
+            {
+                ID = "TOWER73",
+                NameTexture = "TOWER7",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetX = 64 * 2,
+                OffsetCenterY = - 18,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER81", new ButtonGUIDatas
+            {
+                ID = "TOWER81",
+                NameTexture = "TOWER8",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetY = 64,
+                InitOffsetX = 0,
+                OffsetCenterY = 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER82", new ButtonGUIDatas
+            {
+                ID = "TOWER82",
+                NameTexture = "TOWER8",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetY = 64,
+                InitOffsetX = 64,
+                OffsetCenterY = - 4,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            Data.Add("TOWER83", new ButtonGUIDatas
+            {
+                ID = "TOWER83",
+                NameTexture = "TOWER8",
+                FrameWidth = 64,
+                FrameHeight = 128,
+                InitOffsetY = 64,
+                InitOffsetX = 64 * 2,
+                OffsetCenterY = - 9,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.None
+            });
+            // Tower construction animations 3 frames animations during building and 3 frames when building is done
             Data.Add("TOWERCONSTRUCTION1", new ButtonGUIDatas
             {
                 ID = "TowerConstruction1",
@@ -108,7 +583,7 @@ namespace tower_Defense.Buttons
                 FrameHeight = 256,
                 InitOffsetX = 0,
                 InitOffsetY = 256,
-                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4 },
                 ButtonFramesLenght = 5f / 12f,
                 IsLoop = false,
                 Scale = 1f,
@@ -171,45 +646,333 @@ namespace tower_Defense.Buttons
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
-            Data.Add("PLAY", new ButtonGUIDatas
+            // 24 types for 8 towers and 3 weapons (42 is weapon type 4 level 2)
+            Data.Add("WEAPONTOWER1LEVEL1", new ButtonGUIDatas
             {
-                ID = "Play",
-                NameTexture = "PLAY",
-                FrameWidth = 190,
-                FrameHeight = 49,
-                InitOffsetX = 0,
-                InitOffsetY = 0,
-                OffsetSelectedX = 0,
-                OffsetSelectedY = 0,
-                OffsetPushX = 0,
-                OffsetPushY = 0,
+                ID = "WeaponTower1Level1",
+                NameTexture = "WEAPONTOWER1LEVEL1",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
                 Scale = 1f,
-                buttonAnimation = eButtonAnimation.UseAnimation
+                buttonAnimation = eButtonAnimation.UseFrames
             });
-            Data.Add("GAMESPEED", new ButtonGUIDatas
+            Data.Add("WEAPONTOWER1LEVEL2", new ButtonGUIDatas
             {
-                ID = "GameSpeed",
-                NameTexture = "GUI WOODEN PIXEL ART",
-                FrameWidth = 32,
-                FrameHeight = 32,
-                InitOffsetX = 32 * 4,
-                InitOffsetY = 32 * 0,
-                OffsetSelectedX = 32 * 9,
-                OffsetSelectedY = 32 * 0,
-                OffsetPushX = 32 * 18,
-                OffsetPushY = 32 * 0,
-                Scale = 1.5f,
-                buttonAnimation = eButtonAnimation.UseTileset
-            });
-            Data.Add("BUTTON1", new ButtonGUIDatas
-            {
-                ID = "Button1",
-                NameTexture = "BUTTON1",
-                FrameWidth = 144,
-                FrameHeight = 72,              
+                ID = "WeaponTower1Level2",
+                NameTexture = "WEAPONTOWER1LEVEL2",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
                 Scale = 1f,
-                buttonAnimation = eButtonAnimation.None
+                buttonAnimation = eButtonAnimation.UseFrames
             });
+            Data.Add("WEAPONTOWER1LEVEL3", new ButtonGUIDatas
+            {
+                ID = "WeaponTower1Level3",
+                NameTexture = "WEAPONTOWER1LEVEL3",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
+            Data.Add("WEAPONTOWER2LEVEL1", new ButtonGUIDatas
+            {
+                ID = "WeaponTower2Level1",
+                NameTexture = "WEAPONTOWER2LEVEL1",
+                FrameWidth = 48,
+                FrameHeight = 96 / 2,
+                InitOffsetY = 96 / 2,
+                OffsetCenterY = +32,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            
+            Data.Add("WEAPONTOWER2LEVEL2", new ButtonGUIDatas
+            {
+                ID = "WeaponTower2Level2",
+                NameTexture = "WEAPONTOWER2LEVEL2",
+                FrameWidth = 64,
+                FrameHeight = 128 / 2,
+                InitOffsetY = 128 / 2,
+                OffsetCenterY = +16,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("WEAPONTOWER2LEVEL3", new ButtonGUIDatas
+            {
+                ID = "WeaponTower2Level3",
+                NameTexture = "WEAPONTOWER2LEVEL3",
+                FrameWidth = 64,
+                FrameHeight = 128 / 2,
+                InitOffsetY = 128 / 2,
+                OffsetCenterY = +16,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            
+            Data.Add("WEAPONTOWER3LEVEL1", new ButtonGUIDatas
+            {
+                ID = "WeaponTower3Level1",
+                NameTexture = "WEAPONTOWER3LEVEL1",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
+            Data.Add("WEAPONTOWER3LEVEL2", new ButtonGUIDatas
+            {
+                ID = "WeaponTower3Level2",
+                NameTexture = "WEAPONTOWER3LEVEL2",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("WEAPONTOWER3LEVEL3", new ButtonGUIDatas
+            {
+                ID = "WeaponTower3Level3",
+                NameTexture = "WEAPONTOWER3LEVEL3",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            
+            Data.Add("WEAPONTOWER4LEVEL1", new ButtonGUIDatas
+            {
+                ID = "WeaponTower4Level1",
+                NameTexture = "WEAPONTOWER4LEVEL1",
+                FrameWidth = 128,
+                FrameHeight = 128,
+                OffsetCenterY =  - 16,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
+            Data.Add("WEAPONTOWER4LEVEL2", new ButtonGUIDatas
+            {
+                ID = "WeaponTower4Level2",
+                NameTexture = "WEAPONTOWER4LEVEL2",
+                FrameWidth = 128,
+                FrameHeight = 128,
+                OffsetCenterY =  - 16,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("WEAPONTOWER4LEVEL3", new ButtonGUIDatas
+            {
+                ID = "WeaponTower4Level3",
+                NameTexture = "WEAPONTOWER4LEVEL3",
+                FrameWidth = 128,
+                FrameHeight = 128,
+                OffsetCenterY =  - 16,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            
+            Data.Add("WEAPONTOWER5LEVEL1", new ButtonGUIDatas
+            {
+                ID = "WeaponTower5Level1",
+                NameTexture = "WEAPONTOWER5LEVEL1",
+                FrameWidth = 96,
+                FrameHeight = 192 / 2,
+                InitOffsetY = 192 / 2,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                                            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
+            Data.Add("WEAPONTOWER5LEVEL2", new ButtonGUIDatas
+            {
+                ID = "WeaponTower5Level2",
+                NameTexture = "WEAPONTOWER5LEVEL2",
+                FrameWidth = 96,
+                FrameHeight = 192 / 2,
+                InitOffsetY = 192 / 2,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                                            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("WEAPONTOWER5LEVEL3", new ButtonGUIDatas
+            {
+                ID = "WeaponTower5Level3",
+                NameTexture = "WEAPONTOWER5LEVEL3",
+                FrameWidth = 96,
+                FrameHeight = 192 / 2,
+                InitOffsetY = 192 / 2,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                                            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            
+            Data.Add("WEAPONTOWER6LEVEL1", new ButtonGUIDatas
+            {
+                ID = "WeaponTower6Level1",
+                NameTexture = "WEAPONTOWER6LEVEL1",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                OffsetCenterY =  + 24,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
+            Data.Add("WEAPONTOWER6LEVEL2", new ButtonGUIDatas
+            {
+                ID = "WeaponTower6Level2",
+                NameTexture = "WEAPONTOWER6LEVEL2",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                OffsetCenterY =  + 8,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5},
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("WEAPONTOWER6LEVEL3", new ButtonGUIDatas
+            {
+                ID = "WeaponTower6Level3",
+                NameTexture = "WEAPONTOWER6LEVEL3",
+                FrameWidth = 96,
+                FrameHeight = 96,
+                OffsetCenterY =  + 8,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5},
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            
+            Data.Add("WEAPONTOWER7LEVEL1", new ButtonGUIDatas
+            {
+                ID = "WeaponTower7Level1",
+                NameTexture = "WEAPONTOWER7LEVEL1",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                OffsetCenterY =  + 24,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
+            Data.Add("WEAPONTOWER7LEVEL2", new ButtonGUIDatas
+            {
+                ID = "WeaponTower7Level2",
+                NameTexture = "WEAPONTOWER7LEVEL2",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                OffsetCenterY =  + 24,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("WEAPONTOWER7LEVEL3", new ButtonGUIDatas
+            {
+                ID = "WeaponTower7Level3",
+                NameTexture = "WEAPONTOWER7LEVEL3",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                OffsetCenterY =  + 24,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            //////
+            Data.Add("WEAPONTOWER8LEVEL1", new ButtonGUIDatas
+            {
+                ID = "WeaponTower8Level1",
+                NameTexture = "WEAPONTOWER8LEVEL1",
+                FrameWidth = 48,
+                FrameHeight = 48,
+                OffsetCenterY =  + 24,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
+            Data.Add("WEAPONTOWER8LEVEL2", new ButtonGUIDatas
+            {
+                ID = "WeaponTower8Level2",
+                NameTexture = "WEAPONTOWER8LEVEL2",
+                FrameWidth = 48,
+                FrameHeight = 48,
+                OffsetCenterY =  + 24,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("WEAPONTOWER8LEVEL3", new ButtonGUIDatas
+            {
+                ID = "WeaponTower8Level3",
+                NameTexture = "WEAPONTOWER8LEVEL3",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ButtonFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                ButtonFramesLenght = 8f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
         }
     }
 }
