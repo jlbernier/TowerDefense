@@ -29,7 +29,6 @@ namespace tower_Defense.Scenes
         private readonly MapTiled _mapTiled;
         // GamePlay
         private readonly EnnemyGameplay _ennemyGamePlay;
-        //public List<SpriteEnnemy> lstSpriteEnnemies;
 
         // Buttons
         private bool isGamePaused;
@@ -42,17 +41,13 @@ namespace tower_Defense.Scenes
 
         public TDRectangle tdRectangle;
         public List<Tower> lstButtonMenuTower = new List<Tower>();
-        public Vector2 positionBaseTower;
-
-        // Ennemies
-        private SpriteEnnemy ennemySprite;
-        // Missiles
-        private SpriteMissile spriteMissile;
+       
+        public SpriteMissileFilter spriteMissileFilter;
+        public SpriteEnnemyFilter spriteEnnemyFilter;
         // Textes
         private string LevelAndWave;
         private int level = 1;
         private int wave = 1;
-        public bool[] isWavesLaunch = new bool[20];
 
         //timers
         bool gameIsSpeedUp;
@@ -63,16 +58,16 @@ namespace tower_Defense.Scenes
         {
             _mapTiled = new MapTiled(mainGame);
             _ennemyGamePlay = new EnnemyGameplay(mainGame);
+            spriteMissileFilter = new SpriteMissileFilter();
+            spriteEnnemyFilter = new SpriteEnnemyFilter();
         }
         public void onHoverDefault(Button pSender) { }
         public void onClickDefault(Button pSender) { }
         public void onClickPlay(Button pSender)
         {
-            _ennemyGamePlay.Start(mainGame._spriteBatch, mainGame._graphics);
             pSender.isAnimated = false;
             pSender.ToRemove = true;
-            isWavesLaunch[0] = false;
-            timerWaves = 0;
+            timerWaves = 100;
             isGamePaused = false;
         }
         public void onHoverSpeedUp(Button pSender)
@@ -82,9 +77,9 @@ namespace tower_Defense.Scenes
             if (!pSender.IsHover)
             {
                 pSender.textureBox = pSender.IsPush ?
-                      new Rectangle(ButtonGUI.Data["GAMESPEED"].InitOffsetX + ButtonGUI.Data["GAMESPEED"].OffsetPushX, pSender.textureBox.Y,
+                      new Rectangle(TDData.Data["GAMESPEED"].InitOffsetX + TDData.Data["GAMESPEED"].OffsetPushX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height) :
-                      new Rectangle(ButtonGUI.Data["GAMESPEED"].InitOffsetX, pSender.textureBox.Y,
+                      new Rectangle(TDData.Data["GAMESPEED"].InitOffsetX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height);
             }
             else
@@ -92,14 +87,14 @@ namespace tower_Defense.Scenes
                 if (pSender.IsClick)
                 {
                     pSender.textureBox = pSender.IsPush ?
-                       new Rectangle(ButtonGUI.Data["GAMESPEED"].InitOffsetX + ButtonGUI.Data["GAMESPEED"].OffsetPushX, pSender.textureBox.Y,
+                       new Rectangle(TDData.Data["GAMESPEED"].InitOffsetX + TDData.Data["GAMESPEED"].OffsetPushX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height) :
-                       new Rectangle(ButtonGUI.Data["GAMESPEED"].InitOffsetX, pSender.textureBox.Y,
+                       new Rectangle(TDData.Data["GAMESPEED"].InitOffsetX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height);
                 }
                 else
                 {
-                    pSender.textureBox = new Rectangle(ButtonGUI.Data["GAMESPEED"].InitOffsetX + ButtonGUI.Data["GAMESPEED"].OffsetSelectedX, pSender.textureBox.Y,
+                    pSender.textureBox = new Rectangle(TDData.Data["GAMESPEED"].InitOffsetX + TDData.Data["GAMESPEED"].OffsetSelectedX, pSender.textureBox.Y,
                          pSender.textureBox.Width, pSender.textureBox.Height);
                 }
             }      
@@ -115,9 +110,9 @@ namespace tower_Defense.Scenes
           if (!pSender.IsHover)
             {
                 pSender.textureBox = pSender.IsPush ?
-                      new Rectangle(ButtonGUI.Data["PAUSE"].InitOffsetX + ButtonGUI.Data["PAUSE"].OffsetPushX, pSender.textureBox.Y,
+                      new Rectangle(TDData.Data["PAUSE"].InitOffsetX + TDData.Data["PAUSE"].OffsetPushX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height) :
-                      new Rectangle(ButtonGUI.Data["PAUSE"].InitOffsetX, pSender.textureBox.Y,
+                      new Rectangle(TDData.Data["PAUSE"].InitOffsetX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height);
             }
             else
@@ -125,14 +120,14 @@ namespace tower_Defense.Scenes
                 if (pSender.IsClick)
                 {
                     pSender.textureBox = pSender.IsPush ?
-                       new Rectangle(ButtonGUI.Data["PAUSE"].InitOffsetX + ButtonGUI.Data["PAUSE"].OffsetPushX, pSender.textureBox.Y,
+                       new Rectangle(TDData.Data["PAUSE"].InitOffsetX + TDData.Data["PAUSE"].OffsetPushX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height) :
-                       new Rectangle(ButtonGUI.Data["PAUSE"].InitOffsetX, pSender.textureBox.Y,
+                       new Rectangle(TDData.Data["PAUSE"].InitOffsetX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height);
                 }
                 else
                 {
-                    pSender.textureBox = new Rectangle(ButtonGUI.Data["PAUSE"].InitOffsetX + ButtonGUI.Data["PAUSE"].OffsetSelectedX, pSender.textureBox.Y,
+                    pSender.textureBox = new Rectangle(TDData.Data["PAUSE"].InitOffsetX + TDData.Data["PAUSE"].OffsetSelectedX, pSender.textureBox.Y,
                          pSender.textureBox.Width, pSender.textureBox.Height);
                 }
             }
@@ -206,9 +201,9 @@ namespace tower_Defense.Scenes
             if (!pSender.IsHover)
             {
                 pSender.textureBox = pSender.IsPush ?
-                      new Rectangle(ButtonGUI.Data[pSender.buttonID.ToString()].InitOffsetX + ButtonGUI.Data[pSender.buttonID.ToString()].OffsetPushX, pSender.textureBox.Y,
+                      new Rectangle(TDData.Data[pSender.buttonID.ToString()].InitOffsetX + TDData.Data[pSender.buttonID.ToString()].OffsetPushX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height) :
-                      new Rectangle(ButtonGUI.Data[pSender.buttonID.ToString()].InitOffsetX, pSender.textureBox.Y,
+                      new Rectangle(TDData.Data[pSender.buttonID.ToString()].InitOffsetX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height);
             }
             else
@@ -216,14 +211,14 @@ namespace tower_Defense.Scenes
                 if (pSender.IsClick)
                 {
                     pSender.textureBox = pSender.IsPush ?
-                       new Rectangle(ButtonGUI.Data[pSender.buttonID.ToString()].InitOffsetX + ButtonGUI.Data[pSender.buttonID.ToString()].OffsetPushX, pSender.textureBox.Y,
+                       new Rectangle(TDData.Data[pSender.buttonID.ToString()].InitOffsetX + TDData.Data[pSender.buttonID.ToString()].OffsetPushX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height) :
-                       new Rectangle(ButtonGUI.Data[pSender.buttonID.ToString()].InitOffsetX, pSender.textureBox.Y,
+                       new Rectangle(TDData.Data[pSender.buttonID.ToString()].InitOffsetX, pSender.textureBox.Y,
                           pSender.textureBox.Width, pSender.textureBox.Height);
                 }
                 else
                 {
-                    pSender.textureBox = new Rectangle(ButtonGUI.Data[pSender.buttonID.ToString()].InitOffsetX + ButtonGUI.Data[pSender.buttonID.ToString()].OffsetSelectedX, pSender.textureBox.Y,
+                    pSender.textureBox = new Rectangle(TDData.Data[pSender.buttonID.ToString()].InitOffsetX + TDData.Data[pSender.buttonID.ToString()].OffsetSelectedX, pSender.textureBox.Y,
                          pSender.textureBox.Width, pSender.textureBox.Height);
                 }
             }
@@ -238,11 +233,8 @@ namespace tower_Defense.Scenes
         {
             LevelAndWave = "Level: 1 Wave: 1/7";
             isGamePaused = true;
-            isWavesLaunch[0] = true;
-            GUITextures.PopulateTextures(mainGame);
-            ButtonGUI.PopulateData();
-            EnnemyTextures.PopulateTextures(mainGame);
-            Ennemy.PopulateData();
+            TDTextures.PopulateTextures(mainGame);
+            TDData.PopulateData();
             Wave.PopulateData();
             _mapTiled.LoadMap();
            _mapTiled.Load(mainGame._spriteBatch);
@@ -304,22 +296,17 @@ namespace tower_Defense.Scenes
                     if (i == 8) continue;
                     if (i == 7)
                     {
-                        spriteMissile = SpriteMissile.AddMissile(mainGame, mainGame._spriteBatch,
-                         "MISSILETOWER7LEVELX",
-              new Vector2(100 + offset, 1000), new Vector2(0, -15));
+                        spriteMissileFilter.AddMissile(mainGame, mainGame._spriteBatch,"MISSILETOWER7LEVELX",new Vector2(100 + offset, 1000), new Vector2(0, -15));
+                        
                     }
                     else
                     {
-                        spriteMissile = SpriteMissile.AddMissile(mainGame, mainGame._spriteBatch,
-                         "MISSILETOWER" + i.ToString() + "LEVEL" + j.ToString(),
+                        spriteMissileFilter.AddMissile(mainGame, mainGame._spriteBatch, "MISSILETOWER" + i.ToString() + "LEVEL" + j.ToString(),
               new Vector2(100 + offset, 1000), new Vector2(0, -15));
                     }
                     offset += 40;
                 }
             }
-           
-
-
 
             listActors.Add(_button);
             base.Load();
@@ -335,37 +322,67 @@ namespace tower_Defense.Scenes
             List<Tower> towerList = listActors.Where(button => button.GetType() == typeof(Tower)).Select(button => (Tower)button).ToList();
             towerList.ForEach(tower => tower.BuildTowerType(this, gameTime, tower, _tower));
             if (!isGamePaused) towerList.ForEach(tower => tower.BuildMenuChooseTower(this,  tower, _tower));
-            towerList.ForEach(tower => tower.BuildMenuToRemove(this, tower, _tower));   
+            towerList.ForEach(tower => tower.BuildMenuToRemove(this, tower, _tower));
+            List<Tower> weaponTowerList = towerList.Where(tower =>tower.isWeaponTower).ToList();
+            if (weaponTowerList.Count != 0)
+            {
+                weaponTowerList[0].weaponLevel = 1;
+            }
+            spriteMissileFilter
+                .CollisionFinished()
+                 .ImpactCollision();
+            spriteEnnemyFilter
+                .ImpactCollision()
+                .RemoveDeadEnnemy();
+                
+            
 
             timerWaves += gameIsSpeedUp ?
                (float)gameTime.ElapsedGameTime.TotalSeconds * 20 :
                (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timerWaves > 60f && !isWavesLaunch[0])
+            if (timerWaves > 10f)
             {
                 wave += 1;
                 LevelAndWave = "Level: 1 Wave: " + wave + "/7";
-                _ennemyGamePlay.Start(mainGame._spriteBatch, mainGame._graphics, gameIsSpeedUp, 1, 2);
+                _ennemyGamePlay.Start(mainGame, mainGame._spriteBatch, mainGame._graphics, spriteEnnemyFilter, gameIsSpeedUp, 1, 2);
+                
                 timerWaves = 0;
-                if (wave == 7) isWavesLaunch[0] = true;
+                int offsetY = 100;
+                int offset = 0;
+                for (int i = 1; i < 9; i++)
+                {
+                    for (int j = 1; j < 4; j++)
+                    {
+                        if (i == 8) continue;
+                        if (i == 1 || i == 6 || i == 7)
+                        {
+                            spriteMissileFilter.AddMissile(mainGame, mainGame._spriteBatch,
+                             "IMPACTTOWER1LEVELX",
+                  new Vector2(100 + offset, 1000 - offsetY), new Vector2(0, 0));
+                        }
+                        else
+                        {
+                            spriteMissileFilter.AddMissile(mainGame, mainGame._spriteBatch,
+                             "IMPACTTOWER" + i.ToString() + "LEVEL" + j.ToString(),
+                  new Vector2(100 + offset, 1000 - offsetY), new Vector2(0, 0));
+                        }
+                        offset += 40;
+                    }
+                }
             }
+
+
+
+
+
 
             towerList.ForEach(tower => tower.BuildTowerType(this, gameTime, tower, _tower));
             timerEnnemies += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timerEnnemies > 2)
-            {
-                foreach (var ennemy in SpriteEnnemy.lstEnnemy)
-                {
-                    if (ennemy.spriteX > 400) ennemy.IsAttack(10);
-                    if (ennemy._HP <= 0) ennemy.ToRemove = true;
-                }
-                timerEnnemies = 0;
-
-
-            }
-            SpriteEnnemy.lstEnnemy.RemoveAll(ennemy => ennemy._HP <= 0);
+            
             TDSprite.lstSprites.RemoveAll(ennemy => ennemy.ToRemove);            
             _mapTiled.Update(gameTime);
-            TDSprite.UpdateAll(gameTime);
+            spriteMissileFilter.UpdateAll(gameTime);
+             TDSprite.UpdateAll(gameTime);
             SpriteButton.UpdateAll(gameTime);
             base.Update(gameTime);
         }
@@ -373,7 +390,8 @@ namespace tower_Defense.Scenes
         public override void Draw(GameTime gameTime)
         {
             _mapTiled.Draw(mainGame._spriteBatch);
-            TDSprite.DrawAll(gameTime);
+            spriteMissileFilter.DrawAll(gameTime);
+             TDSprite.DrawAll(gameTime);
             SpriteButton.DrawAll(mainGame._spriteBatch);
             base.Draw(gameTime);
             mainGame._spriteBatch.DrawString(spriteFont: base.SmallFont,

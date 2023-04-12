@@ -10,19 +10,18 @@ using System.Diagnostics;
 using System.Drawing;
 using tower_Defense.Utils;
 using Color = Microsoft.Xna.Framework.Color;
+using static tower_Defense.Utils.Wave;
 
 namespace tower_Defense.Animation
 {
     public class SpriteEnnemy : TDSprite
     {
-        public bool Flying { get; set; }
+        public bool IsFlying { get; set; }
         public bool IsMirrored { get; set; }
         public TDRectangle rectangleLife;
         public TDRectangle rectangleDeath;
-        public EnnemyDatas _ennemyDatas;
-        public WaveDatas _waveDatas;
-        public string _ennemyID;
-        public int _HP { get; set; }
+        public string ennemyID;
+        public int HP { get; set; }
 
         static public int LENGHTLIFEWIDTH = 40;
         static public int LENGHTLIFEOFFSETX = -20;
@@ -31,41 +30,34 @@ namespace tower_Defense.Animation
 
         private SoundEffect _sndJump;
         private SoundEffect _sndLanding;
-        static public List<SpriteEnnemy> lstEnnemy = new List<SpriteEnnemy>();
-        public SpriteEnnemy(Game pGame, SpriteBatch pSpriteBatch, Texture2D pTexture, int pFrameWidth, int pFrameHeight, int pDecalageX, int pDecalageY, Vector2 pVelocity, int pInitDecalageX = 0): base(pGame, pSpriteBatch, pTexture, pFrameWidth, pFrameHeight, pDecalageX, pDecalageY, pVelocity, pInitDecalageX = 0)
-        {            
-            lstEnnemy.Add(this);
-        }
-
-        public void Load(Game mainGame, string ennemyID)
+        public SpriteEnnemy(Game mainGame, SpriteBatch spriteBatch, String ennemyID, Vector2 position, Vector2 velocity) : base(mainGame, spriteBatch, ennemyID, position, velocity)
         {
-            _ennemyID = ennemyID;
-                        
+            base.texture = TDTextures.Textures[TDData.Data[ennemyID].NameTexture];
+            base.frameWidth = TDData.Data[ennemyID].FrameWidth;
+            base.frameHeight = TDData.Data[ennemyID].FrameHeight;
+            base.offsetX = TDData.Data[ennemyID].OffsetX;
+            base.offsetY = TDData.Data[ennemyID].OffsetY;
+            base.initOffsetX = TDData.Data[ennemyID].InitOffsetX;
+            base.velocity = velocity;
+            base.position = position;
+            this.IsMirrored = TDData.Data[ennemyID].isMirrored;
+            this.ennemyID = ennemyID;
+            this.HP = TDData.Data[ennemyID].MaxHP;
+            this.IsFlying = TDData.Data[ennemyID].isFlying;
+            this.rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
+            this.rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);
 
-            _HP = Ennemy.Data[_ennemyID].MaxHP;
-            rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
-            rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);           
         }
-
-        public void SetSounds(SoundEffect pSndJump, SoundEffect pSndLanding)
+        
+       public void IsAttack(int damages)
         {
-            _sndJump = pSndJump;
-            _sndLanding = pSndLanding;
-        }
-
-        public void IsAttack(int damages)
-        {
-            _HP -= damages;
+            HP -= damages;
         }
 
         public void Fly()
         {
-            if (Flying) return;
-            //base.velocity.Y = -400;
-
-            // Play a sound
-            if (_sndJump != null)
-                _sndJump.Play();
+            if (IsFlying) return;
+                       
         }
 
         public override void Update(GameTime gameTime)
@@ -73,8 +65,7 @@ namespace tower_Defense.Animation
             velocity = isSpeedUp ?
                velocity = new Vector2(50, 0) :
                                velocity = new Vector2(15, 0);
-
-            if (Flying)
+            if (IsFlying)
             {
                 //
             }
@@ -88,16 +79,14 @@ namespace tower_Defense.Animation
                 effect = SpriteEffects.None;
             }
 
-            int maxHP = Ennemy.Data[_ennemyID].MaxHP;
-            rectangleLife.Rect.X = (int)(spriteX + LENGHTLIFEOFFSETX);
-            rectangleLife.Rect.Y = (int)(spriteY + LENGHTLIFEOFFSETY);
-            rectangleLife.Rect.Width = ((int)(_HP * LENGHTLIFEWIDTH / maxHP));
+            int maxHP = TDData.Data[ennemyID].MaxHP;
+            rectangleLife.Rect.X = (int)(position.X + LENGHTLIFEOFFSETX);
+            rectangleLife.Rect.Y = (int)(position.Y + LENGHTLIFEOFFSETY);
+            rectangleLife.Rect.Width = ((int)(HP * LENGHTLIFEWIDTH / maxHP));
 
             rectangleDeath.Rect.X = (int)(rectangleLife.Rect.X + rectangleLife.Rect.Width);
-            rectangleDeath.Rect.Y = (int)(spriteY + LENGHTLIFEOFFSETY);
-            rectangleDeath.Rect.Width = ((int)(LENGHTLIFEWIDTH - rectangleLife.Rect.Width));
-
-           
+            rectangleDeath.Rect.Y = (int)(position.Y + LENGHTLIFEOFFSETY);
+            rectangleDeath.Rect.Width = ((int)(LENGHTLIFEWIDTH - rectangleLife.Rect.Width));                     
 
             base.Update(gameTime);
         }

@@ -17,11 +17,11 @@ namespace tower_Defense.Map
     public class Tile : ITiles
     {
         public Texture2D _texture { get; private set; }
-        public int _largeurFrame;
-        public int _hauteurFrame;
-        public int _decalageX;
-        public int _decalageY;
-        public int _initDecalageX;
+        public int frameWidth;
+        public int frameHeight;
+        public int offsetX;
+        public int offsetY;
+        public int initOffsetX;
         public Vector2 _position { get; private set; }
         public Vector2 _positionTileset { get; private set; } //line, column
         public int _tileFrame;
@@ -48,12 +48,12 @@ namespace tower_Defense.Map
         public void Load(Texture2D pTexture, int pLargeurFrame, int pHauteurFrame, int pDecalageX, int pDecalageY, Vector2 pVelocity, int pInitDecalageX = 0)
         {
             _texture = pTexture;
-            _largeurFrame = pLargeurFrame;
-            _hauteurFrame = pHauteurFrame;
-            _decalageX = pDecalageX;
-            _decalageY = pDecalageY;
+            frameWidth = pLargeurFrame;
+            frameHeight = pHauteurFrame;
+            offsetX = pDecalageX;
+            offsetY = pDecalageY;
             _velocity = pVelocity;
-            _initDecalageX = pInitDecalageX;
+            initOffsetX = pInitDecalageX;
         }
     }
 }

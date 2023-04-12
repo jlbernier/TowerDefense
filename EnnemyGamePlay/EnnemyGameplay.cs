@@ -22,38 +22,14 @@ namespace tower_Defense.EnnemyGameplayNameSpace
 
         public EnnemyGameplay(MainGame mainGame) { _mainGame = mainGame; }
 
-        public void AddEnnemy(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, string ennemyID, int positionX = 0, int positionY = 0)
+        
+        public void LeftRightEnnemy(SpriteEnnemy sprEnnemy)
         {
-            
-            sprEnnemy = new SpriteEnnemy(_mainGame, spriteBatch,
-                               EnnemyTextures.Textures[ennemyID],
-                               Ennemy.Data[ennemyID].FrameWidth,
-                               Ennemy.Data[ennemyID].FrameHeight,
-                               Ennemy.Data[ennemyID].DecalageX,
-                               Ennemy.Data[ennemyID].DecalageY,
-                               Ennemy.Data[ennemyID].Velocity,
-                               Ennemy.Data[ennemyID].InitDecalageX                              
-                               );
-            if (gameIsSpeedUp)
-                sprEnnemy.isSpeedUp = true;
-            sprEnnemy.Load(_mainGame ,ennemyID);
-            sprEnnemy.IsMirrored = Ennemy.Data[ennemyID].isMirrored;
-            sprEnnemy.AjouteAnimation("run",
-                    Ennemy.Data[ennemyID].EnnemyFrames,
-                    Ennemy.Data[ennemyID].EnnemyFramesLenght,
-                    Ennemy.Data[ennemyID].DecalageX,
-                    Ennemy.Data[ennemyID].DecalageY);            
-            sprEnnemy.spriteX = graphics.PreferredBackBufferWidth + positionX;
-            sprEnnemy.spriteY = (graphics.PreferredBackBufferHeight / 2) + 4 + positionY;
-            sprEnnemy.LanceAnimation("run");
-        }
-        public void LeftRightEnnemy(string ennemyID)
-        {
-            Ennemy.Data[ennemyID].isMirrored = !Ennemy.Data[ennemyID].isMirrored;
-            Ennemy.Data[ennemyID].Velocity = -Ennemy.Data[ennemyID].Velocity;
+            sprEnnemy.IsMirrored = !sprEnnemy.IsMirrored;
+            sprEnnemy.velocity = new Vector2(-1 * sprEnnemy.velocity.X, -1 * sprEnnemy.velocity.Y);            
         }
 
-        public void Start(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, bool pGameIsSpeedUp = false, int level = 1, int wave = 1)
+        public void Start(Game mainGame,SpriteBatch spriteBatch, GraphicsDeviceManager graphics, SpriteEnnemyFilter spriteEnnemyFilter, bool pGameIsSpeedUp = false, int level = 1, int wave = 1)
 
         {
             gameIsSpeedUp = pGameIsSpeedUp;
@@ -81,10 +57,9 @@ namespace tower_Defense.EnnemyGameplayNameSpace
                     else if (index == 6) ennemyID = Wave.Data[waveID].EnnemyID6.ToString();
                     else if (index == 7) ennemyID = Wave.Data[waveID].EnnemyID7.ToString();
                     else if (index == 8) ennemyID = Wave.Data[waveID].EnnemyID8.ToString();
-                    LeftRightEnnemy(ennemyID);
-                    AddEnnemy(spriteBatch, graphics, ennemyID, position - graphics.PreferredBackBufferWidth);
+                    spriteEnnemyFilter.AddEnnemy(mainGame, spriteBatch, ennemyID, 
+                        new Vector2(position, graphics.PreferredBackBufferHeight / 2) , new Vector2(50,0));                   
                     position -= 40;
-                    LeftRightEnnemy(ennemyID);
                 }
                 index++;
             }

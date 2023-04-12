@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tower_Defense.Animation;
 using tower_Defense.Map;
 using tower_Defense.Scenes;
 
@@ -15,6 +16,7 @@ namespace tower_Defense.Buttons
         // Menu Choose tower to build or to upgrade
         public bool isMenuToBuild { get; set; }
         public bool isMenuToRemove { get; set; }
+        public bool isWeaponTower { get; set; }
         public Vector2 positionBase { get; private set; }
         public List<Tower> lstTower { get; private set; }
         public Tower menuTower { get; private set; }
@@ -35,7 +37,7 @@ namespace tower_Defense.Buttons
             towerID = buttonID;
             towerLevel = 1;
             weaponLevel = 1;
-        }        
+        }
 
         public void BuildMenuToRemove(SceneMap pCurrentScene, Tower pBaseTower, Tower pMenuToBuild)
         {
@@ -50,7 +52,11 @@ namespace tower_Defense.Buttons
                     pCurrentScene.listActors.Add(pMenuToBuild);
                     pCurrentScene.listActors.Remove(pBaseTower);
                 }
-                pBaseTower.lstTower.ForEach(tower => pCurrentScene.listActors.Remove(tower));
+                pBaseTower.lstTower.ForEach(tower => {
+                    tower.ToRemove = true;
+                    pCurrentScene.listActors.Remove(tower);
+
+                    });
                 pBaseTower.lstTower.Clear();
             }
         }
@@ -102,6 +108,7 @@ namespace tower_Defense.Buttons
             pMenuToBuild.OnHover = pCurrentScene.onHoverMenuTypeTower;
             pMenuToBuild.lstTower = new List<Tower>();
             pCurrentScene.listActors.Add(pMenuToBuild);
+            pBaseTower.ToRemove = true;
             pCurrentScene.listActors.Remove(pBaseTower);
             SpriteButton.lstButtonSprites.Remove(pBaseTower);
             AddTowerIcon(pCurrentScene, pMenuToBuild, pBaseTower);
@@ -253,6 +260,7 @@ namespace tower_Defense.Buttons
             pTowerToBuild.OnClick = pCurrentScene.onClickDefault;
             pTowerToBuild.OnHover = pCurrentScene.onHoverTowerUpgrade;
             pCurrentScene.listActors.Add(pTowerToBuild);
+            pCurrentTower.isWeaponTower = true;
             pCurrentScene.listActors.Add(pCurrentTower);
         }
         public bool BuildTowerType(SceneMap pCurrentScene, GameTime gameTime, Tower pCurrentTower, Tower pTowerToBuild = null, string pTowerType = "")
@@ -285,8 +293,8 @@ namespace tower_Defense.Buttons
         {
             string dataTowerID = "TOWER" + pCurrentTower.towerType + pCurrentTower.towerLevel.ToString();
             string weaponTowerID = "WEAPONTOWER"+ pCurrentTower.towerType + "LEVEL" + pCurrentTower.weaponLevel.ToString();
-            offsetCenterY = ButtonGUI.Data[weaponTowerID].FrameHeight / 2 - ButtonGUI.Data[dataTowerID].FrameHeight / 2;
-            offsetCenterY += ButtonGUI.Data[weaponTowerID].OffsetCenterY + ButtonGUI.Data[dataTowerID].OffsetCenterY;
+            offsetCenterY = TDData.Data[weaponTowerID].FrameHeight / 2 - TDData.Data[dataTowerID].FrameHeight / 2;
+            offsetCenterY += TDData.Data[weaponTowerID].OffsetCenterY + TDData.Data[dataTowerID].OffsetCenterY;
         }
     }
 }

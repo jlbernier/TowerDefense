@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tower_Defense.Map;
 
 namespace tower_Defense.Animation
 {
@@ -15,8 +16,18 @@ namespace tower_Defense.Animation
         public float Gravity { get; set; }
         private SoundEffect _sndJump;
         private SoundEffect _sndLanding;
-        public SpriteMap(Game pGame, SpriteBatch pSpriteBatch, Texture2D pTexture, int pX, int pY, int pDecalageX, int pDecalageY, Vector2 pVelocity, int pInitDecalageX) : base(pGame, pSpriteBatch, pTexture, pX, pY, pDecalageX, pDecalageY, pVelocity, pInitDecalageX)
+        public SpriteMap(Game mainGame, SpriteBatch spriteBatch, String tileID, Vector2 position, Vector2 velocity, Tile tile = null) : base(mainGame, spriteBatch, tileID, position, velocity)
         {
+            base.mainGame = mainGame;
+            base.spriteBatch = spriteBatch;
+            base.texture = tile._texture;
+            base.frameWidth = tile.frameWidth;
+            base.frameHeight = tile.frameHeight;
+            base.offsetX = 256;
+            base.offsetY = 0;
+            base.velocity = velocity;
+            base.position = position;
+
             Flying = false;
             Gravity = 10;
         }

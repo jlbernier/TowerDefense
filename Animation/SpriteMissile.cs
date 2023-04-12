@@ -13,40 +13,32 @@ namespace tower_Defense.Animation
 {
     public class SpriteMissile : TDSprite
     {
-        private static SpriteMissile sprMissile;
         public string typeMissile { get; set; }
+        public bool isCollision { get; set; }
+        public bool isExploded {  get; set; }
+        public bool isGamePaused { get; set; }
 
-        private bool isExploded {  get; set; }
+        public bool isCooldownShootUp { get; set; }
+
         public string missileID {  get; set; }
         
-        static public List<SpriteMissile> lstMissiles = new();
-        public SpriteMissile(Game pGame, SpriteBatch pSpriteBatch, Texture2D pTexture, int pFrameWidth, int pFrameHeight, int pDecalageX, int pDecalageY, Vector2 pVelocity, int pInitDecalageX = 0) : base(pGame, pSpriteBatch, pTexture, pFrameWidth, pFrameHeight, pDecalageX, pDecalageY, pVelocity, pInitDecalageX = 0)
+        public SpriteMissile(Game mainGame, SpriteBatch spriteBatch, String missileID, Vector2 position, Vector2 velocity) : base(mainGame, spriteBatch, missileID, position, velocity)
         {
-            lstMissiles.Add(this);
-        }
+            base.mainGame = mainGame;
+            base.spriteBatch = spriteBatch;
+            base.texture = TDTextures.Textures[TDData.Data[missileID].NameTexture];
+            base.frameWidth = TDData.Data[missileID].FrameWidth;
+            base.frameHeight = TDData.Data[missileID].FrameHeight;
+            base.offsetX = TDData.Data[missileID].OffsetX;
+            base.offsetY = TDData.Data[missileID].OffsetY;
+            base.velocity = velocity;
+            base.position = position;      
+        }        
 
-        public static SpriteMissile AddMissile(Game mainGame, SpriteBatch spriteBatch, string missileID, Vector2 position, Vector2 velocity)
+        public void GameIsPaused()
         {
-            sprMissile = new SpriteMissile(mainGame, spriteBatch, GUITextures.Textures[ButtonGUI.Data[missileID].NameTexture],
-                ButtonGUI.Data[missileID].FrameWidth, ButtonGUI.Data[missileID].FrameHeight, ButtonGUI.Data[missileID].OffsetX,
-                ButtonGUI.Data[missileID].OffsetY, velocity);
-            sprMissile.spriteX = position.X;
-            sprMissile.spriteY = position.Y;
-            sprMissile.velocity = velocity;
-
-            sprMissile.AjouteAnimation("run",
-                    ButtonGUI.Data[missileID].ButtonFrames,
-                    ButtonGUI.Data[missileID].ButtonFramesLenght,
-                    ButtonGUI.Data[missileID].OffsetX,
-                    ButtonGUI.Data[missileID].OffsetY,
-                    ButtonGUI.Data[missileID].IsLoop);
-            sprMissile.spriteX = position.X;
-            sprMissile.spriteY = position.Y;
-            sprMissile.velocity = velocity;
-            sprMissile.LanceAnimation("run");
-            return sprMissile;
+            isGamePaused = true;
         }
-
 
         public override void Update(GameTime gameTime)
         {

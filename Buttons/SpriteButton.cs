@@ -82,23 +82,23 @@ namespace tower_Defense.Buttons
             this.buttonID = buttonID;
             this.position = position;
             rotation = 0;
-            scale = ButtonGUI.Data[buttonID].Scale;
-            texture = GUITextures.Textures[ButtonGUI.Data[buttonID].NameTexture];
-            switch (ButtonGUI.Data[buttonID].buttonAnimation)
+            scale = TDData.Data[buttonID].Scale;
+            texture = TDTextures.Textures[TDData.Data[buttonID].NameTexture];
+            switch (TDData.Data[buttonID].buttonAnimation)
             {
-                case ButtonGUI.eButtonAnimation.None:
+                case TDData.eButtonAnimation.None:
                     LoadNone();
                     break;
-                case ButtonGUI.eButtonAnimation.UseTileset:
+                case TDData.eButtonAnimation.UseTileset:
                     LoadTilset();
                     break;
-                case ButtonGUI.eButtonAnimation.UseFrames:
+                case TDData.eButtonAnimation.UseFrames:
                     LoadFrame();
                     break;
-                case ButtonGUI.eButtonAnimation.UseAnimated:
+                case TDData.eButtonAnimation.UseAnimated:
                     LoadAnimated();
                     break;
-                case ButtonGUI.eButtonAnimation.UseTDRectangle:
+                case TDData.eButtonAnimation.UseTDRectangle:
                     LoadTDRectangle();
                     break;
                 default:
@@ -113,23 +113,23 @@ namespace tower_Defense.Buttons
 
         public void Load()
         {
-            scale = ButtonGUI.Data[buttonID].Scale;
-            texture = GUITextures.Textures[ButtonGUI.Data[buttonID].NameTexture];
-            switch (ButtonGUI.Data[buttonID].buttonAnimation)
+            scale = TDData.Data[buttonID].Scale;
+            texture = TDTextures.Textures[TDData.Data[buttonID].NameTexture];
+            switch (TDData.Data[buttonID].buttonAnimation)
             {
-                case ButtonGUI.eButtonAnimation.None:
+                case TDData.eButtonAnimation.None:
                     LoadNone();
                     break;
-                case ButtonGUI.eButtonAnimation.UseTileset:
+                case TDData.eButtonAnimation.UseTileset:
                     LoadTilset();
                     break;
-                case ButtonGUI.eButtonAnimation.UseFrames:
+                case TDData.eButtonAnimation.UseFrames:
                     LoadFrame();
                     break;
-                case ButtonGUI.eButtonAnimation.UseAnimated:
+                case TDData.eButtonAnimation.UseAnimated:
                     LoadAnimated();
                     break;
-                case ButtonGUI.eButtonAnimation.UseTDRectangle:
+                case TDData.eButtonAnimation.UseTDRectangle:
                     LoadTDRectangle();
                     break;
                 default:
@@ -145,63 +145,63 @@ namespace tower_Defense.Buttons
         private void LoadNone()
         {
             isNone = true;
-            offsetTextureX = ButtonGUI.Data[buttonID].InitOffsetX;
-            offsetTextureY = ButtonGUI.Data[buttonID].InitOffsetY;
-            widthTexture = (int)(ButtonGUI.Data[buttonID].FrameWidth * ButtonGUI.Data[buttonID].Scale);
-            heightTexture = (int)(ButtonGUI.Data[buttonID].FrameHeight * ButtonGUI.Data[buttonID].Scale);
+            offsetTextureX = TDData.Data[buttonID].InitOffsetX;
+            offsetTextureY = TDData.Data[buttonID].InitOffsetY;
+            widthTexture = (int)(TDData.Data[buttonID].FrameWidth * TDData.Data[buttonID].Scale);
+            heightTexture = (int)(TDData.Data[buttonID].FrameHeight * TDData.Data[buttonID].Scale);
             textureBox = new Rectangle(
                  offsetTextureX,
                  offsetTextureY,
-                 ButtonGUI.Data[buttonID].FrameWidth,
-                 ButtonGUI.Data[buttonID].FrameHeight);
+                 TDData.Data[buttonID].FrameWidth,
+                 TDData.Data[buttonID].FrameHeight);
         }
 
         private void LoadTilset()
         {
-            offsetTextureX = ButtonGUI.Data[buttonID].InitOffsetX;
-            offsetTextureY = ButtonGUI.Data[buttonID].InitOffsetY;
-            widthTexture = (int)(ButtonGUI.Data[buttonID].FrameWidth * ButtonGUI.Data[buttonID].Scale);
-            heightTexture = (int)(ButtonGUI.Data[buttonID].FrameHeight * ButtonGUI.Data[buttonID].Scale);
+            offsetTextureX = TDData.Data[buttonID].InitOffsetX;
+            offsetTextureY = TDData.Data[buttonID].InitOffsetY;
+            widthTexture = (int)(TDData.Data[buttonID].FrameWidth * TDData.Data[buttonID].Scale);
+            heightTexture = (int)(TDData.Data[buttonID].FrameHeight * TDData.Data[buttonID].Scale);
             textureBox = new Rectangle(
                  offsetTextureX,
                  offsetTextureY,
-                 ButtonGUI.Data[buttonID].FrameWidth,
-                 ButtonGUI.Data[buttonID].FrameHeight);
+                 TDData.Data[buttonID].FrameWidth,
+                 TDData.Data[buttonID].FrameHeight);
         }
 
         private void LoadFrame()
         {
-            frameWidth = ButtonGUI.Data[buttonID].FrameWidth;
-            frameHeight = ButtonGUI.Data[buttonID].FrameHeight;
-            offsetTextureX = ButtonGUI.Data[buttonID].InitOffsetX;
-            offsetTextureY = ButtonGUI.Data[buttonID].InitOffsetY;
-            widthTexture = ButtonGUI.Data[buttonID].FrameWidth;
-            heightTexture = ButtonGUI.Data[buttonID].FrameHeight;
+            frameWidth = TDData.Data[buttonID].FrameWidth;
+            frameHeight = TDData.Data[buttonID].FrameHeight;
+            offsetTextureX = TDData.Data[buttonID].InitOffsetX;
+            offsetTextureY = TDData.Data[buttonID].InitOffsetY;
+            widthTexture = TDData.Data[buttonID].FrameWidth;
+            heightTexture = TDData.Data[buttonID].FrameHeight;
             textureBox = new Rectangle(
-                 ButtonGUI.Data[buttonID].InitOffsetX,
-                 ButtonGUI.Data[buttonID].InitOffsetY,
-                 ButtonGUI.Data[buttonID].FrameWidth,
-                 ButtonGUI.Data[buttonID].FrameHeight);
+                 TDData.Data[buttonID].InitOffsetX,
+                 TDData.Data[buttonID].InitOffsetY,
+                 TDData.Data[buttonID].FrameWidth,
+                 TDData.Data[buttonID].FrameHeight);
             isFrame = true;
             animations = new List<BUTTONAnimation>();
             lstButtonSprites.Add(this);
            //properties = new Dictionary<string, string>();
-            AddAnimation("bouton", ButtonGUI.Data[buttonID].ButtonFrames,
-            ButtonGUI.Data[buttonID].ButtonFramesLenght,
-            ButtonGUI.Data[buttonID].InitOffsetX,
-            ButtonGUI.Data[buttonID].InitOffsetY,
-            ButtonGUI.Data[buttonID].IsLoop);
+            AddAnimation("bouton", TDData.Data[buttonID].ArrayFrames,
+            TDData.Data[buttonID].FramesDuration,
+            TDData.Data[buttonID].InitOffsetX,
+            TDData.Data[buttonID].InitOffsetY,
+            TDData.Data[buttonID].IsLoop);
         }
 
         private void LoadAnimated()
         {
             isAnimated = true;
             scaleUP = true;
-            scale = ButtonGUI.Data[buttonID].MinScale;
-            maxScale = ButtonGUI.Data[buttonID].MaxScale;
-            minScale = ButtonGUI.Data[buttonID].MinScale;
-            stepScale = ButtonGUI.Data[buttonID].StepScale;
-            timePerAnimation = ButtonGUI.Data[buttonID].TimePerAnimation;
+            scale = TDData.Data[buttonID].MinScale;
+            maxScale = TDData.Data[buttonID].MaxScale;
+            minScale = TDData.Data[buttonID].MinScale;
+            stepScale = TDData.Data[buttonID].StepScale;
+            timePerAnimation = TDData.Data[buttonID].TimePerAnimation;
             offsetTextureX = 0;
             offsetTextureY = 0;
             widthTexture = texture.Width;
@@ -211,15 +211,15 @@ namespace tower_Defense.Buttons
         private void LoadTDRectangle()
         {
             isTDRectangle = true;
-            offsetTextureX = ButtonGUI.Data[buttonID].InitOffsetX;
-            offsetTextureY = ButtonGUI.Data[buttonID].InitOffsetY;
-            widthTexture = (int)(ButtonGUI.Data[buttonID].FrameWidth * ButtonGUI.Data[buttonID].Scale);
-            heightTexture = (int)(ButtonGUI.Data[buttonID].FrameHeight * ButtonGUI.Data[buttonID].Scale);
+            offsetTextureX = TDData.Data[buttonID].InitOffsetX;
+            offsetTextureY = TDData.Data[buttonID].InitOffsetY;
+            widthTexture = (int)(TDData.Data[buttonID].FrameWidth * TDData.Data[buttonID].Scale);
+            heightTexture = (int)(TDData.Data[buttonID].FrameHeight * TDData.Data[buttonID].Scale);
             textureBox = new Rectangle(
                  offsetTextureX,
                  offsetTextureY,
-                 ButtonGUI.Data[buttonID].FrameWidth,
-                 ButtonGUI.Data[buttonID].FrameHeight);
+                 TDData.Data[buttonID].FrameWidth,
+                 TDData.Data[buttonID].FrameHeight);
 
             textureBoxRect = new TDRectangle(mainGame, TDRectangle.Type.outlineOnly,
               (int)(this.position.X - widthTexture / 2) - 1,

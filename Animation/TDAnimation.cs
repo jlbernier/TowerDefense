@@ -8,41 +8,32 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace tower_Defense.Animation
-{
-    public enum EDirection
-    {
-        None,Left, Right, Top, Bottom
-    }
+{   
     public class TDAnimation
     {
         public string name { get; private set; }
-        public int[] frames { get; private set; }
-        public float dureeFrame { get; private set; }
+        public int[] ArrayFrames { get; private set; }
+        public float frameDuration { get; private set; }
         public bool isLoop { get; set; }
         public bool isFinished { get; set; }
-        public int decalageX { get; private set; }
-        public int initDecalageX { get; private set; }
-
-        public int decalageY { get; private set; }
-        public EDirection direction { get; private set; }
-        public TDAnimation(string pName, int[] pFrames, float pTime = 1f / 12f, int pdecalageX = 0, int pdecalageY = 0, bool pisLoop = true, int pInitDecalageX = 0)
+        public int offsetX { get; private set; }
+        public int initOffsetX { get; private set; }
+        public int offsetY { get; private set; }
+        public TDAnimation(string name, int[] frames, float frameDuration = 1f / 12f, int offsetX = 0, int offsetY = 0, bool isLoop = true, int initOffsetX = 0)
         {
-            name = pName;
-            frames = pFrames;
-            dureeFrame = pTime;
-            isLoop = pisLoop;
-            isFinished = false;
-            decalageX = pdecalageX;
-            decalageY = pdecalageY;
-            direction = EDirection.None;
-            this.initDecalageX = pInitDecalageX;
+            this.name = name;
+            this.ArrayFrames = frames;
+            this.frameDuration = frameDuration;
+            this.isLoop = isLoop;
+            this.isFinished = false;
+            this.offsetX = offsetX;
+            this.offsetY = offsetY;
+            this.initOffsetX = initOffsetX;
         }
     }
     public class TDSprite
     {
-        //protected Game mainGame;
-        public float spriteX { get; set; }
-        public float spriteY { get; set; }
+        public Vector2 position { get; set; }
         public Vector2 velocity { get; set; }  
         public bool isSpeedUp;
         public bool isPaused;
@@ -50,119 +41,90 @@ namespace tower_Defense.Animation
         public bool isCentered { get; set; }
         public float zoom { get; set; }
         public float rotation { get; set; }
-        public Dictionary<string, string> properties { get; }
-        public SpriteBatch spriteBatch { get; }
-        public Texture2D texture { get; }
+        public SpriteBatch spriteBatch { get; set; }
+        public Texture2D texture { get; set; }
         public List<TDAnimation> animations;
-        public TDAnimation animationCourante;
+        public TDAnimation currentAnimation;
         protected SpriteEffects effect;
-        public int frame { get; private set; }
-        public int largeurFrame { get; private set; }
-        public int hauteurFrame { get; private set; }
+        public int frame { get;  set; }
+        public int frameWidth { get;  set; }
+        public int frameHeight { get;  set; }
         public float speed { get; set; }
         private float time;
-        public int decalageX;
-        public int decalageY;
-        public int initDecalageX;
-        static public List<TDSprite> lstSprites = new List<TDSprite>();
+        public int offsetX;
+        public int offsetY;
+        public int initOffsetX;
+        static public List<TDSprite> lstSprites = new();
         public bool ToRemove { get; set; }
         public Game mainGame;
              
-        public TDSprite(Game pGame, SpriteBatch pSpriteBatch, Texture2D pTexture, int pFrameWidth, int pFrameHeight, int pDecalageX, int pDecalageY, Vector2 pVelocity, int pInitDecalageX)
+        public TDSprite(Game mainGame, SpriteBatch spriteBatch, String missileID, Vector2 position, Vector2 velocity)
         {
-            mainGame = pGame;
-            spriteBatch = pSpriteBatch;
-            texture = pTexture;
-            isVisible = true;
-            isCentered = true;
-            frame = 0;
-            largeurFrame = pFrameWidth;
-            hauteurFrame = pFrameHeight;
-            rotation = 0f;
-            zoom = 1.0f;
-            speed = 60.0f;
-            effect = SpriteEffects.None;
-            animations = new List<TDAnimation>();
+            this.mainGame = mainGame;
+            this.spriteBatch = spriteBatch;           
+            this.isVisible = true;
+            this.isCentered = true;            
+            this.zoom = 1.0f;
+            this.speed = 60.0f;
+            this.effect = SpriteEffects.None;
+            this.animations = new List<TDAnimation>();
             lstSprites.Add(this);
-            properties = new Dictionary<string, string>();            
-            velocity = pVelocity;
-            decalageX = pDecalageX;
-            decalageY = pDecalageY;
-            initDecalageX = pInitDecalageX;
+            this.velocity = velocity;            
+        }
+        static public void UpdateAll(GameTime pGametime)
+        {
+            TDSprite.lstSprites.ForEach(sprite => sprite.Update(pGametime));
         }
         static public void DrawAll(GameTime pGametime)
         {
-            foreach (var sprite in TDSprite.lstSprites)
-            {
-                sprite.Draw(pGametime);
-            }
+            TDSprite.lstSprites.ForEach(sprite => sprite.Draw(pGametime));           
         }
 
-        static public void UpdateAll(GameTime pGametime)
-        {
-            foreach (var sprite in TDSprite.lstSprites)
-            {
-                sprite.Update(pGametime);
-            }
-        }
-        public string getProperty(string pName)
-        {
-            if (properties.ContainsKey(pName))
-            {
-                return properties[pName];
-            }
-            return "";
-        }
 
-        public void AjouteAnimation(string pName, int[] pFrames, float pDureeFrame, int pDecalageX, int pDecalageY, bool pisLoop = true, int pinitDecalageX = 0)
+        public void AddAnimation(string name, int[] arrayFrames, float FramesDuration, int offsetX, int offsetY, bool isLoop = true, int initOffsetX = 0)
         {
-            TDAnimation animation = new TDAnimation(pName, pFrames, pDureeFrame, pDecalageX, pDecalageY, pisLoop, pinitDecalageX);
+            TDAnimation animation = new TDAnimation(name, arrayFrames, FramesDuration, offsetX, offsetY, isLoop, initOffsetX);
             animations.Add(animation);
         }
 
-        public void LanceAnimation(string pName)
+        public void RunAnimation(string pName)
         {
-            //Debug.WriteLine("LanceAnimation({0})", pName);
             foreach (TDAnimation element in animations)
             {
                 if (element.name == pName)
                 {
-                    animationCourante = element;
+                    currentAnimation = element;
                     frame = 0;
-                    animationCourante.isFinished = false;
-                    //Debug.WriteLine("LanceAnimation, OK {0}", animationCourante.name);
+                    currentAnimation.isFinished = false;
                     break;
                 }
             }
-            Debug.Assert(animationCourante != null, "LanceAnimation : Aucune animation trouvée");
+            Debug.Assert(currentAnimation != null, "RunAnimation : No animation find");
         }
 
         public virtual void Update(GameTime gameTime)
-        {
-               
+        {               
             if (isPaused) return;
-            this.spriteX += this.velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            this.spriteY += this.velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
-           
+            position = new Vector2(position.X + velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds,
+                                   position.Y + velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds);                    
                                      
-            // Traitement des animations image par image
-            if (animationCourante == null) return;
-            if (animationCourante.dureeFrame == 0) return;
-            if (animationCourante.isFinished) return;
+            if (currentAnimation == null) return;
+            if (currentAnimation.frameDuration == 0) return;
+            if (currentAnimation.isFinished) return;
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (time > animationCourante.dureeFrame)
+            if (time > currentAnimation.frameDuration)
             {
                 frame++;
-                if (frame >= animationCourante.frames.Count())
+                if (frame >= currentAnimation.ArrayFrames.Count())
                 {
-                    if (animationCourante.isLoop)
+                    if (currentAnimation.isLoop)
                     {
                         frame = 0;
                     }
                     else
                     {
                         frame--;
-                        animationCourante.isFinished = true;
+                        currentAnimation.isFinished = true;
                     }
                 }
                 time = 0;
@@ -171,31 +133,26 @@ namespace tower_Defense.Animation
 
         public virtual void Draw(GameTime gameTime)
         {
-            if (!isVisible) return;
-            
-                int calculDecalage = largeurFrame;
+            if (!isVisible) return;            
+                int Offset = frameWidth;
                 Rectangle source = new Rectangle(0, 0, 0, 0);
-            if (animationCourante.decalageX > 0)
+            if (currentAnimation.offsetX > 0)
             {
-                calculDecalage = animationCourante.frames[frame] * animationCourante.decalageX;
-
-                source = new Rectangle(animationCourante.initDecalageX + calculDecalage,
-                 animationCourante.decalageY, largeurFrame, hauteurFrame);
+                Offset = currentAnimation.ArrayFrames[frame] * currentAnimation.offsetX;
+                source = new Rectangle(currentAnimation.initOffsetX + Offset,
+                 currentAnimation.offsetY, frameWidth, frameHeight);
             }
             else
             {
-                source = new Rectangle(animationCourante.frames[frame] * largeurFrame,
-                  animationCourante.decalageY, largeurFrame, hauteurFrame);
+                source = new Rectangle(currentAnimation.ArrayFrames[frame] * frameWidth,
+                  currentAnimation.offsetY, frameWidth, frameHeight);
             }
             
             Vector2 origine = new Vector2(0, 0);
             if (isCentered)
             {
-                origine = new Vector2(largeurFrame / 2, hauteurFrame / 2);
-            }
-            
-            Vector2 position = new Vector2(spriteX, spriteY);
-
+                origine = new Vector2(frameWidth / 2, frameHeight / 2);
+            }            
             spriteBatch.Draw(texture, position, source, Color.White, rotation, origine, zoom, effect, 0.0f);
         }
     }

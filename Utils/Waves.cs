@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using tower_Defense.Animation;
-using static tower_Defense.Utils.Ennemy;
 
 namespace tower_Defense.Utils
 {

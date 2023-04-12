@@ -104,11 +104,11 @@ namespace tower_Defense.Map
                                                 tilesetRec);
                             if (isWater)
                             {
-                                tile._initDecalageX = tileWidth * tilesetColumn;
-                                tile._decalageX = DECALAGEX;
-                                tile._decalageY = tileHeight * tilesetLine;
-                                tile._largeurFrame = tileWidth;
-                                tile._hauteurFrame = tileHeight;
+                                tile.initOffsetX = tileWidth * tilesetColumn;
+                                tile.offsetX = DECALAGEX;
+                                tile.offsetY = tileHeight * tilesetLine;
+                                tile.frameWidth = tileWidth;
+                                tile.frameHeight = tileHeight;
                                 RegisterTile(tile);
                             }
                             else
@@ -138,13 +138,11 @@ namespace tower_Defense.Map
             SpriteMap sprMap;
             foreach (Tile tile in lstTilesAnimated)
             {
-                sprMap = new SpriteMap(mainGame, spriteBatch, tile._texture, tile._largeurFrame,
-                    tile._hauteurFrame, 256, 0, new Vector2(0, 0), 0);
-                sprMap.spriteX = tile._position.X;
-                sprMap.spriteY = tile._position.Y;
+                sprMap = new SpriteMap(mainGame, spriteBatch, "map", tile._position, new Vector2(0, 0), tile);
+                sprMap.position = tile._position;               
                 //lstEnnemies.Add(sprEnnemy);
-                sprMap.AjouteAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 1f / 12f, tile._decalageX, tile._decalageY, true, tile._initDecalageX);
-                sprMap.LanceAnimation("map");
+                sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 1f / 12f, tile.offsetX, tile.offsetY, true, tile.initOffsetX);
+                sprMap.RunAnimation("map");
             }
         }
 
