@@ -534,7 +534,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128,
                 InitOffsetX = 0,
-                OffsetCenterY = 0 ,
+                OffsetCenterY = -32 ,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -569,7 +569,7 @@ namespace tower_Defense
                 FrameHeight = 128,
                 InitOffsetY = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = 0,
+                OffsetCenterY = -32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -605,7 +605,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128,
                 InitOffsetX = 0,
-                OffsetCenterY = 0,
+                OffsetCenterY = -32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -638,7 +638,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128,
                 InitOffsetX = 0,
-                OffsetCenterY = 0,
+                OffsetCenterY = -32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -671,7 +671,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128,
                 InitOffsetX = 0,
-                OffsetCenterY = 0,
+                OffsetCenterY = -32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -704,7 +704,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128,
                 InitOffsetX = 0,
-                OffsetCenterY = 0,
+                OffsetCenterY = -32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -737,7 +737,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128,
                 InitOffsetX = 0,
-                OffsetCenterY = 0,
+                OffsetCenterY = -32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -771,7 +771,7 @@ namespace tower_Defense
                 FrameHeight = 128,
                 InitOffsetY = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = 0,
+                OffsetCenterY = -32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });

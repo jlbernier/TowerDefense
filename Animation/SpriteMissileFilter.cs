@@ -51,7 +51,6 @@ namespace tower_Defense.Animation
             return this;
         }
 
-
         public SpriteMissileFilter ImpactCollision()
         {
             liste = liste.FindAll(spriteMissile => spriteMissile.isCollision);
@@ -74,6 +73,8 @@ namespace tower_Defense.Animation
             liste.ForEach(spriteMissile => spriteMissile.GameIsPaused());
             return this;
         }
+        
+
 
         public List<SpriteMissile> Build()
         {

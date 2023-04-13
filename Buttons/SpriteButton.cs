@@ -39,7 +39,7 @@ namespace tower_Defense.Buttons
     public class SpriteButton : IActorButton
     {
         //IActor
-        public string buttonID { get; private set; }
+        public string buttonID { get; set; }
         public Vector2 position { get; set; }
         public Rectangle boundingBox { get; set; }
         public Rectangle textureBox { get; set; }

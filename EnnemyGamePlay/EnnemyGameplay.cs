@@ -33,9 +33,6 @@ namespace tower_Defense.EnnemyGameplayNameSpace
 
         {
             gameIsSpeedUp = pGameIsSpeedUp;
-            int position = 0;
-            string ennemyID = "";
-            int index = 1;            
             foreach (var waveData in Wave.Data)
             {
                 if (waveData.Value.Level == level && waveData.Value.Wave == wave)
@@ -44,7 +41,9 @@ namespace tower_Defense.EnnemyGameplayNameSpace
                     break;
                 }
             }
-            index = 1;
+            string ennemyID = "";
+            int index = 1;
+            int position = 0;
             foreach (int i in Wave.Data[waveID].NumberEnnemies)
             {
                 for (int j = 0; j < i; j++)

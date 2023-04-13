@@ -1,0 +1,34 @@
+﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using tower_Defense.Buttons;
+using tower_Defense.Scenes;
+
+namespace tower_Defense.Animation
+{
+    public class SpriteTowerFilter
+    {
+        public List<Tower> liste;
+        public SpriteTowerFilter()
+        {
+            this.liste = new();
+        }
+
+        public SpriteTowerFilter AddTower(Game mainGame, String towerID, Tower weaponTower, SceneMap currentScene)
+        {
+            Tower tower = new Tower(mainGame, towerID, weaponTower.position);
+            liste.Add(tower);
+            return this;
+        }
+        public SpriteTowerFilter CooldownShootIsUp()
+        {
+            liste = liste.FindAll(spriteTower => spriteTower.isCooldownShootUp);
+            return this;
+        }
+
+    }
+}
