@@ -20,7 +20,7 @@ namespace tower_Defense.Animation
 
         public SpriteTowerFilter AddTower(Game mainGame, String towerID, Tower weaponTower, SceneMap currentScene)
         {
-            Tower tower = new Tower(mainGame, towerID, weaponTower.position);
+            Tower tower = new Tower(mainGame, weaponTower.position, new Vector2(0, 0), towerID);
             liste.Add(tower);
             return this;
         }

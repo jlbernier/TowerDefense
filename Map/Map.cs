@@ -138,9 +138,9 @@ namespace tower_Defense.Map
             SpriteMap sprMap;
             foreach (Tile tile in lstTilesAnimated)
             {
-                sprMap = new SpriteMap(mainGame, spriteBatch, "map", tile._position, new Vector2(0, 0), tile);
-                sprMap.position = tile._position;               
-                //lstEnnemies.Add(sprEnnemy);
+
+                sprMap = new SpriteMap(mainGame, tile._position, new Vector2(0, 0), tile);
+                sprMap.position = tile._position;                       
                 sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 1f / 12f, tile.offsetX, tile.offsetY, true, tile.initOffsetX);
                 sprMap.RunAnimation("map");
             }

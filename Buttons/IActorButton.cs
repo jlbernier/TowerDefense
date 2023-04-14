@@ -10,11 +10,11 @@ namespace tower_Defense.Buttons
 {
     public interface IActorButton
     {
-        Vector2 position { get; }
         string buttonID { get; }
+        Vector2 position { get; }
         Rectangle boundingBox { get; }
-        void Update(GameTime pGameTime);
-        void Draw(SpriteBatch pSpriteBatch);      
         bool ToRemove { get; set; }
+        void Update(GameTime gameTime);
+        void Draw(GameTime gameTime);      
     }
 }

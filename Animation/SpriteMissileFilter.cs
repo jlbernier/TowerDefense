@@ -17,9 +17,9 @@ namespace tower_Defense.Animation
             this.liste = new();
         }
 
-        public SpriteMissileFilter AddMissile(Game mainGame, SpriteBatch spriteBatch, string missileID, Vector2 position, Vector2 velocity)
+        public SpriteMissileFilter AddMissile(Game mainGame, string missileID, Vector2 position, Vector2 velocity)
         {
-            SpriteMissile spriteMissile = new SpriteMissile(mainGame, spriteBatch, missileID, position,velocity);
+            SpriteMissile spriteMissile = new SpriteMissile(mainGame, position, velocity, missileID);
             spriteMissile.AddAnimation(
                 "Run",
                 TDData.Data[missileID].ArrayFrames,

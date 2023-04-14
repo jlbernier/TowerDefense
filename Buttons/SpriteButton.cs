@@ -14,7 +14,7 @@ using tower_Defense.Utils;
 
 namespace tower_Defense.Buttons
 {
-    public class BUTTONAnimation
+ /*   public class BUTTONAnimation
     {
         public string name { get; private set; }
         public int[] frames { get; private set; }
@@ -23,7 +23,6 @@ namespace tower_Defense.Buttons
         public bool isFinished { get; set; }
         public int initOffsetX { get; private set; }
         public int initOffsetY { get; private set; }
-
         public int decalageY { get; private set; }
         public BUTTONAnimation(string pName, int[] pFrames, float pTime = 1f / 12f, int pInitOffsetX = 0, int pInitOffsetY = 0, bool pisLoop = true)
         {
@@ -36,17 +35,15 @@ namespace tower_Defense.Buttons
             initOffsetY = pInitOffsetY;   
         }
     }
-    public class SpriteButton : IActorButton
+    public class SpriteButton
     {
         //IActor
-        public string buttonID { get; set; }
         public Vector2 position { get; set; }
         public Rectangle boundingBox { get; set; }
+        public bool ToRemove { get; set; }
+        //Sprite
         public Rectangle textureBox { get; set; }
         public TDRectangle textureBoxRect;
-        public float velovityX;
-        public float velovityY;
-        //Sprite
         public float scale { get; set; }
         public float maxScale { get; private set; }
         public float minScale { get; private set; }
@@ -73,13 +70,11 @@ namespace tower_Defense.Buttons
         public float speed { get; set; }
         private float timeAnimation;
         public bool isPaused { get; set; }
-        public bool ToRemove { get; set; }
         public Game mainGame;
         static public List<SpriteButton> lstButtonSprites = new List<SpriteButton>();
         public SpriteButton(Game mainGame, string buttonID, Vector2 position)
         {
             this.mainGame = mainGame;
-            this.buttonID = buttonID;
             this.position = position;
             rotation = 0;
             scale = TDData.Data[buttonID].Scale;
@@ -322,5 +317,5 @@ namespace tower_Defense.Buttons
             if (textureBoxRect != null && isTDRectangle) textureBoxRect.Draw(spriteBatch);
             spriteBatch.Draw(texture, position, textureBox, Color.White, rotation, origine, scale, SpriteEffects.None, 0f);
         }
-    }
+    }*/
 }

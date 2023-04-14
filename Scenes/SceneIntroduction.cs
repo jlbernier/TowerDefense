@@ -43,7 +43,7 @@ namespace tower_Defense.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            mainGame._spriteBatch.DrawString(spriteFont: base.myFont,
+            MainGame.spriteBatch.DrawString(spriteFont: base.myFont,
                 "Introduction Tower Defense for dummies !!!!!!!!!!!!!!", new Vector2(400, 500), Color.White);
             base.Draw(gameTime);
         }

@@ -1341,6 +1341,7 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = - 40,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1353,6 +1354,7 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1364,6 +1366,7 @@ namespace tower_Defense
                 FrameHeight = 96,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 8f / 12f,
+                OffsetCenterY = - 48,
                 IsLoop = true,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
@@ -1376,10 +1379,10 @@ namespace tower_Defense
                 FrameWidth = 48,
                 FrameHeight = 96 / 2,
                 InitOffsetY = 96 / 2,
-                OffsetCenterY = +32,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1422,6 +1425,7 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = -16,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1435,6 +1439,7 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1447,6 +1452,7 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1457,10 +1463,10 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER4LEVEL1",
                 FrameWidth = 128,
                 FrameHeight = 128,
-                OffsetCenterY =  - 16,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1471,10 +1477,10 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER4LEVEL2",
                 FrameWidth = 128,
                 FrameHeight = 128,
-                OffsetCenterY =  - 16,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1484,10 +1490,10 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER4LEVEL3",
                 FrameWidth = 128,
                 FrameHeight = 128,
-                OffsetCenterY =  - 16,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1503,6 +1509,7 @@ namespace tower_Defense
                                             17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1518,6 +1525,7 @@ namespace tower_Defense
                                             17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1532,6 +1540,7 @@ namespace tower_Defense
                                             17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1542,10 +1551,10 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER6LEVEL1",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                OffsetCenterY =  + 24,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1556,10 +1565,10 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER6LEVEL2",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                OffsetCenterY =  + 8,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5},
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1583,10 +1592,10 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER7LEVEL1",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                OffsetCenterY =  + 24,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1597,10 +1606,10 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER7LEVEL2",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                OffsetCenterY =  + 24,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1654,6 +1663,7 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 8f / 12f,
                 IsLoop = true,
+                OffsetCenterY = +32,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });

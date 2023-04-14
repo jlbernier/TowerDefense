@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tower_Defense.Utils;
 
 namespace tower_Defense.Animation
 {   
@@ -33,15 +34,16 @@ namespace tower_Defense.Animation
     }
     public class TDSprite
     {
+        public Game mainGame;
         public Vector2 position { get; set; }
+        public bool ToRemove { get; set; }
         public Vector2 velocity { get; set; }  
         public bool isSpeedUp;
         public bool isPaused;
         public bool isVisible { get; set; }
         public bool isCentered { get; set; }
-        public float zoom { get; set; }
+        public float scale { get; set; }
         public float rotation { get; set; }
-        public SpriteBatch spriteBatch { get; set; }
         public Texture2D texture { get; set; }
         public List<TDAnimation> animations;
         public TDAnimation currentAnimation;
@@ -54,22 +56,38 @@ namespace tower_Defense.Animation
         public int offsetX;
         public int offsetY;
         public int initOffsetX;
+        public bool isFrame;
+
+        public int offsetTextureX { get;  set; }
+        public int offsetTextureY { get;  set; }
+        public int widthTexture { get;  set; }
+        public int heightTexture { get;  set; }
+        public Rectangle textureBox { get; set; }
+        public TDRectangle textureBoxRect;
+        public float timePerAnimation;
+        private float timeAnimation;
+        public float maxScale { get; set; }
+        public float minScale { get; set; }
+        public float stepScale { get; set; }
+        public bool scaleUP;
+        public bool isAnimated;
+        public bool isTDRectangle;
+        public bool isNone;
+
         static public List<TDSprite> lstSprites = new();
-        public bool ToRemove { get; set; }
-        public Game mainGame;
              
-        public TDSprite(Game mainGame, SpriteBatch spriteBatch, String missileID, Vector2 position, Vector2 velocity)
+        public TDSprite(Game mainGame, Vector2 position, Vector2 velocity)
         {
             this.mainGame = mainGame;
-            this.spriteBatch = spriteBatch;           
+            this.position = position;
+            this.velocity = velocity;            
             this.isVisible = true;
             this.isCentered = true;            
-            this.zoom = 1.0f;
             this.speed = 60.0f;
             this.effect = SpriteEffects.None;
             this.animations = new List<TDAnimation>();
+
             lstSprites.Add(this);
-            this.velocity = velocity;            
         }
         static public void UpdateAll(GameTime pGametime)
         {
@@ -99,14 +117,33 @@ namespace tower_Defense.Animation
                     break;
                 }
             }
-            Debug.Assert(currentAnimation != null, "RunAnimation : No animation find");
+            Debug.WriteLine(currentAnimation != null, "RunAnimation : No animation find");
         }
-
-        public virtual void Update(GameTime gameTime)
-        {               
-            if (isPaused) return;
+        public void UpdateScale(GameTime gameTime)
+        {
+            if (!isAnimated) return;
+                timeAnimation += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (timeAnimation > timePerAnimation)
+                {
+                    if (scaleUP)
+                    {
+                        scale += stepScale;
+                        if (scale > maxScale) scaleUP = false;
+                    }
+                    else
+                    {
+                        scale -= stepScale;
+                        if (scale < minScale) scaleUP = true;
+                    }
+                    timeAnimation = 0;
+                }
+            }
+        
+        public void UpdateFrame(GameTime gameTime)
+        {
             position = new Vector2(position.X + velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds,
                                    position.Y + velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds);                    
+            if (!isFrame) return;
                                      
             if (currentAnimation == null) return;
             if (currentAnimation.frameDuration == 0) return;
@@ -114,6 +151,8 @@ namespace tower_Defense.Animation
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (time > currentAnimation.frameDuration)
             {
+                textureBox = new Rectangle(currentAnimation.initOffsetX + currentAnimation.ArrayFrames[frame] * currentAnimation.offsetX,
+                offsetTextureY, frameWidth, frameHeight);
                 frame++;
                 if (frame >= currentAnimation.ArrayFrames.Count())
                 {
@@ -130,30 +169,37 @@ namespace tower_Defense.Animation
                 time = 0;
             }
         }
+        public virtual void Update(GameTime gameTime)
+        {
+            if (isPaused) return;
+            UpdateScale(gameTime);
+            UpdateFrame(gameTime);
 
+
+
+        }
         public virtual void Draw(GameTime gameTime)
         {
-            if (!isVisible) return;            
-                int Offset = frameWidth;
-                Rectangle source = new Rectangle(0, 0, 0, 0);
-            if (currentAnimation.offsetX > 0)
+            if (!isVisible) return;
+
+            Rectangle source = new Rectangle(0, 0, 0, 0);
+            if (isFrame)
             {
+                int Offset = 0;
                 Offset = currentAnimation.ArrayFrames[frame] * currentAnimation.offsetX;
-                source = new Rectangle(currentAnimation.initOffsetX + Offset,
+                textureBox = new Rectangle(currentAnimation.initOffsetX + Offset,
                  currentAnimation.offsetY, frameWidth, frameHeight);
             }
-            else
-            {
-                source = new Rectangle(currentAnimation.ArrayFrames[frame] * frameWidth,
-                  currentAnimation.offsetY, frameWidth, frameHeight);
-            }
-            
             Vector2 origine = new Vector2(0, 0);
-            if (isCentered)
-            {
-                origine = new Vector2(frameWidth / 2, frameHeight / 2);
-            }            
-            spriteBatch.Draw(texture, position, source, Color.White, rotation, origine, zoom, effect, 0.0f);
+            if (isCentered) origine = new Vector2(frameWidth / 2, frameHeight / 2);
+
+            origine = new Vector2(scale * textureBox.Width / 2, scale * textureBox.Height / 2);
+
+            if (textureBoxRect != null && isTDRectangle) textureBoxRect.Draw(MainGame.spriteBatch);
+
+            //MainGame.spriteBatch.Draw(texture, position, source, Color.White, rotation, origine, scale, effect, 0.0f);
+            
+            MainGame.spriteBatch.Draw(texture, position, textureBox, Color.White, rotation, origine, scale, effect, 0f);
         }
     }
 }

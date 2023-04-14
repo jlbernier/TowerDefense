@@ -22,16 +22,17 @@ using tower_Defense.EnnemyGamePlay;
 namespace tower_Defense.Scenes
 {
     public class SceneMap : Scene
-    {
+    {        
         // Map
         private readonly TmxMap _map;
         private readonly MapTiled _mapTiled;
         // GamePlay
         private readonly EnnemyGameplay _ennemyGamePlay;
         // Buttons
-        private bool isGamePaused;
+        public bool isGamePaused;
         public Button _button;
         public Tower _tower;
+        // Filters
         public SpriteMissileFilter spriteMissileFilter;
         public SpriteEnnemyFilter spriteEnnemyFilter;
         public SpriteTowerFilter spriteTowerFilter;
@@ -127,7 +128,7 @@ namespace tower_Defense.Scenes
         {
             
             TDSprite.lstSprites.ForEach(sprite => sprite.isPaused = pSender.IsPush);
-            SpriteButton.lstButtonSprites.ForEach(spritebutton => spritebutton.isPaused = pSender.IsPush);
+            //SpriteButton.lstButtonSprites.ForEach(spritebutton => spritebutton.isPaused = pSender.IsPush);
             isGamePaused = pSender.IsPush;
         }
         public void onClickTowerType(Button pSender)
@@ -136,55 +137,49 @@ namespace tower_Defense.Scenes
             _tower.towerNextID = _tower.towerToBuild;
             _tower.towerID = "MENUTILEMAP";
         }
-        public void onHoverButtonBase(Button pSender)
+        public void onHoverTowerBase(Button pSender)
         {
             if (isGamePaused) return;
             _tower = (Tower)pSender;
-            _tower.isMenuToBuild = true;
+            if (_tower.towerID != "TOWERTILEMAP") _tower.towerID = "MENUUPGRADE";
+            _tower.isMenuToBuild = pSender.IsHover;
         }
-        public void onHoverMenuTypeTower(Button pSender)
+        public void onHoverMenu(Button pSender)
         {
             if (isGamePaused) return;
             _tower = (Tower)pSender;
+            if (_tower.towerID != "WOODENBOX") _tower.towerID = "MENUUPGRADE";
             _tower.isMenuToRemove = !pSender.IsHover;          
-        }
-        public void onHoverTowerUpgrade(Button pSender)
-        {
-            if (isGamePaused) return;
-            if (isGamePaused) return;
-            _tower = (Tower)pSender;
-            if (_tower.IsHover || _tower.lstButtonsMenu != null)
-            {
-                _tower.towerID = "MENUUPGRADE";
-                _tower.isMenuToBuild = true;
-            }
-        }     
+        }  
         public void onClickTowerUpgrade(Button pSender)
         {
             if (isGamePaused) return;
             _tower = (Tower)pSender;
-            if (_tower.towerID == "ICONROTATEWEAPON")
+            switch (_tower.towerID)
             {
-                  _tower.towerID = "ROTATEWEAPON";
-            }
-            if (_tower.towerID == "ICONTOWERUP")
-            {
-                if (_tower.towerLevel < 3)
-                {
-                    _tower.towerToBuild = "TOWER" + _tower.towerType + (_tower.towerLevel++).ToString();
-                    _tower.towerNextID = _tower.towerToBuild;
-            _tower.towerID = "UPGRADE";
-                }
-            }
-            if (_tower.towerID == "ICONWEAPONUP")
-            {
-                if (_tower.weaponLevel < 3)
-                {
-                    _tower.weaponLevel++;
-                    _tower.towerToBuild = "TOWER" + _tower.towerType + (_tower.towerLevel).ToString();
-                    _tower.towerNextID = _tower.towerToBuild;
-            _tower.towerID = "UPGRADE";
-                }
+                case "ICONROTATEWEAPON":
+                    _tower.towerID = "ROTATEWEAPON";
+                    break;               
+                case "ICONWEAPONUP":
+                    if (_tower.weaponLevel < 3)
+                    {
+                        _tower.weaponLevel++;
+                        _tower.towerToBuild = "TOWER" + _tower.towerType + (_tower.towerLevel).ToString();
+                        _tower.WeaponOrTowerUpgrade = true;
+                        _tower.towerID = "UPGRADE";
+                    }
+                    break;
+                case "ICONTOWERUP":
+                    if (_tower.towerLevel < 3)
+                    {
+                        _tower.towerToBuild = "TOWER" + _tower.towerType + (_tower.towerLevel++).ToString();
+                        _tower.towerNextID = _tower.towerToBuild;
+                        _tower.WeaponOrTowerUpgrade = true;
+                        _tower.towerID = "UPGRADE";
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         public void onHoverThreeStates(Button pSender)
@@ -223,9 +218,9 @@ namespace tower_Defense.Scenes
             TDData.PopulateData();
             Wave.PopulateData();
             _mapTiled.LoadMap();
-           _mapTiled.Load(mainGame._spriteBatch);
+           _mapTiled.Load(MainGame.spriteBatch);
             LoadSceneMap loadSceneMap = new LoadSceneMap();
-            loadSceneMap.Load(mainGame, _mapTiled, this);
+           loadSceneMap.Load(mainGame, _mapTiled, this);
 
 
            
@@ -234,6 +229,7 @@ namespace tower_Defense.Scenes
 
 
             // pour les tests
+            
             int offset = 0;
             for (int i = 1; i < 9; i++)
             {
@@ -242,17 +238,18 @@ namespace tower_Defense.Scenes
                     if (i == 8) continue;
                     if (i == 7)
                     {
-                        spriteMissileFilter.AddMissile(mainGame, mainGame._spriteBatch,"MISSILETOWER7LEVELX",new Vector2(100 + offset, 1000), new Vector2(0, -15));
+                        spriteMissileFilter.AddMissile(mainGame, "MISSILETOWER7LEVELX",new Vector2(100 + offset, 1000), new Vector2(0, -15));
                         
                     }
                     else
                     {
-                        spriteMissileFilter.AddMissile(mainGame, mainGame._spriteBatch, "MISSILETOWER" + i.ToString() + "LEVEL" + j.ToString(),
+                        spriteMissileFilter.AddMissile(mainGame, "MISSILETOWER" + i.ToString() + "LEVEL" + j.ToString(),
               new Vector2(100 + offset, 1000), new Vector2(0, -15));
                     }
                     offset += 40;
                 }
             }
+            
             base.Load();
         }
 
@@ -267,36 +264,33 @@ namespace tower_Defense.Scenes
             if (!isGamePaused) towerList.ForEach(tower => tower.BuildMenu(this,  tower, _tower));
             towerList.ForEach(tower => tower.MenuToRemove(this, tower, _tower));
             towerList.ForEach(tower => tower.BuildTowerType(this, gameTime, tower, _tower, spriteTowerFilter));
-            List<Tower> weaponTowerList = towerList.Where(tower =>tower.isWeaponTower).ToList();
-           
-            Debug.WriteLine("spriteTowerFilter" +  spriteTowerFilter.liste.Count());
+            
+            if (spriteTowerFilter.liste.Count() == 1)
+            {
+                Debug.WriteLine("spriteTowerFilter" + spriteTowerFilter.liste.Count());
 
+            }
             spriteTowerFilter
-                .CooldownShootIsUp();
-                
-
+                .CooldownShootIsUp();   
             spriteMissileFilter
                 .CollisionFinished()
                  .ImpactCollision();
             spriteEnnemyFilter
                 .ImpactCollision()
                 .RemoveDeadEnnemy();
-
-            if (weaponTowerList.Count != 0)
-            {
-                weaponTowerList[0].weaponLevel = 1;
-            }
-
+            
+            
             timerWaves += gameIsSpeedUp ?
                (float)gameTime.ElapsedGameTime.TotalSeconds * 20 :
                (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timerWaves > 10f)
+            if (timerWaves > 100f)
             {
                 wave += 1;
                 LevelAndWave = "Level: 1 Wave: " + wave + "/7";
-                _ennemyGamePlay.Start(mainGame, mainGame._spriteBatch, mainGame._graphics, spriteEnnemyFilter, gameIsSpeedUp, 1, 2);
+                _ennemyGamePlay.Start(mainGame, mainGame._graphics, spriteEnnemyFilter, gameIsSpeedUp, 1, 2);
                 
                 timerWaves = 0;
+                
                 int offsetY = 100;
                 int offset = 0;
                 for (int i = 1; i < 9; i++)
@@ -306,19 +300,20 @@ namespace tower_Defense.Scenes
                         if (i == 8) continue;
                         if (i == 1 || i == 6 || i == 7)
                         {
-                            spriteMissileFilter.AddMissile(mainGame, mainGame._spriteBatch,
+                            spriteMissileFilter.AddMissile(mainGame,
                              "IMPACTTOWER1LEVELX",
                   new Vector2(100 + offset, 1000 - offsetY), new Vector2(0, 0));
                         }
                         else
                         {
-                            spriteMissileFilter.AddMissile(mainGame, mainGame._spriteBatch,
+                            spriteMissileFilter.AddMissile(mainGame,
                              "IMPACTTOWER" + i.ToString() + "LEVEL" + j.ToString(),
                   new Vector2(100 + offset, 1000 - offsetY), new Vector2(0, 0));
                         }
                         offset += 40;
                     }
                 }
+                
             }
 
 
@@ -332,22 +327,21 @@ namespace tower_Defense.Scenes
             _mapTiled.Update(gameTime);
             spriteMissileFilter.UpdateAll(gameTime);
              TDSprite.UpdateAll(gameTime);
-            SpriteButton.UpdateAll(gameTime);
+            //SpriteButton.UpdateAll(gameTime);
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            _mapTiled.Draw(mainGame._spriteBatch);
+            _mapTiled.Draw(MainGame.spriteBatch);
             spriteMissileFilter.DrawAll(gameTime);
              TDSprite.DrawAll(gameTime);
-            SpriteButton.DrawAll(mainGame._spriteBatch);
             base.Draw(gameTime);
-            mainGame._spriteBatch.DrawString(spriteFont: base.SmallFont,
+            MainGame.spriteBatch.DrawString(spriteFont: base.SmallFont,
                 LevelAndWave, new Vector2(40, 120), Color.White);
-            mainGame._spriteBatch.DrawString(spriteFont: base.SmallFont,
+            MainGame.spriteBatch.DrawString(spriteFont: base.SmallFont,
                 "20", new Vector2(60, 38), Color.White);
-            mainGame._spriteBatch.DrawString(spriteFont: base.SmallFont,
+            MainGame.spriteBatch.DrawString(spriteFont: base.SmallFont,
               "1500", new Vector2(140, 38), Color.White);
         }
     }

@@ -8,6 +8,7 @@ namespace tower_Defense.Scenes
     abstract public class Scene
     {
         public MainGame mainGame;
+        public SpriteBatch spriteBatch;
         public List<IActorButton> listActors;
         public SpriteFont myFont;
         public SpriteFont SmallFont;
@@ -33,7 +34,7 @@ namespace tower_Defense.Scenes
         }
         public virtual void Draw(GameTime gameTime)
         {
-            listActors.ForEach(actor => actor.Draw(mainGame._spriteBatch));
+            listActors.ForEach(actor => actor.Draw(gameTime));
         }
     }
 }

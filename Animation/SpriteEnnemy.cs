@@ -20,7 +20,7 @@ namespace tower_Defense.Animation
         public bool IsMirrored { get; set; }
         public TDRectangle rectangleLife;
         public TDRectangle rectangleDeath;
-        public string ennemyID;
+        public string ennemyID { get; private set; }
         public int HP { get; set; }
 
         static public int LENGHTLIFEWIDTH = 40;
@@ -30,22 +30,21 @@ namespace tower_Defense.Animation
 
         private SoundEffect _sndJump;
         private SoundEffect _sndLanding;
-        public SpriteEnnemy(Game mainGame, SpriteBatch spriteBatch, String ennemyID, Vector2 position, Vector2 velocity) : base(mainGame, spriteBatch, ennemyID, position, velocity)
+        public SpriteEnnemy(Game mainGame, Vector2 position, Vector2 velocity, String ennemyID) : base(mainGame, position, velocity)
         {
-            base.texture = TDTextures.Textures[TDData.Data[ennemyID].NameTexture];
-            base.frameWidth = TDData.Data[ennemyID].FrameWidth;
-            base.frameHeight = TDData.Data[ennemyID].FrameHeight;
-            base.offsetX = TDData.Data[ennemyID].OffsetX;
-            base.offsetY = TDData.Data[ennemyID].OffsetY;
-            base.initOffsetX = TDData.Data[ennemyID].InitOffsetX;
-            base.velocity = velocity;
-            base.position = position;
-            this.IsMirrored = TDData.Data[ennemyID].isMirrored;
             this.ennemyID = ennemyID;
-            this.HP = TDData.Data[ennemyID].MaxHP;
-            this.IsFlying = TDData.Data[ennemyID].isFlying;
-            this.rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
-            this.rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);
+            texture = TDTextures.Textures[TDData.Data[ennemyID].NameTexture];
+            frameWidth = TDData.Data[ennemyID].FrameWidth;
+            frameHeight = TDData.Data[ennemyID].FrameHeight;
+            offsetX = TDData.Data[ennemyID].OffsetX;
+            offsetY = TDData.Data[ennemyID].OffsetY;
+            initOffsetX = TDData.Data[ennemyID].InitOffsetX;
+            IsMirrored = TDData.Data[ennemyID].isMirrored;
+            HP = TDData.Data[ennemyID].MaxHP;
+            IsFlying = TDData.Data[ennemyID].isFlying;
+            isFrame = true;
+            rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
+            rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);
 
         }
         
@@ -94,8 +93,8 @@ namespace tower_Defense.Animation
         public override void Draw(GameTime gameTime)
         {
           
-            rectangleLife.Draw(spriteBatch);
-            rectangleDeath.Draw(spriteBatch);
+            rectangleLife.Draw(MainGame.spriteBatch);
+            rectangleDeath.Draw(MainGame.spriteBatch);
             base.Draw(gameTime);
         }
     }

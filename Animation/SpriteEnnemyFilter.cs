@@ -19,9 +19,9 @@ namespace tower_Defense.Animation
             this.liste = new();
             filtredListe = new();
         }
-        public SpriteEnnemyFilter AddEnnemy(Game mainGame, SpriteBatch spriteBatch, string ennemyID, Vector2 position, Vector2 velocity)
+        public SpriteEnnemyFilter AddEnnemy(Game mainGame,  string ennemyID, Vector2 position, Vector2 velocity)
         {
-            SpriteEnnemy spriteEnnemy = new SpriteEnnemy(mainGame, spriteBatch, ennemyID, position, velocity);
+            SpriteEnnemy spriteEnnemy = new SpriteEnnemy(mainGame, position, velocity, ennemyID);
             if (spriteEnnemy.velocity.X > 0) spriteEnnemy.IsMirrored = !spriteEnnemy.IsMirrored;
             spriteEnnemy.AddAnimation(
                 "Run",

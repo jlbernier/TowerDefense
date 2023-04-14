@@ -29,7 +29,7 @@ namespace tower_Defense.EnnemyGameplayNameSpace
             sprEnnemy.velocity = new Vector2(-1 * sprEnnemy.velocity.X, -1 * sprEnnemy.velocity.Y);            
         }
 
-        public void Start(Game mainGame,SpriteBatch spriteBatch, GraphicsDeviceManager graphics, SpriteEnnemyFilter spriteEnnemyFilter, bool pGameIsSpeedUp = false, int level = 1, int wave = 1)
+        public void Start(Game mainGame, GraphicsDeviceManager graphics, SpriteEnnemyFilter spriteEnnemyFilter, bool pGameIsSpeedUp = false, int level = 1, int wave = 1)
 
         {
             gameIsSpeedUp = pGameIsSpeedUp;
@@ -56,7 +56,7 @@ namespace tower_Defense.EnnemyGameplayNameSpace
                     else if (index == 6) ennemyID = Wave.Data[waveID].EnnemyID6.ToString();
                     else if (index == 7) ennemyID = Wave.Data[waveID].EnnemyID7.ToString();
                     else if (index == 8) ennemyID = Wave.Data[waveID].EnnemyID8.ToString();
-                    spriteEnnemyFilter.AddEnnemy(mainGame, spriteBatch, ennemyID, 
+                    spriteEnnemyFilter.AddEnnemy(mainGame, ennemyID, 
                         new Vector2(position, graphics.PreferredBackBufferHeight / 2) , new Vector2(50,0));                   
                     position -= 40;
                 }

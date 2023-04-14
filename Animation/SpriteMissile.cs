@@ -22,17 +22,16 @@ namespace tower_Defense.Animation
 
         public string missileID {  get; set; }
         
-        public SpriteMissile(Game mainGame, SpriteBatch spriteBatch, String missileID, Vector2 position, Vector2 velocity) : base(mainGame, spriteBatch, missileID, position, velocity)
+        public SpriteMissile(Game mainGame, Vector2 position, Vector2 velocity, String missileID) : base(mainGame, position, velocity)
         {
-            base.mainGame = mainGame;
-            base.spriteBatch = spriteBatch;
-            base.texture = TDTextures.Textures[TDData.Data[missileID].NameTexture];
-            base.frameWidth = TDData.Data[missileID].FrameWidth;
-            base.frameHeight = TDData.Data[missileID].FrameHeight;
-            base.offsetX = TDData.Data[missileID].OffsetX;
-            base.offsetY = TDData.Data[missileID].OffsetY;
-            base.velocity = velocity;
-            base.position = position;      
+            typeMissile = missileID;
+            texture = TDTextures.Textures[TDData.Data[missileID].NameTexture];
+            frameWidth = TDData.Data[missileID].FrameWidth;
+            frameHeight = TDData.Data[missileID].FrameHeight;
+            offsetX = TDData.Data[missileID].OffsetX;
+            offsetY = TDData.Data[missileID].OffsetY;
+            scale = TDData.Data[missileID].Scale;
+            isFrame = true;
         }        
 
         public void GameIsPaused()

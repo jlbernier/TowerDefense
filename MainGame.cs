@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 using tower_Defense.Scenes;
 
 namespace tower_Defense
@@ -8,7 +9,7 @@ namespace tower_Defense
     public class MainGame : Game
     {
         public GraphicsDeviceManager _graphics;
-        public SpriteBatch _spriteBatch;
+        public static SpriteBatch spriteBatch;
         public GameState _gameState;
         public MainGame()
         {
@@ -28,7 +29,8 @@ namespace tower_Defense
         }
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            // /!\ this.spriteBatch = new SpriteBatch(GraphicsDevice);
+            MainGame.spriteBatch = new SpriteBatch(GraphicsDevice);
         }
         protected override void Update(GameTime gameTime)
         {
@@ -43,12 +45,12 @@ namespace tower_Defense
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            _spriteBatch.Begin();
+            MainGame.spriteBatch.Begin();
             if (_gameState.CurrentScene != null)
             {               
                 _gameState.CurrentScene.Draw(gameTime);
             }
-            _spriteBatch.End();
+            MainGame.spriteBatch.End();
             base.Draw(gameTime);
         }
     }
