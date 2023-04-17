@@ -29,11 +29,11 @@ namespace tower_Defense.EnnemyGameplayNameSpace
             sprEnnemy.velocity = new Vector2(-1 * sprEnnemy.velocity.X, -1 * sprEnnemy.velocity.Y);            
         }
 
-        public void Start(Game mainGame, GraphicsDeviceManager graphics, SpriteEnnemyFilter spriteEnnemyFilter, bool pGameIsSpeedUp = false, int level = 1, int wave = 1)
+        public void Start(Game mainGame, GraphicsDeviceManager graphics, SceneMap currentScene, bool pGameIsSpeedUp = false, int level = 1, int wave = 1)
 
         {
             gameIsSpeedUp = pGameIsSpeedUp;
-            foreach (var waveData in Wave.Data)
+            foreach (var waveData in DataWave)
             {
                 if (waveData.Value.Level == level && waveData.Value.Wave == wave)
                 {
@@ -44,19 +44,19 @@ namespace tower_Defense.EnnemyGameplayNameSpace
             string ennemyID = "";
             int index = 1;
             int position = 0;
-            foreach (int i in Wave.Data[waveID].NumberEnnemies)
+            foreach (int i in DataWave[waveID].NumberEnnemies)
             {
                 for (int j = 0; j < i; j++)
                 {
-                    if (index == 1) ennemyID = Wave.Data[waveID].EnnemyID1.ToString();  
-                    else if (index == 2) ennemyID = Wave.Data[waveID].EnnemyID2.ToString();
-                    else if (index == 3) ennemyID = Wave.Data[waveID].EnnemyID3.ToString();
-                    else if(index == 4) ennemyID = Wave.Data[waveID].EnnemyID4.ToString();
-                    else if (index == 5) ennemyID = Wave.Data[waveID].EnnemyID5.ToString();
-                    else if (index == 6) ennemyID = Wave.Data[waveID].EnnemyID6.ToString();
-                    else if (index == 7) ennemyID = Wave.Data[waveID].EnnemyID7.ToString();
-                    else if (index == 8) ennemyID = Wave.Data[waveID].EnnemyID8.ToString();
-                    spriteEnnemyFilter.AddEnnemy(mainGame, ennemyID, 
+                    if (index == 1) ennemyID = DataWave[waveID].EnnemyID1.ToString();  
+                    else if (index == 2) ennemyID = DataWave[waveID].EnnemyID2.ToString();
+                    else if (index == 3) ennemyID = DataWave[waveID].EnnemyID3.ToString();
+                    else if(index == 4) ennemyID = DataWave[waveID].EnnemyID4.ToString();
+                    else if (index == 5) ennemyID = DataWave[waveID].EnnemyID5.ToString();
+                    else if (index == 6) ennemyID = DataWave[waveID].EnnemyID6.ToString();
+                    else if (index == 7) ennemyID = DataWave[waveID].EnnemyID7.ToString();
+                    else if (index == 8) ennemyID = DataWave[waveID].EnnemyID8.ToString();
+                    currentScene.spriteEnnemyFilter.AddEnnemy(mainGame, ennemyID, 
                         new Vector2(position, graphics.PreferredBackBufferHeight / 2) , new Vector2(50,0));                   
                     position -= 40;
                 }

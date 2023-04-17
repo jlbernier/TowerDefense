@@ -12,16 +12,17 @@ namespace tower_Defense.Map
     public interface ITiles
     {
         public void Update(Texture2D texture, Vector2 velocity);
-        public void Load(Texture2D pTexture, int pLargeurFrame, int pHauteurFrame, int pDecalageX, int pDecalageY, Vector2 pVelocity, int pInitDecalageX = 0);
+        public void Load(Texture2D texture, int frameWidth, int frameHeight, int offsetX, int offsetY, Vector2 velocity, int initOffsetX = 0);
     }
     public class Tile : ITiles
     {
-        public Texture2D _texture { get; private set; }
+        public Texture2D texture { get; private set; }
         public int frameWidth;
         public int frameHeight;
         public int offsetX;
         public int offsetY;
         public int initOffsetX;
+        public int initOffsetY;
         public Vector2 _position { get; private set; }
         public Vector2 _positionTileset { get; private set; } //line, column
         public int _tileFrame;
@@ -31,7 +32,7 @@ namespace tower_Defense.Map
         public Vector2 _velocity { get; private set; }
         public Tile(Texture2D texture, Vector2 position, int tileFrame, Vector2 positionTileset, Rectangle rectangleMap)
         {
-            _texture = texture;
+            this.texture = texture;
             _position = position;
             _tileFrame = tileFrame;
             _positionTileset = _positionTileset;
@@ -39,21 +40,21 @@ namespace tower_Defense.Map
         }
         public void Update(Texture2D texture, Vector2 velocity)
         {
-            _texture = texture;
+            this.texture = texture;
             _velocity = velocity;
             _position += velocity;
             _rectangleMap = new Rectangle(_rectangleMap.X + (int)velocity.X, (_rectangleMap.Y + (int)velocity.Y), _rectangleMap.Width, _rectangleMap.Height);
         }
 
-        public void Load(Texture2D pTexture, int pLargeurFrame, int pHauteurFrame, int pDecalageX, int pDecalageY, Vector2 pVelocity, int pInitDecalageX = 0)
+        public void Load(Texture2D texture, int frameWidth, int frameHeight, int offsetX, int offsetY, Vector2 velocity, int initOffsetX = 0)
         {
-            _texture = pTexture;
-            frameWidth = pLargeurFrame;
-            frameHeight = pHauteurFrame;
-            offsetX = pDecalageX;
-            offsetY = pDecalageY;
-            _velocity = pVelocity;
-            initOffsetX = pInitDecalageX;
+            this.texture = texture;
+            this.frameWidth = frameWidth;
+            this.frameHeight = frameHeight;
+            this.offsetX = offsetX;
+            this.offsetY = offsetY;
+            _velocity = velocity;
+            this.initOffsetX = initOffsetX;
         }
     }
 }

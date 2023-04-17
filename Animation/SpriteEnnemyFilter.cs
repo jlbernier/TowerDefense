@@ -19,22 +19,35 @@ namespace tower_Defense.Animation
             this.liste = new();
             filtredListe = new();
         }
-        public SpriteEnnemyFilter AddEnnemy(Game mainGame,  string ennemyID, Vector2 position, Vector2 velocity)
+        public SpriteEnnemyFilter AddEnnemy(Game mainGame, string ennemyID, Vector2 position, Vector2 velocity)
         {
             SpriteEnnemy spriteEnnemy = new SpriteEnnemy(mainGame, position, velocity, ennemyID);
             if (spriteEnnemy.velocity.X > 0) spriteEnnemy.IsMirrored = !spriteEnnemy.IsMirrored;
             spriteEnnemy.AddAnimation(
-                "Run",
+                "Ennemy",
                 TDData.Data[ennemyID].ArrayFrames,
                 TDData.Data[ennemyID].FramesDuration,
                 TDData.Data[ennemyID].OffsetX,
                 TDData.Data[ennemyID].OffsetY,
                 TDData.Data[ennemyID].IsLoop,
-                TDData.Data[ennemyID].InitOffsetX);
-            spriteEnnemy.RunAnimation("Run");
+                TDData.Data[ennemyID].InitOffsetX,
+                TDData.Data[ennemyID].InitOffsetY);
+            spriteEnnemy.RunAnimation("Ennemy");
             liste.Add(spriteEnnemy);
             return this;
         }
+        public SpriteEnnemyFilter UpdateAll(GameTime pGametime)
+        {
+            liste.ForEach(sprite => sprite.Update(pGametime));
+            return this;
+        }
+
+        public SpriteEnnemyFilter DrawAll(GameTime pGametime)
+        {
+            liste.ForEach(sprite => sprite.Draw(pGametime));
+            return this;
+        }
+
         public SpriteEnnemyFilter ImpactCollision()
         {
             liste.ForEach(spriteEnnemy => {

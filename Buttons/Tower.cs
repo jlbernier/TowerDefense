@@ -9,18 +9,21 @@ using System.Threading.Tasks;
 using tower_Defense.Animation;
 using tower_Defense.Map;
 using tower_Defense.Scenes;
+using static tower_Defense.Utils.Wave;
+
 
 namespace tower_Defense.Buttons
 {
     public class Tower : Button
     {
         // Menu Choose tower to build or to upgrade
-        public Vector2 positionBase { get; private set; }
+        public Vector2 positionBase { get; set; }
         public bool isMenuToBuild { get; set; }
         public bool isMenuToRemove { get; set; }
         public List<Tower> lstButtonsMenu { get; private set; }
+        public Tower towerBase { get; private set; }
         public Tower menuTower { get; private set; }
-        public Tower weaponTower { get; private set; }
+        public SpriteWeapon spriteWeapon { get; private set; }
         public Tower towerToUpgrade { get; private set; }
         public String towerToBuild { get; set; }
         public bool WeaponOrTowerUpgrade { get; set; }
@@ -38,59 +41,61 @@ namespace tower_Defense.Buttons
             towerID = buttonID;
             towerLevel = 1;
             weaponLevel = 1;
+            scale = 1;
         }
-        public void MenuToRemove(SceneMap pCurrentScene, Tower pMenuToRemove, Tower pTowerToBuild)
+        public void RemoveMenu(SceneMap pCurrentScene, Tower pMenuToRemove, Tower pTowerToBuild)
         {
-            if (isMenuToRemove)
+            if (pMenuToRemove.isMenuToRemove)
             {
-                if (towerNextID == null)
-                {
-                    pTowerToBuild = new Tower(mainGame, pMenuToRemove.positionBase, new Vector2(0,0), "TOWERTILEMAP");
-                    pTowerToBuild.towerNextID = "TOWERTILEMAP";
-                    pTowerToBuild.OnClick = pCurrentScene.onClickDefault;
-                    pTowerToBuild.OnHover = pCurrentScene.onHoverTowerBase;
-                    pCurrentScene.listActors.Add(pTowerToBuild);
+                if (towerNextID == null && pMenuToRemove.buttonID == "MENUSELECTTYPETOWER")
+                {                    
+                    pCurrentScene.listButtons.Add(pMenuToRemove.towerBase);
                 }
-                pMenuToRemove.lstButtonsMenu.ForEach(tower => pCurrentScene.listActors.Remove(tower));
+                else if (pMenuToRemove.buttonID == "MENUSELECTUPGRADE")
+                {
+                    Debug.WriteLine("MENUSELECTUPGRADE");
+                }
+                pMenuToRemove.lstButtonsMenu.ForEach(tower => pCurrentScene.listButtons.Remove(tower));
                 pMenuToRemove.lstButtonsMenu.Clear();
             }
         }
-        public void AddButtonChooseTowerIcon(SceneMap pCurrentScene, Tower pMenuToBuild, Tower pIconToBuild, Vector2 position, String towerType, float scale)
+        public void AddButtonSelectTowerIcon(SceneMap pCurrentScene, Tower pMenuToBuild, Tower pIconToBuild, Vector2 position, String towerType, float scale)
         {
             pIconToBuild = new Tower(mainGame, position, new Vector2(0,0), towerType);
             pIconToBuild.scale = scale;
             pIconToBuild.boundingBox = new Rectangle((int)pIconToBuild.position.X, (int)pIconToBuild.position.Y,
                    (int)(pIconToBuild.widthTexture * pIconToBuild.scale), (int)(pIconToBuild.heightTexture * pIconToBuild.scale));
             pIconToBuild.positionBase = pMenuToBuild.positionBase;
+            pIconToBuild.towerBase = pMenuToBuild.towerBase;
             pIconToBuild.towerToBuild = towerType;
             pIconToBuild.OnClick = pCurrentScene.onClickTowerType;
             pIconToBuild.OnHover = pCurrentScene.onHoverDefault;
             pIconToBuild.menuTower = pMenuToBuild;
-            pCurrentScene.listActors.Add(pIconToBuild);
+            pCurrentScene.listButtons.Add(pIconToBuild);
             pMenuToBuild.lstButtonsMenu.Add(pIconToBuild);
         }
-        public void AddButtonChooseTowerType(SceneMap pCurrentScene, Tower pMenuToBuild, Tower pIconToBuild)
+        public void AddButtonSelectTowerType(SceneMap pCurrentScene, Tower pMenuToBuild, Tower pIconToBuild)
         {
-            AddButtonChooseTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 27, pMenuToBuild.position.Y - 107),
+            AddButtonSelectTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 27, pMenuToBuild.position.Y - 107),
                             "TOWER81", 0.4f);
-            AddButtonChooseTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 61, pMenuToBuild.position.Y - 107),
+            AddButtonSelectTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 61, pMenuToBuild.position.Y - 107),
                             "TOWER71", 0.4f);
-            AddButtonChooseTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 9, pMenuToBuild.position.Y - 64),
+            AddButtonSelectTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 9, pMenuToBuild.position.Y - 64),
                             "TOWER61", 0.4f);
-            AddButtonChooseTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 44, pMenuToBuild.position.Y - 64),
+            AddButtonSelectTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 44, pMenuToBuild.position.Y - 64),
                             "TOWER51", 0.4f);
-            AddButtonChooseTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 79, pMenuToBuild.position.Y - 64),
+            AddButtonSelectTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 79, pMenuToBuild.position.Y - 64),
                             "TOWER41", 0.4f);
-            AddButtonChooseTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 79, pMenuToBuild.position.Y - 24),
+            AddButtonSelectTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 79, pMenuToBuild.position.Y - 24),
                             "TOWER11", 0.4f);
-            AddButtonChooseTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 44, pMenuToBuild.position.Y - 24),
+            AddButtonSelectTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 44, pMenuToBuild.position.Y - 24),
                             "TOWER21", 0.4f);
-            AddButtonChooseTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 9, pMenuToBuild.position.Y - 24),
+            AddButtonSelectTowerIcon(pCurrentScene, pMenuToBuild, pIconToBuild, new Vector2(pMenuToBuild.position.X - 9, pMenuToBuild.position.Y - 24),
                             "TOWER31", 0.4f);
         }
-        public void BuildMenuChooseTowerType(SceneMap pCurrentScene, Tower pBaseTower, Tower pMenuToBuild)
+        public void BuildMenuSelectTowerType(SceneMap pCurrentScene, Tower pBaseTower, Tower pMenuToBuild)
         {
-            pMenuToBuild = new Tower(mainGame, new Vector2(pBaseTower.position.X + 32, pBaseTower.position.Y + 32), new Vector2(0,0), "WOODENBOX");
+            pMenuToBuild = new Tower(mainGame, new Vector2(pBaseTower.position.X + 32, pBaseTower.position.Y + 32), new Vector2(0,0), "MENUSELECTTYPETOWER");
             pMenuToBuild.scale = 1.5f;
             pMenuToBuild.boundingBox = new Rectangle((int)(pMenuToBuild.position.X -
                                 pMenuToBuild.widthTexture * pMenuToBuild.scale + 32),
@@ -99,17 +104,14 @@ namespace tower_Defense.Buttons
                                 (int)(pMenuToBuild.widthTexture * pMenuToBuild.scale),
                                 (int)(pMenuToBuild.heightTexture * pMenuToBuild.scale));
             pMenuToBuild.positionBase = pBaseTower.position;
+            pMenuToBuild.towerBase = pBaseTower;
             pMenuToBuild.OnClick = pCurrentScene.onClickDefault;
-            pMenuToBuild.OnHover = pCurrentScene.onHoverMenu;
-            pCurrentScene.listActors.Add(pMenuToBuild);
-            pMenuToBuild.lstButtonsMenu = new List<Tower>
-            {
-                pMenuToBuild
-            };
-            pBaseTower.ToRemove = true;
-            pCurrentScene.listActors.Remove(pBaseTower);
-            //SpriteButton.lstButtonSprites.Remove(pBaseTower);
-            AddButtonChooseTowerType(pCurrentScene, pMenuToBuild, pBaseTower);
+            pMenuToBuild.OnHover = pCurrentScene.onHoverMenuSelectTowerType;
+            pCurrentScene.listButtons.Add(pMenuToBuild);
+            pMenuToBuild.lstButtonsMenu = new List<Tower>();
+            pMenuToBuild.lstButtonsMenu.Add(pMenuToBuild);
+            pCurrentScene.listButtons.Remove(pBaseTower);
+            AddButtonSelectTowerType(pCurrentScene, pMenuToBuild, pBaseTower);
         }
         public void AddButtonUpgradeIcon(SceneMap pCurrentScene, Tower pMenuToBuild, Tower pIconToBuild, Vector2 position, String towerType, float scale)
         {
@@ -123,11 +125,13 @@ namespace tower_Defense.Buttons
             pIconToBuild.towerType = pMenuToBuild.towerType;
             pIconToBuild.menuTower = pMenuToBuild;
             pIconToBuild.positionBase = pMenuToBuild.positionBase;
-            pIconToBuild.weaponTower = pMenuToBuild.weaponTower;
+            pIconToBuild.towerBase = pMenuToBuild.towerBase;
+            pIconToBuild.towerToUpgrade = pMenuToBuild.towerToUpgrade;
+            pIconToBuild.spriteWeapon = pMenuToBuild.spriteWeapon;
             pIconToBuild.OnHover = pCurrentScene.onHoverThreeStates;
             pIconToBuild.OnClick = pCurrentScene.onClickTowerUpgrade;
             pMenuToBuild.lstButtonsMenu.Add(pIconToBuild);
-            pCurrentScene.listActors.Add(pIconToBuild);
+            pCurrentScene.listButtons.Add(pIconToBuild);
         }
         public void AddButtonUpgrade(SceneMap pCurrentScene, Tower pMenuToBuild, Tower pIconToBuild)
         {
@@ -141,47 +145,54 @@ namespace tower_Defense.Buttons
         public void BuildMenuChooseUpgrade(SceneMap pCurrentScene, Tower pBaseTower, Tower pMenuToBuild)
         {
             pBaseTower.isMenuToBuild = false;
-            pMenuToBuild = new Tower(mainGame, new Vector2(pBaseTower.position.X, pBaseTower.position.Y), new Vector2(0, 0), "BOUNDINGBOX");
+            pMenuToBuild = new Tower(mainGame, new Vector2(pBaseTower.position.X, pBaseTower.position.Y), new Vector2(0, 0), "MENUSELECTUPGRADE");
             pMenuToBuild.menuTower = pBaseTower;
             pMenuToBuild.positionBase = pBaseTower.positionBase;
             pMenuToBuild.OnClick = pCurrentScene.onClickDefault;
-            pMenuToBuild.OnHover = pCurrentScene.onHoverMenu;
+            pMenuToBuild.OnHover = pCurrentScene.onHoverMenuUpgrade;
             pMenuToBuild.towerNextID = pMenuToBuild.towerID;
             pMenuToBuild.towerLevel = pBaseTower.towerLevel;
             pMenuToBuild.weaponLevel = pBaseTower.weaponLevel;
             pMenuToBuild.towerType = pBaseTower.towerType;
             pMenuToBuild.positionBase = pBaseTower.positionBase;
+            pMenuToBuild.towerBase = pBaseTower;
             pMenuToBuild.menuTower = pBaseTower;
-            pMenuToBuild.weaponTower = pBaseTower.weaponTower;
-            pCurrentScene.listActors.Add(pMenuToBuild);
-            pMenuToBuild.lstButtonsMenu = new List<Tower>
-            {
-                pMenuToBuild
-            };
+            pMenuToBuild.spriteWeapon = pBaseTower.spriteWeapon;
+            pMenuToBuild.towerToUpgrade = pBaseTower;
+            pCurrentScene.listButtons.Add(pMenuToBuild);
+            pMenuToBuild.lstButtonsMenu = new List<Tower>();
+            pMenuToBuild.lstButtonsMenu.Add(pMenuToBuild);
             AddButtonUpgrade(pCurrentScene, pMenuToBuild, pBaseTower);
         }
         public void BuildMenu(SceneMap pCurrentScene, Tower pBaseTower, Tower pMenuToBuild)
         {
-            if (pBaseTower.isMenuToBuild && pBaseTower.towerID == "TOWERTILEMAP")
-                BuildMenuChooseTowerType(pCurrentScene, pBaseTower, pMenuToBuild);
+            if (pBaseTower.isMenuToBuild && pBaseTower.towerID == "TOWERBASE")
+                BuildMenuSelectTowerType(pCurrentScene, pBaseTower, pMenuToBuild);
             else if (pBaseTower.isMenuToBuild && pBaseTower.towerID == "MENUUPGRADE")
                 BuildMenuChooseUpgrade(pCurrentScene, pBaseTower, pMenuToBuild);
         }
-        public void FirstAnimationBuild(SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild = null)
+        public void FirstAnimationBuild(GameTime pGameTime, SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild = null)
         {
-            pCurrentTower.menuTower.lstButtonsMenu.ForEach(tower => pCurrentScene.listActors.Remove(tower));
+            pCurrentTower.menuTower.lstButtonsMenu.ForEach(tower => pCurrentScene.listButtons.Remove(tower));
             pCurrentTower.menuTower.lstButtonsMenu.Clear();
-            //SpriteButton.lstButtonSprites.Remove(pCurrentTower);
+            pCurrentTower.position = pCurrentTower.positionBase;
+
             if (pCurrentTower.towerID == "MENUTILEMAP")
             {
-                pCurrentScene.listActors.Remove(pCurrentTower);
+                pCurrentScene.listButtons.Remove(pCurrentTower);
                 pCurrentTower.towerType = pCurrentTower.towerNextID.Substring(pCurrentTower.towerNextID.Length - 2, 1);
-                pCurrentTower.position = new Vector2(pCurrentTower.positionBase.X, pCurrentTower.positionBase.Y - 32);
             }
             if (pCurrentTower.towerID == "UPGRADE")
             {
-                pCurrentTower.position = pCurrentTower.positionBase;
+                pCurrentScene.listButtons.Remove(pCurrentTower.towerToUpgrade);
+                pCurrentScene.spriteWeaponFilter.Remove(pGameTime, pCurrentTower.spriteWeapon);
             }
+            string name = "TOWERCONSTRUCTION" + pCurrentTower.towerLevel.ToString();
+            int offsetCenterX = TDData.Data[name].OffsetCenterX;
+            int offsetCenterY = TDData.Data[name].OffsetCenterY;
+            pCurrentTower.position = new Vector2(
+                            pCurrentTower.positionBase.X + offsetCenterX,
+                            pCurrentTower.positionBase.Y + offsetCenterY);
             pTowerToBuild = new Tower(mainGame, pCurrentTower.position, new Vector2(0,0), "TOWERCONSTRUCTION" + pCurrentTower.towerLevel.ToString())
             {
                 towerNextID = "TOWERCONSTRUCTION" + pCurrentTower.towerLevel + "BIS",
@@ -192,19 +203,30 @@ namespace tower_Defense.Buttons
                 positionBase = pCurrentTower.positionBase,
                 WeaponOrTowerUpgrade = pCurrentTower.WeaponOrTowerUpgrade,
                 towerToUpgrade = pCurrentTower,
+                spriteWeapon = pCurrentTower.spriteWeapon,
+                isFrame = true,
                 OnClick = pCurrentScene.onClickDefault,
                 OnHover = pCurrentScene.onHoverDefault
             };
-            pCurrentScene.listActors.Add(pTowerToBuild);
+            pTowerToBuild.AddAnimation(
+            "Tower",
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel].ArrayFrames,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel].FramesDuration,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel].OffsetX,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel].OffsetY,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel].IsLoop,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel].InitOffsetX,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel].InitOffsetY);
+            pTowerToBuild.RunAnimation("Tower");
+            pCurrentScene.listButtons.Add(pTowerToBuild);
             timerBuild = 0;
         }
         public void SecondAnimationBuild(SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild)
         {
-            //SpriteButton.lstButtonSprites.Remove(pCurrentTower);
-            pCurrentScene.listActors.Remove(pCurrentTower);
+            pCurrentScene.listButtons.Remove(pCurrentTower);
             pTowerToBuild = new Tower(mainGame, pCurrentTower.position, new Vector2(0,0), "TOWERCONSTRUCTION" + pCurrentTower.towerLevel.ToString() + "BIS")
             {
-                towerNextID = "TOWER" + pCurrentTower.towerType + "1",
+                towerNextID = "TOWER" + pCurrentTower.towerType + "BIS",
                 towerLevel = pCurrentTower.towerLevel,
                 weaponLevel = pCurrentTower.weaponLevel,
                 towerType = pCurrentTower.towerType,
@@ -214,16 +236,25 @@ namespace tower_Defense.Buttons
                 OnClick = pCurrentScene.onClickDefault,
                 OnHover = pCurrentScene.onHoverDefault
             };
-            pCurrentScene.listActors.Add(pTowerToBuild);
+            pTowerToBuild.isFrame = true;
+            pTowerToBuild.AddAnimation(
+            "Tower",
+              TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel + "BIS"].ArrayFrames,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel + "BIS"].FramesDuration,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel + "BIS"].OffsetX,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel + "BIS"].OffsetY,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel + "BIS"].IsLoop,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel + "BIS"].InitOffsetX,
+                TDData.Data["TOWERCONSTRUCTION" + pCurrentTower.towerLevel + "BIS"].InitOffsetY);
+            pTowerToBuild.RunAnimation("Tower");
+            pCurrentScene.listButtons.Add(pTowerToBuild);
             timerBuild = 0;
         }
         public void RotateWeapon(SceneMap pCurrentScene, Tower pCurrentTower)
         {
-            pCurrentTower.menuTower.lstButtonsMenu.ForEach(tower => pCurrentScene.listActors.Remove(tower));
-            pCurrentTower.menuTower.lstButtonsMenu.Clear();
-            pCurrentTower.weaponTower.angle += 90;
-            pCurrentTower.weaponTower.rotation = MathHelper.ToRadians(pCurrentTower.weaponTower.angle);
-            pCurrentTower.towerID = null;
+            pCurrentTower.spriteWeapon.angle += 90;
+            if (pCurrentTower.spriteWeapon.angle == 360) pCurrentTower.spriteWeapon.angle =0;
+            pCurrentTower.towerID = "ICONROTATEWEAPON";
         }
         public int OffsetTowerY(Tower pCurrentTower)
         {
@@ -233,72 +264,68 @@ namespace tower_Defense.Buttons
         }
         public int OffsetWeaponY(Tower pCurrentTower)
         {            
-            string weaponTowerID = "WEAPONTOWER" + pCurrentTower.towerType + "LEVEL" + pCurrentTower.weaponLevel.ToString();
+            string weaponTowerID = "WEAPONTOWER" + pCurrentTower.towerType + "LEVEL" + pCurrentTower.towerLevel.ToString();
             offsetCenterY = TDData.Data[weaponTowerID].OffsetCenterY;
             return offsetCenterY;
         }
         public void buildWeapon(SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild)
         {
+
             pTowerToBuild.towerLevel = pCurrentTower.towerLevel;
             pTowerToBuild.weaponLevel = pCurrentTower.weaponLevel;
             pTowerToBuild.towerType = pCurrentTower.towerType;
             pTowerToBuild.towerNextID = null;
-            pTowerToBuild.positionBase = pCurrentTower.position;
-            pTowerToBuild.WeaponOrTowerUpgrade = pCurrentTower.WeaponOrTowerUpgrade;
-            pTowerToBuild.OnClick = pCurrentScene.onClickDefault;
-            pTowerToBuild.OnHover = pCurrentScene.onHoverDefault;
+            pTowerToBuild.positionBase = pCurrentTower.positionBase;
+            pTowerToBuild.WeaponOrTowerUpgrade = pCurrentTower.WeaponOrTowerUpgrade;          
+            pCurrentScene.spriteWeaponFilter.AddWeapon(mainGame,
+                "WEAPONTOWER" + pCurrentTower.towerType + "LEVEL" + pCurrentTower.weaponLevel.ToString(),
+                pCurrentTower.position, new Vector2(0, 0), pTowerToBuild);
         }
         public Tower buildTower(SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild)
         {
             offsetCenterY = OffsetTowerY(pCurrentTower);
-            pTowerToBuild = new Tower(mainGame, 
+            pTowerToBuild = new Tower(mainGame,
                 new Vector2(pCurrentTower.positionBase.X, pCurrentTower.positionBase.Y + offsetCenterY),
-                new Vector2(0,0), "TOWER" + pCurrentTower.towerType + pCurrentTower.towerLevel.ToString())
+                new Vector2(0, 0), "TOWER" + pCurrentTower.towerType + pCurrentTower.towerLevel.ToString())
             {
                 towerLevel = pCurrentTower.towerLevel,
                 weaponLevel = pCurrentTower.weaponLevel,
                 towerType = pCurrentTower.towerType,
                 towerNextID = null,
-                positionBase = pCurrentTower.position,
-                weaponTower = pTowerToBuild,
+                positionBase = pCurrentTower.positionBase,
+                spriteWeapon = pCurrentScene.spriteWeaponFilter.liste[pCurrentScene.spriteWeaponFilter.liste.Count() - 1],
                 WeaponOrTowerUpgrade = pCurrentTower.WeaponOrTowerUpgrade,
-                OnHover = pCurrentScene.onHoverTowerBase,
+                OnHover = pCurrentScene.onHoverTower,
                 OnClick = pCurrentScene.onClickTowerUpgrade,
             };
             return pTowerToBuild;
         }
-        public void BuildWeaponAndTower(SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild, SpriteTowerFilter spriteTowerFilter)
+        public void BuildWeaponAndTower(GameTime pGameTime, SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild)
         {
-            //SpriteButton.lstButtonSprites.Remove(pCurrentTower);
-            pCurrentScene.listActors.Remove(pCurrentTower);
+            pCurrentScene.listButtons.Remove(pCurrentTower);
             if (pCurrentTower.WeaponOrTowerUpgrade)
             {
-                pCurrentScene.listActors.Remove(pCurrentTower.towerToUpgrade);
-                //SpriteButton.lstButtonSprites.Remove(pCurrentTower.towerToUpgrade);
-                pCurrentScene.listActors.Remove(pCurrentTower.towerToUpgrade.weaponTower);
-                //SpriteButton.lstButtonSprites.Remove(pCurrentTower.towerToUpgrade.weaponTower);
+                pCurrentScene.listButtons.Remove(pCurrentTower.towerToUpgrade);
             }           
             offsetCenterY = OffsetWeaponY(pCurrentTower);
-            pCurrentTower.position = new Vector2(pCurrentTower.positionBase.X, pCurrentTower.positionBase.Y + offsetCenterY);
-            spriteTowerFilter.AddTower(mainGame, "WEAPONTOWER" + towerType + "LEVEL" + pCurrentTower.towerLevel.ToString(), pCurrentTower, pCurrentScene);
-            pTowerToBuild = spriteTowerFilter.liste[spriteTowerFilter.liste.Count() - 1];
+            pCurrentTower.position = new Vector2(pCurrentTower.positionBase.X, 
+                pCurrentTower.positionBase.Y + offsetCenterY);
             buildWeapon(pCurrentScene, pCurrentTower, pTowerToBuild);
+                            
             pCurrentTower = buildTower(pCurrentScene, pCurrentTower, pTowerToBuild);
-            pCurrentScene.listActors.Add(pCurrentTower);
-            pCurrentScene.listActors.Add(pTowerToBuild);
-
+            pCurrentScene.listButtons.Add(pCurrentTower);
         }
-        public bool BuildTowerType(SceneMap pCurrentScene, GameTime gameTime, Tower pCurrentTower, Tower pTowerToBuild, SpriteTowerFilter spriteTowerFilter)
+        public bool BuildTowerType(GameTime pGameTime, SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild)
         {
             if (pCurrentTower.towerID == "ROTATEWEAPON") RotateWeapon(pCurrentScene, pCurrentTower);
             if (pCurrentTower.towerNextID == null) { return false; }
             if (pCurrentTower.towerID == "MENUUPGRADE" || pCurrentTower.towerID == pCurrentTower.towerNextID) return false;
             if (pCurrentTower.towerID == "MENUTILEMAP" || pCurrentTower.towerID == "UPGRADE")
             {
-                FirstAnimationBuild(pCurrentScene, pCurrentTower, pTowerToBuild);
+                FirstAnimationBuild(pGameTime, pCurrentScene, pCurrentTower, pTowerToBuild);
                 return true;
             }
-            timerBuild += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            timerBuild += (float)pGameTime.ElapsedGameTime.TotalSeconds;
             if (timerBuild > 1.5f && (pCurrentTower.towerNextID == "TOWERCONSTRUCTION1BIS"
                 || pCurrentTower.towerNextID == "TOWERCONSTRUCTION2BIS"
                 || pCurrentTower.towerNextID == "TOWERCONSTRUCTION3BIS"))
@@ -309,7 +336,7 @@ namespace tower_Defense.Buttons
             if (timerBuild > 1.5f && pCurrentTower.towerNextID.Substring(0, 5) == "TOWER"
                 && pCurrentTower.towerID.Substring(0, 9) == "TOWERCONS")
             {
-                BuildWeaponAndTower(pCurrentScene, pCurrentTower, pTowerToBuild, spriteTowerFilter);
+                BuildWeaponAndTower(pGameTime, pCurrentScene, pCurrentTower, pTowerToBuild);
                 return true;
             }
             return false;

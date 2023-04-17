@@ -45,18 +45,18 @@ namespace tower_Defense.Utils
             CLAMPBEETLE,
             FIREWASP,
         }
-        public static Dictionary<string, WaveDatas> Data = new Dictionary<string, WaveDatas>();
+        public static Dictionary<string, WaveDatas> DataWave = new Dictionary<string, WaveDatas>();
 
         public static void PopulateData()
         {
-            Data.Add("LEVEL1WAVE1", new WaveDatas
+            DataWave.Add("LEVEL1WAVE1", new WaveDatas
             {
                 ID = "LEVEL1WAVE1",
                 Name = "Level1Wave1",
                 Level = 1,
                 Wave = 1,
                 NbWaves = 5,
-                EnnemyID1 = eEnnemyID.LEAFBUG,
+                EnnemyID1 = eEnnemyID.CLAMPBEETLE,
                 EnnemyID2 = eEnnemyID.MAGMA_CRAB,
                 EnnemyID3 = eEnnemyID.SCORPION,
                 EnnemyID4 = eEnnemyID.FIREBUG,
@@ -66,19 +66,19 @@ namespace tower_Defense.Utils
                 EnnemyID8 = eEnnemyID.FIREWASP,
                 NumberEnnemies = new int[] {1, 1, 1 , 1, 1, 1, 1, 1}
             });
-            Data.Add("LEVEL1WAVE2", new WaveDatas
+            DataWave.Add("LEVEL1WAVE2", new WaveDatas
             {
                 ID = "LEVEL1WAVE2",
                 Name = "Level1Wave2",
                 Level = 1,
                 Wave = 2,
                 NbWaves = 5,
-                EnnemyID1 = eEnnemyID.LEAFBUG,
+                EnnemyID1 = eEnnemyID.CLAMPBEETLE,
                 EnnemyID2 = eEnnemyID.MAGMA_CRAB,
                 EnnemyID3 = eEnnemyID.SCORPION,
                 NumberEnnemies = new int[] { 2, 1, 2  }
             });
-            Data.Add("LEVEL1WAVE3", new WaveDatas
+            DataWave.Add("LEVEL1WAVE3", new WaveDatas
             {
                 ID = "LEVEL1WAVE",
                 Name = "Level1Wave",
@@ -88,8 +88,8 @@ namespace tower_Defense.Utils
                 EnnemyID1 = eEnnemyID.LEAFBUG,
               
                 NumberEnnemies = new int[] { 3 }
-            }); 
-            Data.Add("LEVEL1WAVE4", new WaveDatas
+            });
+            DataWave.Add("LEVEL1WAVE4", new WaveDatas
             {
                 ID = "LEVEL1WAVE4",
                 Name = "Level1Wave4",
@@ -100,8 +100,8 @@ namespace tower_Defense.Utils
                 EnnemyID2 = eEnnemyID.MAGMA_CRAB,
                 EnnemyID3 = eEnnemyID.SCORPION,
                 NumberEnnemies = new int[] { 3, 1, 4 }
-            }); 
-            Data.Add("LEVEL1WAVE5", new WaveDatas
+            });
+            DataWave.Add("LEVEL1WAVE5", new WaveDatas
             {
                 ID = "LEVEL1WAVE5",
                 Name = "Level1Wave",

@@ -16,9 +16,8 @@ namespace tower_Defense.Buttons
 {
     public delegate void OnClick(Button pSender);
     public delegate void OnHover(Button pSender);
-    public class Button : TDSprite, IActorButton
-    {
-        // IActorButton
+    public class Button : TDSprite
+    {        
         public string buttonID { get; set; }
         public Rectangle boundingBox { get; set; }
         public bool IsHover { get; private set; }
@@ -29,18 +28,15 @@ namespace tower_Defense.Buttons
         public OnClick OnClick { get; set; }
         public OnHover OnHover { get; set; }
 
-        public Button(Game mainGame, Vector2 position, Vector2 velocity, string buttonID) : base(mainGame, position, velocity)
+        public Button(Game mainGame, Vector2 position, Vector2 velocity, string buttonID) : base(mainGame, position, velocity, buttonID)
         {            
             this.buttonID = buttonID;
             texture = TDTextures.Textures[TDData.Data[buttonID].NameTexture];
             frameWidth = TDData.Data[buttonID].FrameWidth;
-            frameHeight = TDData.Data[buttonID].FrameHeight;
-            offsetX = TDData.Data[buttonID].OffsetX;
-            offsetY = TDData.Data[buttonID].OffsetY;           
+            frameHeight = TDData.Data[buttonID].FrameHeight;                
             scale = TDData.Data[buttonID].Scale;
             Load();
-        }
-        
+        }        
 
         public void Load()
         {
@@ -53,7 +49,7 @@ namespace tower_Defense.Buttons
                     LoadTilset();
                     break;
                 case TDData.eButtonAnimation.UseFrames:
-                    LoadFrame();
+                    //LoadFrame();
                     break;
                 case TDData.eButtonAnimation.UseAnimated:
                     LoadAnimated();
@@ -163,7 +159,7 @@ namespace tower_Defense.Buttons
             if (boundingBox.Contains(MousePos))
             {
                 IsHover = true;
-                Debug.WriteLine("Button is over!");
+                Debug.WriteLine("Button is over! :" + buttonID);
                 if (IsHover != OldIsHoverState)               
                 {                   
                     OnHover(this);

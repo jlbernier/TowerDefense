@@ -18,9 +18,10 @@ namespace tower_Defense.Animation
         public bool isLoop { get; set; }
         public bool isFinished { get; set; }
         public int offsetX { get; private set; }
-        public int initOffsetX { get; private set; }
         public int offsetY { get; private set; }
-        public TDAnimation(string name, int[] frames, float frameDuration = 1f / 12f, int offsetX = 0, int offsetY = 0, bool isLoop = true, int initOffsetX = 0)
+        public int initOffsetX { get; private set; }
+        public int initOffsetY { get; private set; }
+        public TDAnimation(string name, int[] frames, float frameDuration, int offsetX, int offsetY, bool isLoop = true, int initOffsetX = 0, int initOffsetY = 0)
         {
             this.name = name;
             this.ArrayFrames = frames;
@@ -30,11 +31,13 @@ namespace tower_Defense.Animation
             this.offsetX = offsetX;
             this.offsetY = offsetY;
             this.initOffsetX = initOffsetX;
+            this.initOffsetY = initOffsetY;
         }
     }
-    public class TDSprite
+    public abstract class TDSprite
     {
         public Game mainGame;
+        public string ID;
         public Vector2 position { get; set; }
         public bool ToRemove { get; set; }
         public Vector2 velocity { get; set; }  
@@ -49,13 +52,9 @@ namespace tower_Defense.Animation
         public TDAnimation currentAnimation;
         protected SpriteEffects effect;
         public int frame { get;  set; }
-        public int frameWidth { get;  set; }
+        public int frameWidth { get;   protected set; }
         public int frameHeight { get;  set; }
-        public float speed { get; set; }
-        private float time;
-        public int offsetX;
-        public int offsetY;
-        public int initOffsetX;
+        private float time;       
         public bool isFrame;
 
         public int offsetTextureX { get;  set; }
@@ -76,17 +75,16 @@ namespace tower_Defense.Animation
 
         static public List<TDSprite> lstSprites = new();
              
-        public TDSprite(Game mainGame, Vector2 position, Vector2 velocity)
+        public TDSprite(Game mainGame, Vector2 position, Vector2 velocity, String spriteID)
         {
             this.mainGame = mainGame;
+            this.ID = spriteID;
             this.position = position;
             this.velocity = velocity;            
             this.isVisible = true;
             this.isCentered = true;            
-            this.speed = 60.0f;
             this.effect = SpriteEffects.None;
             this.animations = new List<TDAnimation>();
-
             lstSprites.Add(this);
         }
         static public void UpdateAll(GameTime pGametime)
@@ -99,9 +97,9 @@ namespace tower_Defense.Animation
         }
 
 
-        public void AddAnimation(string name, int[] arrayFrames, float FramesDuration, int offsetX, int offsetY, bool isLoop = true, int initOffsetX = 0)
+        public void AddAnimation(string name, int[] arrayFrames, float FramesDuration, int offsetX, int offsetY, bool isLoop = true, int initOffsetX = 0, int initOffsetY =0)
         {
-            TDAnimation animation = new TDAnimation(name, arrayFrames, FramesDuration, offsetX, offsetY, isLoop, initOffsetX);
+            TDAnimation animation = new TDAnimation(name, arrayFrames, FramesDuration, offsetX, offsetY, isLoop, initOffsetX, initOffsetY);
             animations.Add(animation);
         }
 
@@ -117,42 +115,42 @@ namespace tower_Defense.Animation
                     break;
                 }
             }
-            Debug.WriteLine(currentAnimation != null, "RunAnimation : No animation find");
         }
+
         public void UpdateScale(GameTime gameTime)
         {
-            if (!isAnimated) return;
-                timeAnimation += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (timeAnimation > timePerAnimation)
+            timeAnimation += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (timeAnimation > timePerAnimation)
+            {
+                if (scaleUP)
                 {
-                    if (scaleUP)
-                    {
-                        scale += stepScale;
-                        if (scale > maxScale) scaleUP = false;
-                    }
-                    else
-                    {
-                        scale -= stepScale;
-                        if (scale < minScale) scaleUP = true;
-                    }
-                    timeAnimation = 0;
+                    scale += stepScale;
+                    if (scale > maxScale) scaleUP = false;
                 }
+                else
+                {
+                    scale -= stepScale;
+                    if (scale < minScale) scaleUP = true;
+                }
+                timeAnimation = 0;
             }
+        }
         
         public void UpdateFrame(GameTime gameTime)
         {
             position = new Vector2(position.X + velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds,
-                                   position.Y + velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds);                    
-            if (!isFrame) return;
-                                     
+                                   position.Y + velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds);
             if (currentAnimation == null) return;
             if (currentAnimation.frameDuration == 0) return;
             if (currentAnimation.isFinished) return;
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (time > currentAnimation.frameDuration)
             {
-                textureBox = new Rectangle(currentAnimation.initOffsetX + currentAnimation.ArrayFrames[frame] * currentAnimation.offsetX,
-                offsetTextureY, frameWidth, frameHeight);
+                textureBox = new Rectangle(
+                    currentAnimation.initOffsetX + (currentAnimation.ArrayFrames[frame]) * currentAnimation.offsetX,
+                    currentAnimation.initOffsetY, 
+                    frameWidth, 
+                    frameHeight);
                 frame++;
                 if (frame >= currentAnimation.ArrayFrames.Count())
                 {
@@ -171,34 +169,16 @@ namespace tower_Defense.Animation
         }
         public virtual void Update(GameTime gameTime)
         {
-            if (isPaused) return;
-            UpdateScale(gameTime);
-            UpdateFrame(gameTime);
-
-
-
+            //if (isPaused) return;
+            if (isAnimated) UpdateScale(gameTime);
+            if (isFrame) UpdateFrame(gameTime);
         }
         public virtual void Draw(GameTime gameTime)
         {
             if (!isVisible) return;
 
-            Rectangle source = new Rectangle(0, 0, 0, 0);
-            if (isFrame)
-            {
-                int Offset = 0;
-                Offset = currentAnimation.ArrayFrames[frame] * currentAnimation.offsetX;
-                textureBox = new Rectangle(currentAnimation.initOffsetX + Offset,
-                 currentAnimation.offsetY, frameWidth, frameHeight);
-            }
-            Vector2 origine = new Vector2(0, 0);
-            if (isCentered) origine = new Vector2(frameWidth / 2, frameHeight / 2);
-
-            origine = new Vector2(scale * textureBox.Width / 2, scale * textureBox.Height / 2);
-
-            if (textureBoxRect != null && isTDRectangle) textureBoxRect.Draw(MainGame.spriteBatch);
-
-            //MainGame.spriteBatch.Draw(texture, position, source, Color.White, rotation, origine, scale, effect, 0.0f);
-            
+            Vector2 origine = new Vector2(scale * this.textureBox.Width / 2, scale * textureBox.Height / 2);
+            if (textureBoxRect != null && isTDRectangle) textureBoxRect.Draw(MainGame.spriteBatch);            
             MainGame.spriteBatch.Draw(texture, position, textureBox, Color.White, rotation, origine, scale, effect, 0f);
         }
     }

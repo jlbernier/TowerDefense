@@ -12,14 +12,11 @@ namespace tower_Defense.Animation
 {
     public class SpriteMap : TDSprite
     {
-       public SpriteMap(Game mainGame, Vector2 position, Vector2 velocity, Tile tile) : base(mainGame, position, velocity)
+       public SpriteMap(Game mainGame, Vector2 position, Vector2 velocity, String tileName, Tile tile) : base(mainGame, position, velocity, tileName)
         {
-            texture = tile._texture;
+            texture = tile.texture;
             frameWidth = tile.frameWidth;
-            frameHeight = tile.frameHeight;
-            initOffsetX = tile.initOffsetX;
-            offsetX = tile.offsetX;
-            offsetY = tile.offsetY;
+            frameHeight = tile.frameHeight;           
             isFrame = true;          
             scale = 1f;           
         }

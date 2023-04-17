@@ -105,6 +105,7 @@ namespace tower_Defense
             Textures.Add("GUI WOODEN PIXEL ART", mainGame.Content.Load<Texture2D>("GUI/Wooden Pixel Art GUI 32x32"));
             Textures.Add("PLAY", mainGame.Content.Load<Texture2D>("Buttons/button"));
             Textures.Add("ICONS", mainGame.Content.Load<Texture2D>("GUI/Transparent Icons"));
+            Textures.Add("TOWERBASE", mainGame.Content.Load<Texture2D>("Tilesets/Grass Tileset"));
         }
     }
 
@@ -117,6 +118,7 @@ namespace tower_Defense
         public TDData.ePreferredDirection PreferredDirection; public string NameTexture;
         public int HP;
         public int MaxHP;
+        public int speed;
         public bool isFlying;
         public bool isMirrored;
         public Vector2 Velocity;
@@ -130,6 +132,7 @@ namespace tower_Defense
         public int OffsetPushY;
         public int OffsetX;
         public int OffsetY;
+        public int OffsetCenterX;
         public int OffsetCenterY;
         public bool IsLoop;
         public int[] ArrayFrames;
@@ -139,6 +142,7 @@ namespace tower_Defense
         public float MinScale;
         public float StepScale;
         public float TimePerAnimation;
+        public int offsetMissileWeapon;
         public TDData.eButtonAnimation buttonAnimation;
         public TDDataBase() { }
     }
@@ -181,9 +185,10 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 PreferredDirection = ePreferredDirection.Left,
-                OffsetX = 0,
+                OffsetX = 64,
                 InitOffsetX = 0,
-                OffsetY = 64 * 5,
+                OffsetY = 0,
+                InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -203,9 +208,10 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 PreferredDirection = ePreferredDirection.Left,
-                OffsetX = 0,
+                OffsetX = 128,
+                OffsetY = 0,
                 InitOffsetX = 0,
-                OffsetY = 64 * 5,
+                InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -221,13 +227,14 @@ namespace tower_Defense
                 ID = "FIREWASP",
                 Name = "Firewasp",
                 NameTexture = "FIREWASP",
-                FrameWidth = 32 + 64,
+                FrameWidth = 96,
                 FrameHeight = 99,
                 Direction = eDirection.Left,
                 PreferredDirection = ePreferredDirection.Left,
-                OffsetX = 0,
+                OffsetX = 96,
+                OffsetY = 0,
                 InitOffsetX = 0,
-                OffsetY = 99 * 2,
+                InitOffsetY = 99 * 2,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -247,9 +254,10 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 PreferredDirection = ePreferredDirection.Left,
-                OffsetX = 0,
+                OffsetX = 64,
+                OffsetY = 0,
                 InitOffsetX = 0,
-                OffsetY = 64 * 2,
+                InitOffsetY = 64 * 2,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -268,9 +276,10 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 PreferredDirection = ePreferredDirection.Left,
-                OffsetX = 0,
+                OffsetX = 64,
+                OffsetY = 0,
                 InitOffsetX = 0,
-                OffsetY = 64 * 5,
+                InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -289,9 +298,10 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 PreferredDirection = ePreferredDirection.Left,
-                OffsetX = 0,
+                OffsetX = 64,
+                OffsetY = 0,
                 InitOffsetX = 0,
-                OffsetY = 64 * 5,
+                InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -310,9 +320,10 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 PreferredDirection = ePreferredDirection.Left,
-                OffsetX = 0,
+                OffsetX = 64,
+                OffsetY = 0,
                 InitOffsetX = 0,
-                OffsetY = 64 * 5,
+                InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -331,9 +342,10 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 PreferredDirection = ePreferredDirection.Left,
-                OffsetX = 0,
+                OffsetX = 64,
+                OffsetY = 0,
                 InitOffsetX = 0,
-                OffsetY = 64 * 2,
+                InitOffsetY = 64 * 2,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -445,9 +457,9 @@ namespace tower_Defense
                 buttonAnimation = eButtonAnimation.UseTileset
             });
 
-            Data.Add("BOUNDINGBOX", new TDDataBase
+            Data.Add("MENUSELECTUPGRADE", new TDDataBase
             {
-                ID = "BoundingBox",
+                ID = "MENUSELECTUPGRADE",
                 NameTexture = "BOUNDINGBOX",
                 FrameWidth = 192,
                 FrameHeight = 256,
@@ -456,9 +468,9 @@ namespace tower_Defense
             });
 
             // Wooden box
-            Data.Add("WOODENBOX", new TDDataBase
+            Data.Add("MENUSELECTTYPETOWER", new TDDataBase
             {
-                ID = "WoodenBox",
+                ID = "MENUSELECTTYPETOWER",
                 NameTexture = "GUI WOODEN PIXEL ART",
                 FrameWidth = 32*3,
                 FrameHeight = 32*3,
@@ -514,10 +526,10 @@ namespace tower_Defense
                 buttonAnimation = eButtonAnimation.UseTileset
             });
             // Tower base where to build
-            Data.Add("TOWERTILEMAP", new TDDataBase
+            Data.Add("TOWERBASE", new TDDataBase
             {
-                ID = "TowerTileMap",
-                NameTexture = "TOWERTILEMAP",
+                ID = "TOWERBASE",
+                NameTexture = "TOWERBASE",
                 FrameWidth = 64,
                 FrameHeight = 64,
                 InitOffsetX = 64 * 6,
@@ -533,8 +545,9 @@ namespace tower_Defense
                 NameTexture = "TOWER1",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -32 ,
+                OffsetCenterY = -48 ,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -544,8 +557,9 @@ namespace tower_Defense
                 NameTexture = "TOWER1",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64,
-                OffsetCenterY = - 9,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -555,8 +569,9 @@ namespace tower_Defense
                 NameTexture = "TOWER1",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64*2,
-                OffsetCenterY = - 9 - 9,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -569,7 +584,8 @@ namespace tower_Defense
                 FrameHeight = 128,
                 InitOffsetY = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -32,
+                OffsetX = 64,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -582,7 +598,8 @@ namespace tower_Defense
                 FrameHeight = 128,
                 InitOffsetY = 64,
                 InitOffsetX = 64,
-                OffsetCenterY = - 4,
+                OffsetX = 64,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -594,7 +611,8 @@ namespace tower_Defense
                 FrameHeight = 128,
                 InitOffsetY = 64,
                 InitOffsetX = 64*2,
-                OffsetCenterY = - 9,
+                OffsetX = 64,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); ///
@@ -604,8 +622,9 @@ namespace tower_Defense
                 NameTexture = "TOWER3",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -32,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -615,8 +634,9 @@ namespace tower_Defense
                 NameTexture = "TOWER3",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64,
-                OffsetCenterY = - 4,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -626,8 +646,9 @@ namespace tower_Defense
                 NameTexture = "TOWER3",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64*2,
-                OffsetCenterY = - 9,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -637,8 +658,9 @@ namespace tower_Defense
                 NameTexture = "TOWER4",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -32,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -648,8 +670,9 @@ namespace tower_Defense
                 NameTexture = "TOWER4",
                 FrameWidth = 64,
                 FrameHeight = 128,
-                InitOffsetX =64,
-                OffsetCenterY = - 4,
+                OffsetX = 64,
+                InitOffsetX = 64,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -659,9 +682,10 @@ namespace tower_Defense
                 NameTexture = "TOWER4",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64*2,
                 Scale = 1f,
-                OffsetCenterY = - 9,
+                OffsetCenterY = - 48,
                 buttonAnimation = eButtonAnimation.None
             });
             Data.Add("TOWER51", new TDDataBase
@@ -670,8 +694,9 @@ namespace tower_Defense
                 NameTexture = "TOWER5",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -32,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -681,8 +706,9 @@ namespace tower_Defense
                 NameTexture = "TOWER5",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64,
-                OffsetCenterY = - 4,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -692,8 +718,9 @@ namespace tower_Defense
                 NameTexture = "TOWER5",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64 * 2,
-                OffsetCenterY = - 9,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -703,8 +730,9 @@ namespace tower_Defense
                 NameTexture = "TOWER6",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -32,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -714,8 +742,9 @@ namespace tower_Defense
                 NameTexture = "TOWER6",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64,
-                OffsetCenterY = - 4,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -725,8 +754,9 @@ namespace tower_Defense
                 NameTexture = "TOWER6",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64 * 2,
-                OffsetCenterY = - 9,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -736,8 +766,9 @@ namespace tower_Defense
                 NameTexture = "TOWER7",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -32,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -747,8 +778,9 @@ namespace tower_Defense
                 NameTexture = "TOWER7",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64,
-                OffsetCenterY = -9,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -758,8 +790,9 @@ namespace tower_Defense
                 NameTexture = "TOWER7",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetX = 64 * 2,
-                OffsetCenterY = - 18,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -769,9 +802,10 @@ namespace tower_Defense
                 NameTexture = "TOWER8",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetY = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -32,
+                OffsetCenterY = -48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -781,9 +815,10 @@ namespace tower_Defense
                 NameTexture = "TOWER8",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetY = 64,
                 InitOffsetX = 64,
-                OffsetCenterY = - 4,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -793,9 +828,10 @@ namespace tower_Defense
                 NameTexture = "TOWER8",
                 FrameWidth = 64,
                 FrameHeight = 128,
+                OffsetX = 64,
                 InitOffsetY = 64,
                 InitOffsetX = 64 * 2,
-                OffsetCenterY = - 9,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -806,11 +842,14 @@ namespace tower_Defense
                 NameTexture = "TOWERCONSTRUCTION",
                 FrameWidth = 192,
                 FrameHeight = 256,
+                OffsetX = 192,
                 InitOffsetX = 0,
                 InitOffsetY = 0,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5},
                 FramesDuration = 5f / 12f,
                 IsLoop = true,
+                OffsetCenterX = 0,
+                OffsetCenterY = - 48,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -820,6 +859,7 @@ namespace tower_Defense
                 NameTexture = "TOWERCONSTRUCTION",
                 FrameWidth = 192,
                 FrameHeight = 256,
+                OffsetX = 192,
                 InitOffsetX = 0,
                 InitOffsetY = 256,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4 },
@@ -834,8 +874,11 @@ namespace tower_Defense
                 NameTexture = "TOWERCONSTRUCTION",
                 FrameWidth = 192,
                 FrameHeight = 256,
+                OffsetX = 192,
                 InitOffsetX = 0,
                 InitOffsetY = 256 * 2,
+                OffsetCenterX = 0,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 5f / 12f,
                 IsLoop = true,
@@ -848,6 +891,7 @@ namespace tower_Defense
                 NameTexture = "TOWERCONSTRUCTION",
                 FrameWidth = 192,
                 FrameHeight = 256,
+                OffsetX = 192,
                 InitOffsetX = 0,
                 InitOffsetY = 256 * 3,             
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4 },
@@ -862,8 +906,11 @@ namespace tower_Defense
                 NameTexture = "TOWERCONSTRUCTION",
                 FrameWidth = 192,
                 FrameHeight = 256,
+                OffsetX = 192,
                 InitOffsetX = 0,
-                InitOffsetY = 256 * 4,               
+                InitOffsetY = 256 * 4,
+                OffsetCenterX = 0,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 5f / 12f,
                 IsLoop = true,
@@ -876,6 +923,7 @@ namespace tower_Defense
                 NameTexture = "TOWERCONSTRUCTION",
                 FrameWidth = 192,
                 FrameHeight = 256,
+                OffsetX = 192,
                 InitOffsetX = 0,
                 InitOffsetY = 256 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4 },
@@ -891,22 +939,26 @@ namespace tower_Defense
                 NameTexture = "MISSILETOWER1LEVEL1",
                 FrameWidth = 8,
                 FrameHeight = 40,
-                ArrayFrames = new int[] { 0, 1, 2},
-                FramesDuration = 1f / 12f,
+                OffsetX = 8,
+                ArrayFrames = new int[] { 0, 1, 2 },
+                FramesDuration = 4f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -53,
                 buttonAnimation = eButtonAnimation.UseFrames
-            });
+            }) ;
             Data.Add("MISSILETOWER1LEVEL2", new TDDataBase
             {
                 ID = "MissileTower1Level2",
                 NameTexture = "MISSILETOWER1LEVEL2",
                 FrameWidth = 15,
                 FrameHeight = 40,
+                OffsetX = 15,
                 ArrayFrames = new int[] { 0, 1, 2 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -53,
                 buttonAnimation = eButtonAnimation.UseFrames
             }); 
             Data.Add("MISSILETOWER1LEVEL3", new TDDataBase
@@ -919,6 +971,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -53,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER2LEVEL1", new TDDataBase
@@ -931,6 +984,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  0,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER2LEVEL2", new TDDataBase
@@ -943,6 +997,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  0,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER2LEVEL3", new TDDataBase
@@ -955,6 +1010,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  0,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER3LEVEL1", new TDDataBase
@@ -964,9 +1020,10 @@ namespace tower_Defense
                 FrameWidth = 10,
                 FrameHeight = 10,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 3f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -36,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER3LEVEL2", new TDDataBase
@@ -976,9 +1033,10 @@ namespace tower_Defense
                 FrameWidth = 10,
                 FrameHeight = 10,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 3f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -40,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER3LEVEL3", new TDDataBase
@@ -988,9 +1046,10 @@ namespace tower_Defense
                 FrameWidth = 10,
                 FrameHeight = 10,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 3f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -40,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER4LEVEL1", new TDDataBase
@@ -1000,9 +1059,10 @@ namespace tower_Defense
                 FrameWidth = 8,
                 FrameHeight = 8,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 5f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -53,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER4LEVEL2", new TDDataBase
@@ -1012,9 +1072,10 @@ namespace tower_Defense
                 FrameWidth = 15,
                 FrameHeight = 12,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 5f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -53,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER4LEVEL3", new TDDataBase
@@ -1024,9 +1085,10 @@ namespace tower_Defense
                 FrameWidth = 10,
                 FrameHeight = 10,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 5f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -53,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER5LEVEL1", new TDDataBase
@@ -1039,6 +1101,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 Scale = 1f,
+                offsetMissileWeapon =  -53,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("MISSILETOWER5LEVEL2", new TDDataBase
@@ -1074,6 +1137,7 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
+                offsetMissileWeapon =  -20,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1086,6 +1150,7 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
+                offsetMissileWeapon =  -30,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1098,12 +1163,13 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
+                offsetMissileWeapon =  -30,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
-            Data.Add("MISSILETOWER7LEVELX", new TDDataBase
+            Data.Add("MISSILETOWER7LEVEL1", new TDDataBase
             {
-                ID = "MissileTower7LevelX",
+                ID = "MissileTower7Level1",
                 NameTexture = "MISSILETOWER7LEVELX",
                 FrameWidth = 32,
                 FrameHeight = 32,
@@ -1112,7 +1178,31 @@ namespace tower_Defense
                 IsLoop = true,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
-            });          
+            });
+            Data.Add("MISSILETOWER7LEVEL2", new TDDataBase
+            {
+                ID = "MissileTower7Level2",
+                NameTexture = "MISSILETOWER7LEVELX",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                FramesDuration = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("MISSILETOWER7LEVEL3", new TDDataBase
+            {
+                ID = "MissileTower7Level3",
+                NameTexture = "MISSILETOWER7LEVELX",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
+                FramesDuration = 1f / 12f,
+                IsLoop = true,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
             Data.Add("MISSILETOWER8LEVEL1", new TDDataBase
             {
                 ID = "MissileTower8Level1",
@@ -1150,7 +1240,7 @@ namespace tower_Defense
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             // 15 Impact Missiles
-            Data.Add("IMPACTTOWER1LEVELX", new TDDataBase
+            Data.Add("IMPACTTOWER1LEVEL1", new TDDataBase
             {
                 ID = "ImpactTower1Level1",
                 NameTexture = "IMPACTTOWER1LEVELX",
@@ -1162,6 +1252,30 @@ namespace tower_Defense
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
+            Data.Add("IMPACTTOWER1LEVEL2", new TDDataBase
+            {
+                ID = "ImpactTower1Level2",
+                NameTexture = "IMPACTTOWER1LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER1LEVEL3", new TDDataBase
+            {
+                ID = "ImpactTower1Level3",
+                NameTexture = "IMPACTTOWER1LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            }); 
             Data.Add("IMPACTTOWER2LEVEL1", new TDDataBase
             {
                 ID = "ImpactTower2Level1",
@@ -1306,9 +1420,9 @@ namespace tower_Defense
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
-            Data.Add("IMPACTTOWER6LEVELX", new TDDataBase
+            Data.Add("IMPACTTOWER6LEVEL1", new TDDataBase
             {
-                ID = "ImpactTower6Level6",
+                ID = "ImpactTower6Level1",
                 NameTexture = "IMPACTTOWER6LEVELX",
                 FrameWidth = 64,
                 FrameHeight = 64,
@@ -1318,9 +1432,33 @@ namespace tower_Defense
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
-            Data.Add("IMPACTTOWER7LEVELX", new TDDataBase
+            Data.Add("IMPACTTOWER6LEVEL2", new TDDataBase
             {
-                ID = "ImpactTower7Level6",
+                ID = "ImpactTower6Level2",
+                NameTexture = "IMPACTTOWER6LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER6LEVEL3", new TDDataBase
+            {
+                ID = "ImpactTower6Level3",
+                NameTexture = "IMPACTTOWER6LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER7LEVEL1", new TDDataBase
+            {
+                ID = "ImpactTower7Level1",
                 NameTexture = "IMPACTTOWER7LEVELX",
                 FrameWidth = 64,
                 FrameHeight = 64,
@@ -1330,7 +1468,30 @@ namespace tower_Defense
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
-
+            Data.Add("IMPACTTOWER7LEVEL2", new TDDataBase
+            {
+                ID = "ImpactTower7Level2",
+                NameTexture = "IMPACTTOWER7LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            }); 
+            Data.Add("IMPACTTOWER7LEVEL3", new TDDataBase
+            {
+                ID = "ImpactTower7Level3",
+                NameTexture = "IMPACTTOWER7LEVELX",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
             // 24 types for 8 types of towers and 3 levels of weapons (42 is weapon type 4 level 2)
             Data.Add("WEAPONTOWER1LEVEL1", new TDDataBase
             {
@@ -1338,11 +1499,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER1LEVEL1",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = - 40,
+                ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1 },
+                FramesDuration = 4f / 12f,
+                IsLoop = false,
+                OffsetCenterY = - 56,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER1LEVEL2", new TDDataBase
@@ -1351,11 +1513,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER1LEVEL2",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = - 48,
+                IsLoop = false,
+                OffsetCenterY = - 65,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER1LEVEL3", new TDDataBase
@@ -1364,11 +1527,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER1LEVEL3",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1 },
                 FramesDuration = 8f / 12f,
-                OffsetCenterY = - 48,
-                IsLoop = true,
+                OffsetCenterY = - 74,
+                IsLoop = false,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1379,11 +1543,12 @@ namespace tower_Defense
                 FrameWidth = 48,
                 FrameHeight = 96 / 2,
                 InitOffsetY = 96 / 2,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 },
+                ArrayFrames = new int[] { 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = - 48,
+                IsLoop = false,
+                OffsetCenterY = - 56,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1394,10 +1559,11 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128 / 2,
                 InitOffsetY = 128 / 2,
-                OffsetCenterY = +16,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
+                OffsetCenterY = - 56 - 9,
+                ArrayFrames = new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5, 6, 7, 8 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
+                IsLoop = false,
+                speed = 50,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1408,11 +1574,12 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128 / 2,
                 InitOffsetY = 128 / 2,
-                OffsetCenterY = +16,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 },
+                OffsetCenterY = -56 -18,
+                ArrayFrames = new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
+                IsLoop = false,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1422,11 +1589,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER3LEVEL1",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = -16,
+                ArrayFrames = new int[] { 6, 7, 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 3f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -56,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1436,11 +1604,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER3LEVEL2",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] { 6, 7, 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 3f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -56 - 9,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER3LEVEL3", new TDDataBase
@@ -1449,11 +1618,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER3LEVEL3",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] { 6, 7, 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 3f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -56 - 18,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1463,11 +1633,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER4LEVEL1",
                 FrameWidth = 128,
                 FrameHeight = 128,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] { 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 5f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -60,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1477,11 +1648,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER4LEVEL2",
                 FrameWidth = 128,
                 FrameHeight = 128,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] { 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 5f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -60 -9,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER4LEVEL3", new TDDataBase
@@ -1490,11 +1662,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER4LEVEL3",
                 FrameWidth = 128,
                 FrameHeight = 128,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] { 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5 },
+                FramesDuration = 5f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -60 - 18,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1503,14 +1676,15 @@ namespace tower_Defense
                 ID = "WeaponTower5Level1",
                 NameTexture = "WEAPONTOWER5LEVEL1",
                 FrameWidth = 96,
-                FrameHeight = 192 / 2,
-                InitOffsetY = 192 / 2,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                                            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                FrameHeight = 96,
+                InitOffsetY = 96, 
+                ArrayFrames = new int[] { 23, 24, 25, 26, 27, 28, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                                            17, 18, 19, 20, 21, 22},
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -56,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1521,12 +1695,13 @@ namespace tower_Defense
                 FrameWidth = 96,
                 FrameHeight = 192 / 2,
                 InitOffsetY = 192 / 2,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                                            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] { 23, 24, 25, 26, 27, 28, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                                            17, 18, 19, 20, 21, 22},
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -56 - 9,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER5LEVEL3", new TDDataBase
@@ -1536,12 +1711,12 @@ namespace tower_Defense
                 FrameWidth = 96,
                 FrameHeight = 192 / 2,
                 InitOffsetY = 192 / 2,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                                            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] {23, 24, 25, 26, 27, 28, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -56 - 18,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1551,11 +1726,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER6LEVEL1",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1  },
+                FramesDuration = 3f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -56,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1565,11 +1741,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER6LEVEL2",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5},
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1 },
+                FramesDuration = 3f / 12f,
+                IsLoop = false,
+                OffsetCenterY = -56 - 9,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER6LEVEL3", new TDDataBase
@@ -1578,11 +1755,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER6LEVEL3",
                 FrameWidth = 96,
                 FrameHeight = 96,
-                OffsetCenterY =  + 8,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5},
-                FramesDuration = 8f / 12f,
-                IsLoop = true,
+                ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1},
+                FramesDuration = 3f / 12f,
+                IsLoop = false,
+                OffsetCenterY =  -56 - 18,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1592,11 +1770,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER7LEVEL1",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
+                ArrayFrames = new int[] { 4, 5, 0, 1, 2, 3 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                IsLoop = false,
+                OffsetCenterY = -56,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1606,11 +1785,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER7LEVEL2",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6 },
+                ArrayFrames = new int[] { 5, 6, 0, 1, 2, 3, 4 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                IsLoop = false,
+                OffsetCenterY = -56 - 9,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER7LEVEL3", new TDDataBase
@@ -1619,24 +1799,25 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER7LEVEL3",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                OffsetCenterY =  + 24,
-                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 },
+                ArrayFrames = new int[] { 7, 8, 0, 1, 2, 3, 4, 5, 6 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
+                IsLoop = false,
+                OffsetCenterY =  -56 - 18,
                 Scale = 1f,
+                speed = 50,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
-            //////
             Data.Add("WEAPONTOWER8LEVEL1", new TDDataBase
             {
                 ID = "WeaponTower8Level1",
                 NameTexture = "WEAPONTOWER8LEVEL1",
                 FrameWidth = 48,
                 FrameHeight = 48,
-                OffsetCenterY =  + 24,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
+                IsLoop = false,
+                OffsetCenterY =  - 56,
+                speed = 0,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
@@ -1647,11 +1828,12 @@ namespace tower_Defense
                 NameTexture = "WEAPONTOWER8LEVEL2",
                 FrameWidth = 48,
                 FrameHeight = 48,
-                OffsetCenterY =  + 24,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
+                IsLoop = false,
+                OffsetCenterY =  -56 - 9,
                 Scale = 1f,
+                speed = 0,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER8LEVEL3", new TDDataBase
@@ -1662,9 +1844,10 @@ namespace tower_Defense
                 FrameHeight = 64,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 8f / 12f,
-                IsLoop = true,
-                OffsetCenterY = +32,
+                IsLoop = false,
+                OffsetCenterY = -56 - 18,
                 Scale = 1f,
+                speed = 0,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 

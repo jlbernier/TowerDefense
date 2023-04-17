@@ -13,6 +13,8 @@ namespace tower_Defense.Scenes
 {
     public class SceneIntroduction : Scene
     {
+        public SpriteFont myFont;
+        public SpriteFont SmallFont;
         float time;
         public SceneIntroduction(MainGame pGame) : base(pGame)
         {
@@ -21,6 +23,8 @@ namespace tower_Defense.Scenes
 
         public override void Load()
         {
+            myFont = mainGame.Content.Load<SpriteFont>("FontM6");
+            SmallFont = mainGame.Content.Load<SpriteFont>("SmallFont");
             base.Load();
         }
 
@@ -43,7 +47,7 @@ namespace tower_Defense.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            MainGame.spriteBatch.DrawString(spriteFont: base.myFont,
+            MainGame.spriteBatch.DrawString(spriteFont: myFont,
                 "Introduction Tower Defense for dummies !!!!!!!!!!!!!!", new Vector2(400, 500), Color.White);
             base.Draw(gameTime);
         }

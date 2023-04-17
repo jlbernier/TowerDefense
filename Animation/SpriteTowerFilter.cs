@@ -24,6 +24,19 @@ namespace tower_Defense.Animation
             liste.Add(tower);
             return this;
         }
+
+        public SpriteTowerFilter UpdateAll(GameTime pGametime)
+        {
+            liste.ForEach(sprite => sprite.Update(pGametime));
+            return this;
+        }
+        public SpriteTowerFilter DrawAll(GameTime pGametime)
+        {
+            liste.ForEach(sprite => sprite.Draw(pGametime));
+            return this;
+        }
+
+
         public SpriteTowerFilter CooldownShootIsUp()
         {
             liste = liste.FindAll(spriteTower => spriteTower.isCooldownShootUp);

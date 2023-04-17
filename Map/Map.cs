@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TiledSharp;
 using tower_Defense.Animation;
+using tower_Defense.Scenes;
 
 namespace tower_Defense.Map
 {
@@ -20,7 +21,7 @@ namespace tower_Defense.Map
     }
     public class MapTiled : IMap
     {
-        private static int DECALAGEX = 448; // décalage tileset Animated water tiles
+        private static int OFFSETX = 448; // décalage tileset Animated water tiles
         private TmxMap map;
         private Texture2D tileset;
         private List<Texture2D> lstTilesets = new List<Texture2D>();
@@ -31,9 +32,9 @@ namespace tower_Defense.Map
         int mapHeight;
         int tilesetColumns;
         int tilesetLines;
-        public List<ITiles> lstTiles = new List<ITiles>();
-        public List<ITiles> lstTilesAnimated = new List<ITiles>();
-        public List<ITiles> lstTilesTower = new List<ITiles>();
+        public List<ITiles> lstTiles = new();
+        public List<ITiles> lstTilesAnimated = new ();
+        public List<ITiles> lstTilesTower = new ();
         protected MainGame mainGame;
         public MapTiled(MainGame mainGame) : base() { this.mainGame = mainGame; }
 
@@ -105,7 +106,8 @@ namespace tower_Defense.Map
                             if (isWater)
                             {
                                 tile.initOffsetX = tileWidth * tilesetColumn;
-                                tile.offsetX = DECALAGEX;
+                                tile.initOffsetY = tileHeight * tilesetLine;
+                                tile.offsetX = OFFSETX;
                                 tile.offsetY = tileHeight * tilesetLine;
                                 tile.frameWidth = tileWidth;
                                 tile.frameHeight = tileHeight;
@@ -133,14 +135,14 @@ namespace tower_Defense.Map
             }            
         }
         
-        public void Load(SpriteBatch spriteBatch)
+        public void Load(SceneMap currentScene)
         {
             SpriteMap sprMap;
             foreach (Tile tile in lstTilesAnimated)
             {
-
-                sprMap = new SpriteMap(mainGame, tile._position, new Vector2(0, 0), tile);
-                sprMap.position = tile._position;                       
+                sprMap = new SpriteMap(mainGame, tile._position, new Vector2(0, 0), "tileAnimated", tile);
+                //sprMap.position = tile._position;
+                sprMap.isFrame = true;
                 sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 1f / 12f, tile.offsetX, tile.offsetY, true, tile.initOffsetX);
                 sprMap.RunAnimation("map");
             }
@@ -148,17 +150,13 @@ namespace tower_Defense.Map
 
         public void Update(GameTime gameTime)
         {
-            foreach (Tile tile in lstTilesAnimated)
-            {
-
-            }
             NotifyTiles();
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Tile tile in lstTiles)
             {
-                spriteBatch.Draw(tile._texture, tile._position, tile._rectangleMap, Color.White);
+               spriteBatch.Draw(tile.texture, tile._position, tile._rectangleMap, Color.White);
             }          
         }
 
@@ -173,10 +171,7 @@ namespace tower_Defense.Map
         }
         public void NotifyTiles()
         {
-            foreach (ITiles tile in lstTilesAnimated)
-            {
-                
-            }
+            
         }
 
        
