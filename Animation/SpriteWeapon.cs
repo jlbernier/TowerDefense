@@ -17,7 +17,7 @@ namespace tower_Defense.Animation
         public int weaponDamage { get; set; }
         public int angle { get; set; }
         public string towerType { get; set; }
-        public float speed { get; set; }
+        public float speedMissile { get; set; }
         Tower tower { get; set; }
 
         public SpriteWeapon(Game mainGame, Vector2 position, Vector2 velocity, String weaponID, Tower tower) : base(mainGame, position, velocity, weaponID)
@@ -31,7 +31,7 @@ namespace tower_Defense.Animation
             weaponType = tower.towerType;
             weaponLevel = tower.weaponLevel;
             towerLevel = tower.towerLevel;
-            speed = TDData.Data[weaponID].speed;
+            speedMissile = TDData.Data[weaponID].speed;
 
         }
 

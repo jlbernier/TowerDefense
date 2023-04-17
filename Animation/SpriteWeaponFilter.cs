@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using tower_Defense.Buttons;
-using tower_Defense.EnnemyGamePlay;
 using tower_Defense.Scenes;
 using tower_Defense.Utils;
 
@@ -87,16 +86,16 @@ namespace tower_Defense.Animation
                 if (spriteWeapon.currentAnimation.isFinished)
                 {
                     missileID = "MISSILETOWER" + spriteWeapon.weaponType + "LEVEL" + spriteWeapon.weaponLevel.ToString();
-                    Vector2 velocity = tools.VelocityAngleSpeed(spriteWeapon.angle, spriteWeapon.speed);
+                    Vector2 velocity = tools.VelocityAngleSpeed(spriteWeapon.angle, spriteWeapon.speedMissile);
                     if (spriteWeapon.weaponType == "7")
                     {
                         AddMissile7X(mainGame, pCurrentScene, spriteWeapon);
                     }
                     else if (spriteWeapon.weaponType == "8")
                     {
-                        pCurrentScene.spriteMissileFilter.AddMissile(mainGame,
+                        pCurrentScene.spriteImpactFilter.AddImpact(mainGame,
                              missileID,
-                             tools.originePositionMissile(spriteWeapon.position, velocity, missileID),
+                             spriteWeapon.position,
                              new Vector2(0, 0),
                              spriteWeapon.weaponLevel, spriteWeapon.towerLevel, spriteWeapon.weaponType);
                     }

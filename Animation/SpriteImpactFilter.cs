@@ -47,7 +47,7 @@ namespace tower_Defense.Animation
                 TDData.Data[impactID].OffsetY,
                 TDData.Data[impactID].IsLoop,
                 TDData.Data[impactID].InitOffsetX);
-            spriteMissile.rotation = tools.AngleRadian(velocity);
+            //spriteMissile.rotation = tools.AngleRadian(velocity);
             spriteMissile.RunAnimation("Missile");
             liste.Add(spriteMissile);
             return this;

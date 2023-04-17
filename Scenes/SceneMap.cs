@@ -12,13 +12,12 @@ using TiledSharp;
 using tower_Defense.Buttons;
 using tower_Defense.Map;
 using tower_Defense.Animation;
-using tower_Defense.Utils;
-using tower_Defense.EnnemyGameplayNameSpace;
+using tower_Defense.EnnemiesWave;
 using static System.Formats.Asn1.AsnWriter;
 using System.Reflection;
 using System.Xml.Linq;
-using tower_Defense.EnnemyGamePlay;
-using static tower_Defense.Utils.Wave;
+using static tower_Defense.DataBase.TDWave;
+using tower_Defense.DataBase;
 
 namespace tower_Defense.Scenes
 {
@@ -31,7 +30,7 @@ namespace tower_Defense.Scenes
         private readonly TmxMap _map;
         private readonly MapTiled _mapTiled;
         // GamePlay
-        private readonly EnnemyGameplay _ennemyGamePlay;
+        public Wave ennemiesWave;
         // Buttons
         public bool isGamePaused;
         public Button _button;
@@ -57,7 +56,6 @@ namespace tower_Defense.Scenes
         public SceneMap(MainGame mainGame) : base(mainGame)
         {
             _mapTiled = new MapTiled(mainGame);            
-            _ennemyGamePlay = new EnnemyGameplay(mainGame);
         }
         public void onHoverDefault(Button pSender) { }
         public void onClickDefault(Button pSender) { }
@@ -65,7 +63,7 @@ namespace tower_Defense.Scenes
         {
             pSender.isAnimated = false;            
             pSender.ToRemove = true;
-            timerWaves = 100;
+            timerWaves = 1000f;
             isGamePaused = false;
         }
         public void onHoverSpeedUp(Button pSender)
@@ -180,7 +178,7 @@ namespace tower_Defense.Scenes
             if (_tower.towerID == "ICONROTATEWEAPON") _tower.towerID = "ROTATEWEAPON";
             else
             {
-                _tower.weaponLevel++;
+                //_tower.weaponLevel++;
                 _tower.towerToBuild = "TOWER" + _tower.towerType + (_tower.towerLevel).ToString();
                 _tower.towerNextID = _tower.towerToBuild;
                 _tower.WeaponOrTowerUpgrade = true;
@@ -223,10 +221,11 @@ namespace tower_Defense.Scenes
             isGamePaused = true;
             TDTextures.PopulateTextures(mainGame);
             TDData.PopulateData();
-            Wave.PopulateData();
+            DataBase.TDWave.PopulateData();
             _mapTiled.LoadMap();            
             LoadSceneMap loadSceneMap = new LoadSceneMap();
             loadSceneMap.Load(mainGame, _mapTiled, this);
+
             base.Load();
         }
 
@@ -259,20 +258,24 @@ namespace tower_Defense.Scenes
                 .ImpactFinish();
             spriteEnnemyFilter
                 .RemoveDeadEnnemy();
-              
 
-            
+
+
 
             //tests
-            if (timerWaves > 60f)
+            //timerWaves = 200f;
+            if (timerWaves > 180f)
             {
-                wave += 1;
+                //wave += 1;
                 LevelAndWave = "Level: 1 Wave: " + wave + "/7";
-                _ennemyGamePlay.Start(mainGame, mainGame._graphics, this, gameIsSpeedUp, 1, 2);                        
+                ennemiesWave = new Wave(1);
+
                 timerWaves = 0;
             }
 
             _mapTiled.Update(gameTime);
+            if (!isGamePaused) ennemiesWave.Update(mainGame, mainGame._graphics, gameTime, this, gameIsSpeedUp);
+
             listAnimatedTiles.ForEach(actor => actor.Update(gameTime));
             spriteWeaponFilter.UpdateAll(gameTime);
             spriteMissileFilter.UpdateAll(gameTime);

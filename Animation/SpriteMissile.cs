@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using tower_Defense.Utils;
 using tower_Defense.Buttons;
 using Microsoft.Xna.Framework.Input;
-using static tower_Defense.Utils.Wave;
+using static tower_Defense.DataBase.TDWave;
 
 namespace tower_Defense.Animation
 {

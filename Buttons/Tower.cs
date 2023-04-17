@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using tower_Defense.Animation;
 using tower_Defense.Map;
 using tower_Defense.Scenes;
-using static tower_Defense.Utils.Wave;
+using static tower_Defense.DataBase.TDWave;
 
 
 namespace tower_Defense.Buttons
@@ -186,6 +186,8 @@ namespace tower_Defense.Buttons
             {
                 pCurrentScene.listButtons.Remove(pCurrentTower.towerToUpgrade);
                 pCurrentScene.spriteWeaponFilter.Remove(pGameTime, pCurrentTower.spriteWeapon);
+                if (pCurrentTower.buttonID == "ICONTOWERUP" && pCurrentTower.towerLevel < 3) pCurrentTower.towerLevel++;
+                if (pCurrentTower.buttonID == "ICONWEAPONUP" && pCurrentTower.weaponLevel < 3) pCurrentTower.weaponLevel++;
             }
             string name = "TOWERCONSTRUCTION" + pCurrentTower.towerLevel.ToString();
             int offsetCenterX = TDData.Data[name].OffsetCenterX;

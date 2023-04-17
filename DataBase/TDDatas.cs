@@ -118,10 +118,10 @@ namespace tower_Defense
         public TDData.ePreferredDirection PreferredDirection; public string NameTexture;
         public int HP;
         public int MaxHP;
+        public Vector2 Velocity;
         public int speed;
         public bool isFlying;
         public bool isMirrored;
-        public Vector2 Velocity;
         public int FrameWidth;
         public int FrameHeight;
         public int InitOffsetX;
@@ -196,7 +196,8 @@ namespace tower_Defense
                 isFlying = true,
                 isMirrored = false,
                 MaxHP = 100,
-                HP = 100
+                HP = 100,
+                speed = 15
             });
 
             Data.Add("FIREBUG", new TDDataBase
@@ -213,13 +214,14 @@ namespace tower_Defense
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 2f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = false,
                 isMirrored = true,
                 MaxHP = 100,
-                HP = 100
+                HP = 100,
+                speed = 15
             });
 
             Data.Add("FIREWASP", new TDDataBase
@@ -242,7 +244,8 @@ namespace tower_Defense
                 isFlying = true,
                 isMirrored = true,
                 MaxHP = 100,
-                HP = 100
+                HP = 100,
+                speed = 15
             });
 
             Data.Add("FLYING_LOCUST", new TDDataBase
@@ -265,7 +268,8 @@ namespace tower_Defense
                 isFlying = true,
                 isMirrored = true,
                 MaxHP = 100,
-                HP = 100
+                HP = 100,
+                speed = 15
             });
             Data.Add("LEAFBUG", new TDDataBase
             {
@@ -281,13 +285,14 @@ namespace tower_Defense
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 0.8f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = false,
                 isMirrored = true,
                 MaxHP = 100,
-                HP = 100
+                HP = 100,
+                speed = 13
             });
             Data.Add("MAGMA_CRAB", new TDDataBase
             {
@@ -303,13 +308,14 @@ namespace tower_Defense
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 3f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = false,
                 isMirrored = false,
                 MaxHP = 100,
-                HP = 100
+                HP = 100,
+                speed = 15
             });
             Data.Add("SCORPION", new TDDataBase
             {
@@ -325,13 +331,14 @@ namespace tower_Defense
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 3f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = false,
                 isMirrored = false,
                 MaxHP = 100,
-                HP = 100
+                HP = 100,
+                speed = 15
             });
             Data.Add("VOIDBUTTERFLY", new TDDataBase
             {
@@ -353,7 +360,8 @@ namespace tower_Defense
                 isFlying = false,
                 isMirrored = true,
                 MaxHP = 100,
-                HP = 100
+                HP = 100,
+                speed = 15
             });
 
 
@@ -1492,6 +1500,43 @@ namespace tower_Defense
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
+            Data.Add("IMPACTTOWER8LEVEL1", new TDDataBase
+            {
+                ID = "IMPACTTOWER8Level1",
+                NameTexture = "MISSILETOWER8LEVEL1",
+                FrameWidth = 256,
+                FrameHeight = 256,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+            Data.Add("IMPACTTOWER8LEVEL2", new TDDataBase
+            {
+                ID = "IMPACTTOWER8Level2",
+                NameTexture = "MISSILETOWER8LEVEL2",
+                FrameWidth = 320,
+                FrameHeight = 320,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            }); 
+            Data.Add("IMPACTTOWER8LEVEL3", new TDDataBase
+            {
+                ID = "IMPACTTOWER8Level3",
+                NameTexture = "MISSILETOWER8LEVEL3",
+                FrameWidth = 320,
+                FrameHeight = 320,
+                ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
+                FramesDuration = 1f / 12f,
+                IsLoop = false,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseFrames
+            });
+
             // 24 types for 8 types of towers and 3 levels of weapons (42 is weapon type 4 level 2)
             Data.Add("WEAPONTOWER1LEVEL1", new TDDataBase
             {

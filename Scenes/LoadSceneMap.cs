@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using tower_Defense.Animation;
 using tower_Defense.Buttons;
 using tower_Defense.Map;
-using tower_Defense.Scenes;
 
-namespace tower_Defense.EnnemyGamePlay
+namespace tower_Defense.Scenes
 {
     public class LoadSceneMap
     {
@@ -32,7 +31,7 @@ namespace tower_Defense.EnnemyGamePlay
                 sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 1f / 12f, tile.offsetX, tile.offsetY, true, tile.initOffsetX, tile.initOffsetY);
                 sprMap.RunAnimation("map");
                 currentScene.listAnimatedTiles.Add(sprMap);
-            }                        
+            }
             Rectangle Screen = mainGame.Window.ClientBounds;
             foreach (Tile tile in mapTiled.lstTilesTower)
             {
@@ -42,12 +41,12 @@ namespace tower_Defense.EnnemyGamePlay
                 _tower.OnClick = currentScene.onClickDefault;
                 _tower.OnHover = currentScene.onHoverTowerBase;
                 currentScene.listButtons.Add(_tower);
-            }            
+            }
             _button = new Button(mainGame, new Vector2(75, 110), new Vector2(0, 0), "CHAIN");
             _button.OnClick = currentScene.onClickDefault;
-            _button.OnHover = currentScene.onHoverDefault;            
+            _button.OnHover = currentScene.onHoverDefault;
             currentScene.listButtons.Add(_button);
-            _button = new Button(mainGame,  new Vector2(160, 110), new Vector2(0, 0), "CHAIN");
+            _button = new Button(mainGame, new Vector2(160, 110), new Vector2(0, 0), "CHAIN");
             _button.OnClick = currentScene.onClickDefault;
             _button.OnHover = currentScene.onHoverDefault;
             currentScene.listButtons.Add(_button);

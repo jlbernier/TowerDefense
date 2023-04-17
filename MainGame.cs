@@ -17,7 +17,7 @@ namespace tower_Defense
             Content.RootDirectory = "Content";
             _graphics.PreferredBackBufferWidth = 1920; //1920
             _graphics.PreferredBackBufferHeight = 1080; //1080
-            
+            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
             //_graphics.IsFullScreen = true; // pour le devellopement
             _graphics.ApplyChanges();
             _gameState = new GameState(this);

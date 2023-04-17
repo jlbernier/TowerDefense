@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static tower_Defense.TDData;
 
 namespace tower_Defense.Animation
 {
@@ -19,10 +20,10 @@ namespace tower_Defense.Animation
             this.liste = new();
             filtredListe = new();
         }
-        public SpriteEnnemyFilter AddEnnemy(Game mainGame, string ennemyID, Vector2 position, Vector2 velocity)
-        {
-            SpriteEnnemy spriteEnnemy = new SpriteEnnemy(mainGame, position, velocity, ennemyID);
-            if (spriteEnnemy.velocity.X > 0) spriteEnnemy.IsMirrored = !spriteEnnemy.IsMirrored;
+        public SpriteEnnemyFilter AddEnnemy(Game mainGame, string ennemyID, Vector2 position, Vector2 velocity, eDirection direction)
+        {            
+            SpriteEnnemy spriteEnnemy = new SpriteEnnemy(mainGame, position, velocity, ennemyID, direction);
+            
             spriteEnnemy.AddAnimation(
                 "Ennemy",
                 TDData.Data[ennemyID].ArrayFrames,

@@ -10,7 +10,8 @@ using System.Diagnostics;
 //using System.Drawing;
 using tower_Defense.Utils;
 using Color = Microsoft.Xna.Framework.Color;
-using static tower_Defense.Utils.Wave;
+using static tower_Defense.DataBase.TDWave;
+using static tower_Defense.TDData;
 
 namespace tower_Defense.Animation
 {
@@ -29,19 +30,18 @@ namespace tower_Defense.Animation
         static public int LENGHTLIFEHEIGHT = 6;
         static public int LENGHTLIFEOFFSETY = -23;
 
-        private SoundEffect _sndJump;
-        private SoundEffect _sndLanding;
-        public SpriteEnnemy(Game mainGame, Vector2 position, Vector2 velocity, String ennemyID) : base(mainGame, position, velocity, ennemyID)
+        
+        public SpriteEnnemy(Game mainGame, Vector2 position, Vector2 velocity, String ennemyID, eDirection eDirection) : base(mainGame, position, velocity, ennemyID)
         {
             scale = 1f;
             this.ennemyID = ennemyID;
             texture = TDTextures.Textures[TDData.Data[ennemyID].NameTexture];
             frameWidth = TDData.Data[ennemyID].FrameWidth;
             frameHeight = TDData.Data[ennemyID].FrameHeight;            
-            IsMirrored = TDData.Data[ennemyID].isMirrored;
             HP = TDData.Data[ennemyID].MaxHP;
             IsFlying = TDData.Data[ennemyID].isFlying;
             isFrame = true;
+            
             rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
             rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);
             boundingBox = new Rectangle(
@@ -49,9 +49,28 @@ namespace tower_Defense.Animation
                (int)(position.Y - TDData.Data[ennemyID].FrameHeight / 2),
                TDData.Data[ennemyID].FrameWidth,
                TDData.Data[ennemyID].FrameHeight);
+            switch (eDirection)
+            {
+                case eDirection.None:
+                    break;
+                case eDirection.Left:
+                    IsMirrored = TDData.Data[ennemyID].isMirrored;
+                    break;
+                case eDirection.Right:
+                    IsMirrored = !TDData.Data[ennemyID].isMirrored;
+                    base.velocity = new Vector2(TDData.Data[ennemyID].speed, 0);
+                    break;
+                case eDirection.Up:
+                    break;
+                case eDirection.Botton:
+                    break;
+                default:
+                    break;
+            }
+
         }
-        
-       public void IsAttack(int damages)
+
+        public void IsAttack(int damages)
         {
             HP -= damages;
         }
@@ -64,9 +83,7 @@ namespace tower_Defense.Animation
 
         public override void Update(GameTime gameTime)
         {
-            velocity = isSpeedUp ?
-               velocity = new Vector2(50, 0) :
-                               velocity = new Vector2(15, 0);
+           
             if (IsFlying)
             {
                 //

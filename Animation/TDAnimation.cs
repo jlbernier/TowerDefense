@@ -80,7 +80,7 @@ namespace tower_Defense.Animation
             this.mainGame = mainGame;
             this.ID = spriteID;
             this.position = position;
-            this.velocity = velocity;            
+            this.velocity = velocity;  
             this.isVisible = true;
             this.isCentered = true;            
             this.effect = SpriteEffects.None;
