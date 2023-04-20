@@ -28,7 +28,7 @@ namespace tower_Defense.Scenes
         public SpriteFont SmallFont;
         // Map
         private readonly TmxMap _map;
-        public MapTiled _mapTiled;
+        public MapTiled map;
         // GamePlay
         public Wave ennemiesWave;
         // Buttons
@@ -48,7 +48,7 @@ namespace tower_Defense.Scenes
 
         public SceneMap(MainGame mainGame) : base(mainGame)
         {
-            _mapTiled = new MapTiled(mainGame);            
+            map = new MapTiled(mainGame);            
         }
         public bool MenuAlreadyOpen(Button menu)
         {
@@ -231,9 +231,9 @@ namespace tower_Defense.Scenes
             TDTextures.PopulateTextures(mainGame);
             TDData.PopulateData();
             DataBase.TDWave.PopulateData();
-            _mapTiled.LoadMap();            
+            map.LoadMap();            
             LoadSceneMap loadSceneMap = new LoadSceneMap();
-            loadSceneMap.Load(mainGame, _mapTiled, this);
+            loadSceneMap.Load(mainGame, map, this);
 
             base.Load();
         }
@@ -277,7 +277,7 @@ namespace tower_Defense.Scenes
                 TDData.CurrentTimerWave = 0;
             }
             */
-            _mapTiled.Update(gameTime);
+            map.Update(gameTime);
             if (!isGamePaused) ennemiesWave.Update(mainGame, mainGame._graphics, gameTime, this, isGameSpeedUp);
 
             lstTilesWater.ForEach(actor => actor.Update(gameTime));
@@ -291,12 +291,12 @@ namespace tower_Defense.Scenes
         public override void Draw(GameTime gameTime)
         {
             
-            _mapTiled.Draw(MainGame.spriteBatch, _mapTiled.lstTilesGrass);
+            map.Draw(MainGame.spriteBatch, map.lstTilesGrass);
             lstTilesWater.ForEach(actor => actor.Draw(gameTime));
-            _mapTiled.Draw(MainGame.spriteBatch, _mapTiled.lstTilesPath);
-            _mapTiled.Draw(MainGame.spriteBatch, _mapTiled.lstTilesTreesAndStones);
-            _mapTiled.Draw(MainGame.spriteBatch, _mapTiled.lstTilesBridges);
-            _mapTiled.Draw(MainGame.spriteBatch, _mapTiled.lstTilesSartEnd);
+            map.Draw(MainGame.spriteBatch, map.lstTilesPath);
+            map.Draw(MainGame.spriteBatch, map.lstTilesTreesAndStones);
+            map.Draw(MainGame.spriteBatch, map.lstTilesBridges);
+            map.Draw(MainGame.spriteBatch, map.lstTilesSartEnd);
             
             listButtons.ForEach(actor => actor.Draw(gameTime));
             spriteWeaponFilter.DrawAll(gameTime);

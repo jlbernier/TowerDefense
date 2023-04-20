@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using tower_Defense.Animation;
+using tower_Defense.Scenes;
 using static tower_Defense.DataBase.TDWave;
 
 namespace tower_Defense.Utils
@@ -13,6 +15,36 @@ namespace tower_Defense.Utils
     public class Tools
     {
         public Tools() { }
+
+        public static Vector2 NextAfterBox(SceneMap currentScene,SpriteEnnemy spriteEnnemy)
+        {
+            Vector2 nextAfterBox = new Vector2();
+            Vector2 nextBox = spriteEnnemy.NextBox;
+
+            switch (spriteEnnemy.currentDestination)
+            {
+                case TDData.eDirection.None:
+                    break;
+                case TDData.eDirection.Left:
+                    break;
+                case TDData.eDirection.Right:
+                    if (spriteEnnemy.previousDestination == TDData.eDirection.Right)
+                    {
+
+                        Debug.WriteLine(currentScene.map.arrayPath[(int)nextBox.X +1, (int)nextBox.Y].ToString());
+
+                    }
+                    break;
+                case TDData.eDirection.Up:
+                    break;
+                case TDData.eDirection.Botton:
+                    break;
+                default:
+                    break;
+            }
+
+            return nextAfterBox;
+        }
 
         public static float AngleRadian(Vector2 velocity)
         {
