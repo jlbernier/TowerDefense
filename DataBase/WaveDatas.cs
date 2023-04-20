@@ -14,17 +14,10 @@ namespace tower_Defense.DataBase
         public int Level;
         public int Wave;
         public int NbWaves;
+        public float waveTimer;
         public int[] NumberEnnemies;
         public float TimeBetweenEnnemies;
-        public List<TDWave.eEnnemyID> ListEnnemies;
-        public TDWave.eEnnemyID EnnemyID1;
-        public TDWave.eEnnemyID EnnemyID2;
-        public TDWave.eEnnemyID EnnemyID3;
-        public TDWave.eEnnemyID EnnemyID4;
-        public TDWave.eEnnemyID EnnemyID5;
-        public TDWave.eEnnemyID EnnemyID6;
-        public TDWave.eEnnemyID EnnemyID7;
-        public TDWave.eEnnemyID EnnemyID8;
+        public List<TDWave.eEnnemyID> ListEnnemies;       
         public WaveDatas() { }
 
         public WaveDatas(WaveDatas pCopy)
@@ -51,13 +44,20 @@ namespace tower_Defense.DataBase
 
         public static void PopulateData()
         {
-            DataWave.Add("LEVEL1WAVE1", new WaveDatas
+            DataWave.Add("LEVEL1", new WaveDatas
+            {
+                ID = "LEVEL1",
+                Name = "Level1",
+                waveTimer = 30
+            });
+                DataWave.Add("LEVEL1WAVE1", new WaveDatas
             {
                 ID = "LEVEL1WAVE1",
                 Name = "Level1Wave1",
                 Level = 1,
                 Wave = 1,
                 TimeBetweenEnnemies = 5f,
+                waveTimer = 200,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
                         eEnnemyID.LEAFBUG,
@@ -76,6 +76,7 @@ namespace tower_Defense.DataBase
                 Level = 1,
                 Wave = 2,
                 TimeBetweenEnnemies = 2f,
+                waveTimer = 200,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
                         eEnnemyID.LEAFBUG,
@@ -96,6 +97,7 @@ namespace tower_Defense.DataBase
                 Level = 1,
                 Wave = 3,
                 TimeBetweenEnnemies = 2f,
+                waveTimer = 200,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
                         eEnnemyID.LEAFBUG,
@@ -116,6 +118,7 @@ namespace tower_Defense.DataBase
                 Level = 1,
                 Wave = 4,
                 TimeBetweenEnnemies = 2f,
+                waveTimer = 200,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
                         eEnnemyID.LEAFBUG,
@@ -136,6 +139,7 @@ namespace tower_Defense.DataBase
                 Level = 1,
                 Wave = 5,
                 TimeBetweenEnnemies = 2f,
+                waveTimer = 200,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
                         eEnnemyID.LEAFBUG,
@@ -156,6 +160,7 @@ namespace tower_Defense.DataBase
                 Level = 1,
                 Wave = 6,
                 TimeBetweenEnnemies = 2f,
+                waveTimer = 200,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
                         eEnnemyID.LEAFBUG,
@@ -177,6 +182,7 @@ namespace tower_Defense.DataBase
                 Level = 1,
                 Wave = 7,
                 TimeBetweenEnnemies = 5f,
+                waveTimer = 200,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
                         eEnnemyID.LEAFBUG,

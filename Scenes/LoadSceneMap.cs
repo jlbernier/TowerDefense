@@ -23,17 +23,17 @@ namespace tower_Defense.Scenes
         public void Load(Game mainGame, MapTiled mapTiled, SceneMap currentScene)
         {
 
-            foreach (Tile tile in mapTiled.lstTilesAnimated)
+            foreach (Tile tile in mapTiled.lstTilesWater)
             {
                 sprMap = new SpriteMap(mainGame, tile._position, new Vector2(0, 0), "tileAnimated", tile);
                 sprMap.position = tile._position;
                 sprMap.isFrame = true;
                 sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 1f / 12f, tile.offsetX, tile.offsetY, true, tile.initOffsetX, tile.initOffsetY);
                 sprMap.RunAnimation("map");
-                currentScene.listAnimatedTiles.Add(sprMap);
+                currentScene.lstTilesWater.Add(sprMap);
             }
             Rectangle Screen = mainGame.Window.ClientBounds;
-            foreach (Tile tile in mapTiled.lstTilesTower)
+            foreach (Tile tile in mapTiled.lstTilesTowers)
             {
                 Vector2 towerPosition = new Vector2(tile._position.X + 32, tile._position.Y + 32);
                 _tower = new Tower(mainGame, towerPosition, new Vector2(0, 0), "TOWERBASE");

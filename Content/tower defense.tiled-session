@@ -3,17 +3,45 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "myMap.tmx",
+    "activeFile": "Tilesets/myMap.tmx",
     "expandedProjectPaths": [
+        ".",
+        "Tilesets"
     ],
+    "file.lastUsedOpenFilter": "Tous les Fichiers (*)",
     "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
         "Animated water tiles.tsx": {
             "scaleInDock": 0.5,
             "scaleInEditor": 1
         },
         "Grass Tileset.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "Tilesets/Animated water tiles.tsx": {
             "scaleInDock": 0.5,
             "scaleInEditor": 1
+        },
+        "Tilesets/Grass Tileset essai.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tilesets/Grass Tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tilesets/myMap.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 802.6666666666665,
+                "y": 356.66666666666674
+            }
         },
         "myMap.tmx": {
             "scale": 0.5,
@@ -22,24 +50,39 @@
                 "x": 1015,
                 "y": 485
             }
+        },
+        "myMapessai.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 676,
+                "y": 687.3333333333333
+            }
         }
     },
-    "last.imagePath": "C:/Users/33677/Documents/projets/git/tower defense/tower Defense/Content",
+    "last.externalTilesetPath": "C:/Users/33677/Documents/projets/git/tower defense/tower Defense/Content/Tilesets",
+    "last.imagePath": "C:/Users/33677/Documents/projets/git/tower defense/tower Defense/Content/Tilesets",
     "map.height": 17,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 64,
     "map.tileWidth": 64,
     "openFiles": [
-        "myMap.tmx",
-        "Grass Tileset.tsx",
-        "Animated water tiles.tsx"
+        "Tilesets/myMap.tmx",
+        "Tilesets/Animated water tiles.tsx",
+        "Tilesets/Grass Tileset.tsx"
     ],
     "project": "tower defense.tiled-project",
     "recentFiles": [
+        "Tilesets/Grass Tileset.tsx",
+        "Tilesets/Animated water tiles.tsx",
+        "Tilesets/myMap.tmx",
+        "Tilesets/Grass Tileset essai.tsx",
         "Animated water tiles.tsx",
+        "myMapessai.tmx",
         "Grass Tileset.tsx",
         "myMap.tmx"
     ],
+    "tileset.lastUsedFilter": "Fichiers de jeu de tuiles Tiled (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 64,

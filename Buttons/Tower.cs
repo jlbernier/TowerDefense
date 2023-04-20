@@ -16,14 +16,15 @@ namespace tower_Defense.Buttons
 {
     public class Tower : Button
     {
-        // Menu Choose tower to build or to upgrade
         public Vector2 positionBase { get; set; }
         public bool isMenuToBuild { get; set; }
+        public bool isMenuAlreadyBuild { get; set; }
         public bool isMenuToRemove { get; set; }
         public List<Tower> lstButtonsMenu { get; private set; }
         public Tower towerBase { get; private set; }
         public Tower menuTower { get; private set; }
         public SpriteWeapon spriteWeapon { get; private set; }
+        public int weaponSelectedAngle { get; set; }
         public Tower towerToUpgrade { get; private set; }
         public String towerToBuild { get; set; }
         public bool WeaponOrTowerUpgrade { get; set; }
@@ -35,7 +36,6 @@ namespace tower_Defense.Buttons
         public float timerBuild { get; set; }
         public int offsetCenterY { get; set; }
         public bool isCooldownShootUp { get; set; }
-        public float angle { get; set; }
         public Tower(Game mainGame, Vector2 position, Vector2 velocity, string buttonID) : base(mainGame, position, velocity, buttonID)
         {
             towerID = buttonID;
@@ -103,6 +103,7 @@ namespace tower_Defense.Buttons
                                 pMenuToBuild.heightTexture * pMenuToBuild.scale + 32),
                                 (int)(pMenuToBuild.widthTexture * pMenuToBuild.scale),
                                 (int)(pMenuToBuild.heightTexture * pMenuToBuild.scale));
+            pMenuToBuild.isMenuAlreadyBuild = true;
             pMenuToBuild.positionBase = pBaseTower.position;
             pMenuToBuild.towerBase = pBaseTower;
             pMenuToBuild.OnClick = pCurrentScene.onClickDefault;
@@ -146,6 +147,7 @@ namespace tower_Defense.Buttons
         {
             pBaseTower.isMenuToBuild = false;
             pMenuToBuild = new Tower(mainGame, new Vector2(pBaseTower.position.X, pBaseTower.position.Y), new Vector2(0, 0), "MENUSELECTUPGRADE");
+            pMenuToBuild.isMenuAlreadyBuild = true;
             pMenuToBuild.menuTower = pBaseTower;
             pMenuToBuild.positionBase = pBaseTower.positionBase;
             pMenuToBuild.OnClick = pCurrentScene.onClickDefault;
@@ -165,7 +167,7 @@ namespace tower_Defense.Buttons
             AddButtonUpgrade(pCurrentScene, pMenuToBuild, pBaseTower);
         }
         public void BuildMenu(SceneMap pCurrentScene, Tower pBaseTower, Tower pMenuToBuild)
-        {
+        {            
             if (pBaseTower.isMenuToBuild && pBaseTower.towerID == "TOWERBASE")
                 BuildMenuSelectTowerType(pCurrentScene, pBaseTower, pMenuToBuild);
             else if (pBaseTower.isMenuToBuild && pBaseTower.towerID == "MENUUPGRADE")
@@ -254,8 +256,8 @@ namespace tower_Defense.Buttons
         }
         public void RotateWeapon(SceneMap pCurrentScene, Tower pCurrentTower)
         {
-            pCurrentTower.spriteWeapon.angle += 90;
-            if (pCurrentTower.spriteWeapon.angle == 360) pCurrentTower.spriteWeapon.angle =0;
+            pCurrentTower.spriteWeapon.angleSelected += 90;
+            if (pCurrentTower.spriteWeapon.angleSelected == 360) pCurrentTower.spriteWeapon.angleSelected = 0;
             pCurrentTower.towerID = "ICONROTATEWEAPON";
         }
         public int OffsetTowerY(Tower pCurrentTower)
@@ -272,7 +274,6 @@ namespace tower_Defense.Buttons
         }
         public void buildWeapon(SceneMap pCurrentScene, Tower pCurrentTower, Tower pTowerToBuild)
         {
-
             pTowerToBuild.towerLevel = pCurrentTower.towerLevel;
             pTowerToBuild.weaponLevel = pCurrentTower.weaponLevel;
             pTowerToBuild.towerType = pCurrentTower.towerType;

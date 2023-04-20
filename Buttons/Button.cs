@@ -159,7 +159,6 @@ namespace tower_Defense.Buttons
             if (boundingBox.Contains(MousePos))
             {
                 IsHover = true;
-                Debug.WriteLine("Button is over! :" + buttonID);
                 if (IsHover != OldIsHoverState)               
                 {                   
                     OnHover(this);
@@ -167,7 +166,6 @@ namespace tower_Defense.Buttons
                 if (newMouseState.LeftButton == ButtonState.Pressed &&
                     oldMouseState.LeftButton == ButtonState.Released)
                 {
-                    Debug.WriteLine("Button is click!");
                     if (OnClick != null)
                     {
                         IsClick = true;

@@ -23,8 +23,10 @@ namespace tower_Defense.Animation
         public TDRectangle rectangleDeath;
         public string ennemyID { get; private set; }
         public int HP { get; set; }
-        public Rectangle boundingBox { get; set; }
+        public Rectangle ennemyRectangle { get; set; }
+        public BoundingBox ennemyBoundingBox { get; set; }
 
+        
         static public int LENGHTLIFEWIDTH = 40;
         static public int LENGHTLIFEOFFSETX = -20;
         static public int LENGHTLIFEHEIGHT = 6;
@@ -44,11 +46,15 @@ namespace tower_Defense.Animation
             
             rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
             rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);
-            boundingBox = new Rectangle(
+            ennemyRectangle = new Rectangle(
                (int)(position.X - TDData.Data[ennemyID].FrameWidth / 2),
                (int)(position.Y - TDData.Data[ennemyID].FrameHeight / 2),
                TDData.Data[ennemyID].FrameWidth,
                TDData.Data[ennemyID].FrameHeight);
+            ennemyBoundingBox = new BoundingBox(new Vector3(ennemyRectangle.Left, ennemyRectangle.Top, 0),
+                                            new Vector3(ennemyRectangle.Right, ennemyRectangle.Bottom, 0));
+
+
             switch (eDirection)
             {
                 case eDirection.None:
@@ -84,6 +90,7 @@ namespace tower_Defense.Animation
         public override void Update(GameTime gameTime)
         {
            
+
             if (IsFlying)
             {
                 //
@@ -106,11 +113,14 @@ namespace tower_Defense.Animation
             rectangleDeath.Rect.X = (int)(rectangleLife.Rect.X + rectangleLife.Rect.Width);
             rectangleDeath.Rect.Y = (int)(position.Y + LENGHTLIFEOFFSETY);
             rectangleDeath.Rect.Width = ((int)(LENGHTLIFEWIDTH - rectangleLife.Rect.Width));
-            boundingBox = new Rectangle(
-                (int)(position.X - frameWidth / 2),
-                (int)(position.Y - frameHeight / 2),
-                frameWidth,
-                frameHeight);
+            ennemyRectangle = new Rectangle(
+                (int)(position.X),
+                (int)(position.Y),
+                frameWidth/4,
+                frameHeight/4);
+            ennemyBoundingBox = new BoundingBox(new Vector3(ennemyRectangle.Left, ennemyRectangle.Top, 0),
+                                                new Vector3(ennemyRectangle.Right, ennemyRectangle.Bottom, 0));
+
             base.Update(gameTime);
         }
 

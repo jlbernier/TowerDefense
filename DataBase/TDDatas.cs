@@ -109,7 +109,6 @@ namespace tower_Defense
         }
     }
 
-
     public class TDDataBase
     {
         public string ID;
@@ -118,6 +117,11 @@ namespace tower_Defense
         public TDData.ePreferredDirection PreferredDirection; public string NameTexture;
         public int HP;
         public int MaxHP;
+        public int Damages;
+        public int Gold;
+        public float maxDistance;
+        public float maxDistanceTower;
+        public int maxAngle;
         public Vector2 Velocity;
         public int speed;
         public bool isFlying;
@@ -149,6 +153,13 @@ namespace tower_Defense
 
     public static class TDData
     {
+        public static int Gold = 1500;
+        public static int Life = 20;
+        public static string LevelAndWave = "Level: 1 Wave: 1/7";
+        public static float TimerWave = 200;
+        public static float CurrentTimerWave = 0;
+
+
         public enum eDirection
         {
             None,
@@ -184,6 +195,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 64,
                 Direction = eDirection.Left,
+                Velocity = new Vector2(50,50),
                 PreferredDirection = ePreferredDirection.Left,
                 OffsetX = 64,
                 InitOffsetX = 0,
@@ -197,7 +209,8 @@ namespace tower_Defense
                 isMirrored = false,
                 MaxHP = 100,
                 HP = 100,
-                speed = 15
+                speed = 15,
+                Gold = 100,
             });
 
             Data.Add("FIREBUG", new TDDataBase
@@ -208,6 +221,7 @@ namespace tower_Defense
                 FrameWidth = 128,
                 FrameHeight = 64,
                 Direction = eDirection.Left,
+                Velocity = new Vector2(50,50),
                 PreferredDirection = ePreferredDirection.Left,
                 OffsetX = 128,
                 OffsetY = 0,
@@ -221,7 +235,8 @@ namespace tower_Defense
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
-                speed = 15
+                speed = 15,
+                Gold = 100,
             });
 
             Data.Add("FIREWASP", new TDDataBase
@@ -232,6 +247,7 @@ namespace tower_Defense
                 FrameWidth = 96,
                 FrameHeight = 99,
                 Direction = eDirection.Left,
+                Velocity = new Vector2(50,50),
                 PreferredDirection = ePreferredDirection.Left,
                 OffsetX = 96,
                 OffsetY = 0,
@@ -245,6 +261,7 @@ namespace tower_Defense
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
+                Gold = 100,
                 speed = 15
             });
 
@@ -256,6 +273,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 64,
                 Direction = eDirection.Left,
+                Velocity = new Vector2(50,50),
                 PreferredDirection = ePreferredDirection.Left,
                 OffsetX = 64,
                 OffsetY = 0,
@@ -269,6 +287,7 @@ namespace tower_Defense
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
+                Gold = 100,
                 speed = 15
             });
             Data.Add("LEAFBUG", new TDDataBase
@@ -279,6 +298,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 64,
                 Direction = eDirection.Left,
+                Velocity = new Vector2(50,50),
                 PreferredDirection = ePreferredDirection.Left,
                 OffsetX = 64,
                 OffsetY = 0,
@@ -292,6 +312,7 @@ namespace tower_Defense
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
+                Gold = 100,
                 speed = 13
             });
             Data.Add("MAGMA_CRAB", new TDDataBase
@@ -302,6 +323,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 64,
                 Direction = eDirection.Left,
+                Velocity = new Vector2(50,50),
                 PreferredDirection = ePreferredDirection.Left,
                 OffsetX = 64,
                 OffsetY = 0,
@@ -315,6 +337,7 @@ namespace tower_Defense
                 isMirrored = false,
                 MaxHP = 100,
                 HP = 100,
+                Gold = 100,
                 speed = 15
             });
             Data.Add("SCORPION", new TDDataBase
@@ -325,6 +348,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 64,
                 Direction = eDirection.Left,
+                Velocity = new Vector2(50,50),
                 PreferredDirection = ePreferredDirection.Left,
                 OffsetX = 64,
                 OffsetY = 0,
@@ -338,6 +362,7 @@ namespace tower_Defense
                 isMirrored = false,
                 MaxHP = 100,
                 HP = 100,
+                Gold = 100,
                 speed = 15
             });
             Data.Add("VOIDBUTTERFLY", new TDDataBase
@@ -348,6 +373,7 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 64,
                 Direction = eDirection.Left,
+                Velocity = new Vector2(50,50),
                 PreferredDirection = ePreferredDirection.Left,
                 OffsetX = 64,
                 OffsetY = 0,
@@ -361,6 +387,7 @@ namespace tower_Defense
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
+                Gold = 100,
                 speed = 15
             });
 
@@ -557,6 +584,8 @@ namespace tower_Defense
                 InitOffsetX = 0,
                 OffsetCenterY = -48 ,
                 Scale = 1f,
+                maxDistanceTower = 300,
+                Gold = 100,
                 buttonAnimation = eButtonAnimation.None
             });
             Data.Add("TOWER12", new TDDataBase
@@ -569,6 +598,8 @@ namespace tower_Defense
                 InitOffsetX = 64,
                 OffsetCenterY = - 48,
                 Scale = 1f,
+                maxDistanceTower = 500,
+                Gold = 100,
                 buttonAnimation = eButtonAnimation.None
             });
             Data.Add("TOWER13", new TDDataBase
@@ -581,6 +612,8 @@ namespace tower_Defense
                 InitOffsetX = 64*2,
                 OffsetCenterY = - 48,
                 Scale = 1f,
+                maxDistanceTower = 700,
+                Gold = 100,
                 buttonAnimation = eButtonAnimation.None
             });
 
@@ -1258,6 +1291,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER1LEVEL2", new TDDataBase
@@ -1270,6 +1304,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER1LEVEL3", new TDDataBase
@@ -1282,6 +1317,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             }); 
             Data.Add("IMPACTTOWER2LEVEL1", new TDDataBase
@@ -1294,6 +1330,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER2LEVEL2", new TDDataBase
@@ -1306,6 +1343,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER2LEVEL3", new TDDataBase
@@ -1318,6 +1356,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER3LEVEL1", new TDDataBase
@@ -1330,6 +1369,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER3LEVEL2", new TDDataBase
@@ -1342,6 +1382,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER3LEVEL3", new TDDataBase
@@ -1354,6 +1395,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER4LEVEL1", new TDDataBase
@@ -1366,6 +1408,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER4LEVEL2", new TDDataBase
@@ -1378,6 +1421,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER4LEVEL3", new TDDataBase
@@ -1390,6 +1434,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER5LEVEL1", new TDDataBase
@@ -1402,6 +1447,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER5LEVEL2", new TDDataBase
@@ -1414,6 +1460,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER5LEVEL3", new TDDataBase
@@ -1426,6 +1473,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER6LEVEL1", new TDDataBase
@@ -1438,6 +1486,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER6LEVEL2", new TDDataBase
@@ -1450,6 +1499,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER6LEVEL3", new TDDataBase
@@ -1462,6 +1512,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER7LEVEL1", new TDDataBase
@@ -1474,6 +1525,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER7LEVEL2", new TDDataBase
@@ -1486,6 +1538,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             }); 
             Data.Add("IMPACTTOWER7LEVEL3", new TDDataBase
@@ -1498,6 +1551,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER8LEVEL1", new TDDataBase
@@ -1510,6 +1564,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("IMPACTTOWER8LEVEL2", new TDDataBase
@@ -1522,6 +1577,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             }); 
             Data.Add("IMPACTTOWER8LEVEL3", new TDDataBase
@@ -1534,6 +1590,7 @@ namespace tower_Defense
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
                 Scale = 1f,
+                Damages = 30,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1550,6 +1607,8 @@ namespace tower_Defense
                 OffsetCenterY = - 56,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER1LEVEL2", new TDDataBase
@@ -1564,6 +1623,8 @@ namespace tower_Defense
                 OffsetCenterY = - 65,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER1LEVEL3", new TDDataBase
@@ -1578,6 +1639,8 @@ namespace tower_Defense
                 IsLoop = false,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1589,11 +1652,13 @@ namespace tower_Defense
                 FrameHeight = 96 / 2,
                 InitOffsetY = 96 / 2,
                 ArrayFrames = new int[] { 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8 },
-                FramesDuration = 8f / 12f,
+                FramesDuration = 3f / 12f,
                 IsLoop = false,
                 OffsetCenterY = - 56,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1606,10 +1671,12 @@ namespace tower_Defense
                 InitOffsetY = 128 / 2,
                 OffsetCenterY = - 56 - 9,
                 ArrayFrames = new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5, 6, 7, 8 },
-                FramesDuration = 8f / 12f,
+                FramesDuration = 3f / 12f,
                 IsLoop = false,
                 speed = 50,
                 Scale = 1f,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER2LEVEL3", new TDDataBase
@@ -1621,10 +1688,12 @@ namespace tower_Defense
                 InitOffsetY = 128 / 2,
                 OffsetCenterY = -56 -18,
                 ArrayFrames = new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                FramesDuration = 8f / 12f,
+                FramesDuration = 3f / 12f,
                 IsLoop = false,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1640,6 +1709,8 @@ namespace tower_Defense
                 OffsetCenterY = -56,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1655,6 +1726,8 @@ namespace tower_Defense
                 OffsetCenterY = -56 - 9,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER3LEVEL3", new TDDataBase
@@ -1669,6 +1742,8 @@ namespace tower_Defense
                 OffsetCenterY = -56 - 18,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1684,6 +1759,8 @@ namespace tower_Defense
                 OffsetCenterY = -60,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1699,6 +1776,8 @@ namespace tower_Defense
                 OffsetCenterY = -60 -9,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER4LEVEL3", new TDDataBase
@@ -1713,6 +1792,8 @@ namespace tower_Defense
                 OffsetCenterY = -60 - 18,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1730,6 +1811,8 @@ namespace tower_Defense
                 OffsetCenterY = -56,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1747,6 +1830,8 @@ namespace tower_Defense
                 OffsetCenterY = -56 - 9,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER5LEVEL3", new TDDataBase
@@ -1762,6 +1847,8 @@ namespace tower_Defense
                 OffsetCenterY = -56 - 18,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1777,6 +1864,8 @@ namespace tower_Defense
                 OffsetCenterY = -56,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1792,6 +1881,8 @@ namespace tower_Defense
                 OffsetCenterY = -56 - 9,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER6LEVEL3", new TDDataBase
@@ -1806,6 +1897,8 @@ namespace tower_Defense
                 OffsetCenterY =  -56 - 18,
                 Scale = 1f,
                 speed = 50,
+                maxDistance = 300,
+                maxAngle = 20,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             
@@ -1821,6 +1914,8 @@ namespace tower_Defense
                 OffsetCenterY = -56,
                 Scale = 1f,
                 speed = 50,
+                maxAngle = 5,
+                maxDistance = 300,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1836,6 +1931,8 @@ namespace tower_Defense
                 OffsetCenterY = -56 - 9,
                 Scale = 1f,
                 speed = 50,
+                maxAngle = 5,
+                maxDistance = 300,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER7LEVEL3", new TDDataBase
@@ -1850,6 +1947,8 @@ namespace tower_Defense
                 OffsetCenterY =  -56 - 18,
                 Scale = 1f,
                 speed = 50,
+                maxAngle = 5,
+                maxDistance = 300,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER8LEVEL1", new TDDataBase
@@ -1864,6 +1963,8 @@ namespace tower_Defense
                 OffsetCenterY =  - 56,
                 speed = 0,
                 Scale = 1f,
+                maxAngle = 5,
+                maxDistance = 300,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 
@@ -1879,6 +1980,8 @@ namespace tower_Defense
                 OffsetCenterY =  -56 - 9,
                 Scale = 1f,
                 speed = 0,
+                maxAngle = 5,
+                maxDistance = 300,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
             Data.Add("WEAPONTOWER8LEVEL3", new TDDataBase
@@ -1893,6 +1996,8 @@ namespace tower_Defense
                 OffsetCenterY = -56 - 18,
                 Scale = 1f,
                 speed = 0,
+                maxAngle = 5,
+                maxDistance = 300,
                 buttonAnimation = eButtonAnimation.UseFrames
             });
 

@@ -19,10 +19,9 @@ namespace tower_Defense.Animation
             this.liste = new();
         }
                         
-        public SpriteMissileFilter AddMissile(Game mainGame, string missileID, Vector2 position, Vector2 velocity, int missileLevel, int towerLevel, string towerType)
+        public SpriteMissileFilter AddMissile(Game mainGame, string missileID, Vector2 position, Vector2 velocity, int missileLevel, int towerLevel, string towerType, SpriteWeapon spriteWeapon)
         {
-            Tools tools = new Tools();           
-            SpriteMissile spriteMissile = new SpriteMissile(mainGame, position, velocity, missileID, missileLevel, towerLevel, towerType);
+            SpriteMissile spriteMissile = new SpriteMissile(mainGame, position, velocity, missileID, spriteWeapon);
             spriteMissile.AddAnimation(
                 "Missile",
                 TDData.Data[missileID].ArrayFrames,
@@ -31,7 +30,7 @@ namespace tower_Defense.Animation
                 TDData.Data[missileID].OffsetY,
                 TDData.Data[missileID].IsLoop,
                 TDData.Data[missileID].InitOffsetX);
-            spriteMissile.rotation = tools.AngleRadian(velocity);            
+            spriteMissile.rotation = Tools.AngleRadian(velocity);            
             spriteMissile.RunAnimation("Missile");
             liste.Add(spriteMissile);            
             return this;
@@ -65,21 +64,27 @@ namespace tower_Defense.Animation
             liste.RemoveAll(sprite => sprite.isTimeOutMissile);
             return this;
         }
+        public SpriteMissileFilter FollowTarget() 
+        {
+            liste.ForEach(spriteMissile =>
+            {
+                if (spriteMissile.spriteEnnemy.HP <= 0) spriteMissile.isCollision = true;
+                spriteMissile.angleDegree = Tools.AngleMissileEnnemy(spriteMissile);
+                spriteMissile.velocity = Tools.VelocityAngleSpeed(spriteMissile.angleDegree, spriteMissile.speedMissile);
+            });
+                return this;        
+        }
 
         public SpriteMissileFilter ImpactCollision(MainGame mainGame, SceneMap pCurrentScene, SpriteEnnemyFilter spriteEnnemyFilter)
         {
-            Tools tools = new Tools();
             liste.ForEach(spriteMissile => 
             {
                     spriteEnnemyFilter.liste.ForEach(spriteEnnemy => 
-                    {
-                        if (spriteMissile.boundingBox.Intersects(spriteEnnemy.boundingBox)) 
+                    {                        
+                        if (spriteMissile.missileBoundingBox.Intersects(spriteEnnemy.ennemyBoundingBox))
                         {
-                            spriteEnnemy.HP -= 30; // pour les tests
                             spriteMissile.isCollision = true;
-                            pCurrentScene.spriteImpactFilter.AddImpact(mainGame, spriteMissile.missileID,
-                                spriteMissile.position, spriteMissile.velocity, spriteMissile.missileLevel,
-                                spriteMissile.towerLevel, spriteMissile.weaponType);
+                            pCurrentScene.spriteImpactFilter.AddImpact(mainGame, spriteMissile);
                         }                        
                     });                    
             });

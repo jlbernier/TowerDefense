@@ -28,8 +28,10 @@ namespace tower_Defense.EnnemiesWave
         public Wave(int level) 
         {
             this.level = level;
+            this.waveNumber = 1;
             waveID = "LEVEL" + level.ToString() + "WAVE1";
-            waveNumber = 1;
+            TDData.LevelAndWave = "Level " + level.ToString()  + "  Wave " + waveNumber.ToString()
+                + "/" + DataWave[waveID].NbWaves;
             lstWaveEnnemies = DataWave["LEVEL" + level.ToString() + "WAVE1"].ListEnnemies;
             timerEnnemies = 0;
             indexEnnemy = 0;
@@ -43,17 +45,34 @@ namespace tower_Defense.EnnemiesWave
             sprEnnemy.velocity = new Vector2(-1 * sprEnnemy.velocity.X, -1 * sprEnnemy.velocity.Y);            
         }
 
-        public void Update(Game mainGame, GraphicsDeviceManager graphics, GameTime gameTime, SceneMap currentScene, bool pGameIsSpeedUp = false)
+        public void NextWave()
+        {
+            if (TDData.CurrentTimerWave < DataWave["LEVEL1"].waveTimer) return;
+            TDData.CurrentTimerWave = 0;
+            waveNumber++; // à faire fin du niveau
+            waveID = "LEVEL" + level.ToString() + "WAVE" + waveNumber.ToString();
+            TDData.LevelAndWave = "Level " + level.ToString() + "  Wave " + waveNumber.ToString()
+                 + "/" + DataWave[waveID].NbWaves;
+            lstWaveEnnemies = DataWave["LEVEL" + level.ToString() + "WAVE" + waveNumber.ToString()].ListEnnemies;
+            timerEnnemies = 0;
+            indexEnnemy = 0;
+            indexMaxEnnemy = lstWaveEnnemies.Count();
 
+
+        }
+
+        public void Update(Game mainGame, GraphicsDeviceManager graphics, GameTime gameTime, SceneMap currentScene, bool pGameIsSpeedUp = false)
         {
             timerEnnemies += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (indexEnnemy > lstWaveEnnemies.Count() - 1) return;
+            if (indexEnnemy > lstWaveEnnemies.Count() - 1)
+            {
+                NextWave();
+                return;
+            }
             if (timerEnnemies > DataWave[waveID].TimeBetweenEnnemies || indexEnnemy == 0)
             {
                 ennemyID = lstWaveEnnemies[indexEnnemy].ToString();
-                currentScene.spriteEnnemyFilter.AddEnnemy(mainGame, ennemyID,
-                        new Vector2(0, graphics.PreferredBackBufferHeight / 2),
-                        new Vector2(50, 0), TDData.eDirection.Right);
+                currentScene.spriteEnnemyFilter.AddEnnemy(mainGame, currentScene, ennemyID);
                 indexEnnemy++;
                 timerEnnemies = 0;
             }  
