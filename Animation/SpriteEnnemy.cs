@@ -12,6 +12,7 @@ using tower_Defense.Utils;
 using Color = Microsoft.Xna.Framework.Color;
 using static tower_Defense.DataBase.TDWave;
 using static tower_Defense.TDData;
+using tower_Defense.Scenes;
 
 namespace tower_Defense.Animation
 {
@@ -26,9 +27,10 @@ namespace tower_Defense.Animation
         public Vector2 CurrentBox { get; set; }
         public Vector2 NextBox { get; set; }
         public Vector2 NextAfterBox { get; set; }
-        public TDData.eDirection previousDestination = TDData.eDirection.Right;
+        public Vector2 ennemyVelocity { get; set; }
         public TDData.eDirection currentDestination = TDData.eDirection.Right;
-        public string nextDestination { get; set; }
+        public TDData.eDirection nextDestination { get; set; }
+        public bool IsPreferredDirectionLeft { get; set; }
         public int HP { get; set; }
         public Rectangle ennemyRectangle { get; set; }
         public BoundingBox ennemyBoundingBox { get; set; }
@@ -52,6 +54,7 @@ namespace tower_Defense.Animation
             scale = 1f;
             HP = TDData.Data[ennemyID].MaxHP;
             IsFlying = TDData.Data[ennemyID].isFlying;
+            IsPreferredDirectionLeft = TDData.Data[ennemyID].isPreferredDirectionLeft;
             speed = TDData.Data[ennemyID].speed;
             rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
             rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);
@@ -63,7 +66,10 @@ namespace tower_Defense.Animation
             ennemyBoundingBox = new BoundingBox(new Vector3(ennemyRectangle.Left, ennemyRectangle.Top, 0),
                                             new Vector3(ennemyRectangle.Right, ennemyRectangle.Bottom, 0));
             IsMirrored = !TDData.Data[ennemyID].isMirrored;
-            base.velocity = new Vector2(TDData.Data[ennemyID].speed, 0);   
+            ennemyVelocity = new Vector2(1,0);
+            currentDestination = eDirection.Right;
+            base.velocity = new Vector2(ennemyVelocity.X * speed,
+                    ennemyVelocity.Y * speed);
         }
 
         public void IsAttack(int damages)
@@ -71,20 +77,13 @@ namespace tower_Defense.Animation
             HP -= damages;
         }
 
-        public void Fly()
-        {
-            if (IsFlying) return;
-                       
-        }
+        
+
+        
+                
 
         public override void Update(GameTime gameTime)
         {
-           
-
-            if (IsFlying)
-            {
-                //
-            }
 
             if (IsMirrored)
             {
@@ -116,7 +115,6 @@ namespace tower_Defense.Animation
 
         public override void Draw(GameTime gameTime)
         {
-          
             rectangleLife.Draw(MainGame.spriteBatch);
             rectangleDeath.Draw(MainGame.spriteBatch);
             base.Draw(gameTime);

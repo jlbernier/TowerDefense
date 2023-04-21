@@ -48,7 +48,7 @@ namespace tower_Defense.DataBase
             {
                 ID = "LEVEL1",
                 Name = "Level1",
-                waveTimer = 30
+                waveTimer = 200
             });
                 DataWave.Add("LEVEL1WAVE1", new WaveDatas
             {

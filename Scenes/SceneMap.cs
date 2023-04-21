@@ -268,15 +268,10 @@ namespace tower_Defense.Scenes
                 .ImpactCollision(mainGame, this, spriteEnnemyFilter)
                 .ImpactFinish();
             spriteEnnemyFilter
+                .UpdateVelocity(this)
                 .ImpactCollision()
                 .RemoveDeadEnnemy();
-            /*
-            if (TDData.CurrentTimerWave > TDData.TimerWave)
-            {
-                ennemiesWave = new Wave(level);
-                TDData.CurrentTimerWave = 0;
-            }
-            */
+            
             map.Update(gameTime);
             if (!isGamePaused) ennemiesWave.Update(mainGame, mainGame._graphics, gameTime, this, isGameSpeedUp);
 

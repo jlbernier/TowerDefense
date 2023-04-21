@@ -114,7 +114,7 @@ namespace tower_Defense
         public string ID;
         public String Name;
         public TDData.eDirection Direction;
-        public TDData.ePreferredDirection PreferredDirection; public string NameTexture;
+        public string NameTexture;
         public int HP;
         public int MaxHP;
         public int Damages;
@@ -125,11 +125,13 @@ namespace tower_Defense
         public Vector2 Velocity;
         public int speed;
         public bool isFlying;
+        public bool isPreferredDirectionLeft; 
         public bool isMirrored;
         public int FrameWidth;
         public int FrameHeight;
         public int InitOffsetX;
         public int InitOffsetY;
+        public int InitOffsetYUp;
         public int OffsetSelectedX;
         public int OffsetSelectedY;
         public int OffsetPushX;
@@ -155,9 +157,18 @@ namespace tower_Defense
     {
         public static int Gold = 1500;
         public static int Life = 20;
+        public const int BoxWidth = 64;
+        public const int BoxHeight = 64;
         public static string LevelAndWave = "Level: 1 Wave: 1/7";
         public static float TimerWave = 200;
         public static float CurrentTimerWave = 0;
+        public const int StartBox = 837;
+        public const int HorizontalPath = 545;
+        public const int VerticalPath = 530;
+        public const int VerticalBridge1 = 723;
+        public const int VerticalBridge2 = 707;
+        public const int UpRight= 518;
+        public const int StonePath = 696;
 
 
         public enum eDirection
@@ -196,7 +207,7 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 Velocity = new Vector2(50,50),
-                PreferredDirection = ePreferredDirection.Left,
+                isPreferredDirectionLeft = true,
                 OffsetX = 64,
                 InitOffsetX = 0,
                 OffsetY = 0,
@@ -222,7 +233,7 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 Velocity = new Vector2(50,50),
-                PreferredDirection = ePreferredDirection.Left,
+                isPreferredDirectionLeft = true,
                 OffsetX = 128,
                 OffsetY = 0,
                 InitOffsetX = 0,
@@ -248,7 +259,7 @@ namespace tower_Defense
                 FrameHeight = 99,
                 Direction = eDirection.Left,
                 Velocity = new Vector2(50,50),
-                PreferredDirection = ePreferredDirection.Left,
+                isPreferredDirectionLeft = false,
                 OffsetX = 96,
                 OffsetY = 0,
                 InitOffsetX = 0,
@@ -274,7 +285,7 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 Velocity = new Vector2(50,50),
-                PreferredDirection = ePreferredDirection.Left,
+                isPreferredDirectionLeft = false,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
@@ -299,11 +310,12 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 Velocity = new Vector2(50,50),
-                PreferredDirection = ePreferredDirection.Left,
+                isPreferredDirectionLeft = true,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
+                InitOffsetYUp = 64 * 4,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 0.8f / 12f,
                 IsLoop = true,
@@ -324,7 +336,7 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 Velocity = new Vector2(50,50),
-                PreferredDirection = ePreferredDirection.Left,
+                isPreferredDirectionLeft = true,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
@@ -349,7 +361,7 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 Velocity = new Vector2(50,50),
-                PreferredDirection = ePreferredDirection.Left,
+                isPreferredDirectionLeft = false,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
@@ -374,7 +386,7 @@ namespace tower_Defense
                 FrameHeight = 64,
                 Direction = eDirection.Left,
                 Velocity = new Vector2(50,50),
-                PreferredDirection = ePreferredDirection.Left,
+                isPreferredDirectionLeft = false,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,

@@ -20,7 +20,7 @@ namespace tower_Defense.Animation
         public int offsetX { get; private set; }
         public int offsetY { get; private set; }
         public int initOffsetX { get; private set; }
-        public int initOffsetY { get; private set; }
+        public int initOffsetY { get; set; }
         public TDAnimation(string name, int[] frames, float frameDuration, int offsetX, int offsetY, bool isLoop = true, int initOffsetX = 0, int initOffsetY = 0)
         {
             this.name = name;

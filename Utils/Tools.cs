@@ -16,26 +16,93 @@ namespace tower_Defense.Utils
     {
         public Tools() { }
 
+        public static Vector2 NewVelocity(SpriteEnnemy spriteEnnemy)
+        {
+            Vector2 velocity = new Vector2(0,0);
+            if (spriteEnnemy.CurrentBox + new Vector2(1,0) == spriteEnnemy.NextBox)
+            {
+                if (spriteEnnemy.NextBox + new Vector2(0, -1) == spriteEnnemy.NextAfterBox)
+                {
+                    // right up
+                    return new Vector2(1, -1);
+
+                }
+                if (spriteEnnemy.NextBox + new Vector2(1, 0) == spriteEnnemy.NextAfterBox)
+                {
+                    // right right
+                    return new Vector2 (1, 0);
+                }
+                if (spriteEnnemy.NextBox + new Vector2(0, 1) == spriteEnnemy.NextAfterBox)
+                {
+                    // right bottom
+                    return new Vector2(1, 0);
+
+                }
+
+            }
+
+            return velocity;
+        }
+
         public static Vector2 NextAfterBox(SceneMap currentScene,SpriteEnnemy spriteEnnemy)
         {
+            int rightBox = (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X + 1, (int)spriteEnnemy.NextBox.Y];
+            int upBox = ((int)spriteEnnemy.NextBox.Y == 0) ? 0 :
+                (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y - 1];
+            int downBox = ((int)spriteEnnemy.NextBox.Y == currentScene.map.arrayPath.GetLength(1)) ? 0 :
+                (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y + 1];
             Vector2 nextAfterBox = new Vector2();
-            Vector2 nextBox = spriteEnnemy.NextBox;
-
-            switch (spriteEnnemy.currentDestination)
+            switch (spriteEnnemy.nextDestination)
             {
                 case TDData.eDirection.None:
                     break;
                 case TDData.eDirection.Left:
                     break;
                 case TDData.eDirection.Right:
-                    if (spriteEnnemy.previousDestination == TDData.eDirection.Right)
+                     if (spriteEnnemy.currentDestination == TDData.eDirection.Right)
                     {
-
-                        Debug.WriteLine(currentScene.map.arrayPath[(int)nextBox.X +1, (int)nextBox.Y].ToString());
-
+                        switch (rightBox)
+                        {
+                            case TDData.HorizontalPath:
+                                return new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                            case TDData.StonePath:
+                                if (spriteEnnemy.IsFlying)
+                                    return new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                                if (spriteEnnemy.IsPreferredDirectionLeft && (upBox == TDData.VerticalPath || upBox == TDData.VerticalBridge1))
+                                    return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                                return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                            default:
+                                break;
+                        }
+                        Debug.WriteLine(currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X +1, (int)spriteEnnemy.NextBox.Y].ToString());
                     }
                     break;
                 case TDData.eDirection.Up:
+                    if (spriteEnnemy.currentDestination == TDData.eDirection.Up)
+                        Debug.WriteLine(currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X + 1, (int)spriteEnnemy.NextBox.Y].ToString());
+                    switch (upBox)
+                    {
+                        case TDData.VerticalPath:
+                        case TDData.VerticalBridge2:
+                        case TDData.UpRight:
+                            return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                        case TDData.StonePath:
+                            if (spriteEnnemy.IsFlying)
+                                return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y -1); 
+                            break;
+                        case TDData.VerticalBridge1:
+                            if (!spriteEnnemy.IsFlying)
+                                return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+
+
+                            // bridge pour volants à faire
+                            break;
+                        default:
+                            break;
+                    }
+
+
+
                     break;
                 case TDData.eDirection.Botton:
                     break;

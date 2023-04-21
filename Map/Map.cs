@@ -152,6 +152,7 @@ namespace tower_Defense.Map
                             }
                             else if (map.Layers[nLayer].Name == "TreesAndStones")
                             {
+                                arrayPath[column, line] = gid;
                                 lstTilesTreesAndStones.Add(tile);
                             }
                             else if (map.Layers[nLayer].Name == "StartEnd")

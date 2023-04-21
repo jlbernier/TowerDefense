@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,6 +72,7 @@ namespace tower_Defense.EnnemiesWave
             }
             if (timerEnnemies > DataWave[waveID].TimeBetweenEnnemies || indexEnnemy == 0)
             {
+                if (indexEnnemy > lstWaveEnnemies.Count() - 1) return;
                 ennemyID = lstWaveEnnemies[indexEnnemy].ToString();
                 currentScene.spriteEnnemyFilter.AddEnnemy(mainGame, currentScene, ennemyID);
                 indexEnnemy++;
