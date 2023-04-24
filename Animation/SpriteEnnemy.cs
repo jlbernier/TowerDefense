@@ -19,7 +19,7 @@ namespace tower_Defense.Animation
     public class SpriteEnnemy : TDSprite
     {
         public bool IsFlying { get; set; }
-        public bool IsMirrored { get; set; }
+        public bool isFlipHorizontally { get; set; }
         public TDRectangle rectangleLife;
         public TDRectangle rectangleDeath;
         public string ennemyID { get; private set; }
@@ -30,86 +30,49 @@ namespace tower_Defense.Animation
         public Vector2 ennemyVelocity { get; set; }
         public TDData.eDirection currentDestination = TDData.eDirection.Right;
         public TDData.eDirection nextDestination { get; set; }
+        public TDData.eDirection nextAfterDestination { get; set; }
+        public bool IsEnnemyTurning { get; set; }
+        public bool IsArrivalAfterNextCurrentBox { get; set; }
+        public bool IsArrivalNextCurrentBox { get; set; }
+        public bool IsArrivalCurrentBox { get; set; }
+        public bool IsArrived { get; set; }
+
         public bool IsPreferredDirectionLeft { get; set; }
         public int HP { get; set; }
+        public int MaxHP { get; set; }
         public Rectangle ennemyRectangle { get; set; }
         public BoundingBox ennemyBoundingBox { get; set; }
-
-        
-        static public int LENGHTLIFEWIDTH = 40;
-        static public int LENGHTLIFEOFFSETX = -20;
-        static public int LENGHTLIFEHEIGHT = 6;
-        static public int LENGHTLIFEOFFSETY = -23;
-
-        
+                        
         public SpriteEnnemy(Game mainGame, Vector2 position, Vector2 velocity, String ennemyID) : base(mainGame, position, velocity, ennemyID)
         {
             this.ennemyID = ennemyID;
-            CurrentBox = velocity;
-            NextBox = new Vector2(velocity.X + 1, velocity.Y);
             texture = TDTextures.Textures[TDData.Data[ennemyID].NameTexture];
             frameWidth = TDData.Data[ennemyID].FrameWidth;
             frameHeight = TDData.Data[ennemyID].FrameHeight;            
             isFrame = true;
             scale = 1f;
             HP = TDData.Data[ennemyID].MaxHP;
+            MaxHP = TDData.Data[ennemyID].MaxHP;
             IsFlying = TDData.Data[ennemyID].isFlying;
+            isFlipHorizontally = TDData.Data[ennemyID].isTilesetDirectionLeft;            
             IsPreferredDirectionLeft = TDData.Data[ennemyID].isPreferredDirectionLeft;
             speed = TDData.Data[ennemyID].speed;
             rectangleLife = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.LightGreen, Color.White);
             rectangleDeath = new TDRectangle(mainGame, TDRectangle.Type.fill, 0, 0, 0, LENGHTLIFEHEIGHT, Color.Black, Color.White);
-            ennemyRectangle = new Rectangle(
-               (int)(position.X - TDData.Data[ennemyID].FrameWidth / 2),
-               (int)(position.Y - TDData.Data[ennemyID].FrameHeight / 2),
-               TDData.Data[ennemyID].FrameWidth,
-               TDData.Data[ennemyID].FrameHeight);
-            ennemyBoundingBox = new BoundingBox(new Vector3(ennemyRectangle.Left, ennemyRectangle.Top, 0),
-                                            new Vector3(ennemyRectangle.Right, ennemyRectangle.Bottom, 0));
-            IsMirrored = !TDData.Data[ennemyID].isMirrored;
-            ennemyVelocity = new Vector2(1,0);
-            currentDestination = eDirection.Right;
-            base.velocity = new Vector2(ennemyVelocity.X * speed,
-                    ennemyVelocity.Y * speed);
-        }
-
-        public void IsAttack(int damages)
-        {
-            HP -= damages;
         }
 
         
-
-        
-                
-
         public override void Update(GameTime gameTime)
         {
-
-            if (IsMirrored)
-            {
-                effect = SpriteEffects.FlipHorizontally;
-            }
-            else
-            {
-                effect = SpriteEffects.None;
-            }
-
-            int maxHP = TDData.Data[ennemyID].MaxHP;
+            effect = isFlipHorizontally ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            velocity = new Vector2(ennemyVelocity.X * speed, ennemyVelocity.Y * speed);
             rectangleLife.Rect.X = (int)(position.X + LENGHTLIFEOFFSETX);
             rectangleLife.Rect.Y = (int)(position.Y + LENGHTLIFEOFFSETY);
-            rectangleLife.Rect.Width = ((int)(HP * LENGHTLIFEWIDTH / maxHP));
-
+            rectangleLife.Rect.Width = ((int)(HP * LENGHTLIFEWIDTH / MaxHP));
             rectangleDeath.Rect.X = (int)(rectangleLife.Rect.X + rectangleLife.Rect.Width);
             rectangleDeath.Rect.Y = (int)(position.Y + LENGHTLIFEOFFSETY);
             rectangleDeath.Rect.Width = ((int)(LENGHTLIFEWIDTH - rectangleLife.Rect.Width));
-            ennemyRectangle = new Rectangle(
-                (int)(position.X),
-                (int)(position.Y),
-                frameWidth/4,
-                frameHeight/4);
-            ennemyBoundingBox = new BoundingBox(new Vector3(ennemyRectangle.Left, ennemyRectangle.Top, 0),
-                                                new Vector3(ennemyRectangle.Right, ennemyRectangle.Bottom, 0));
-
+           
             base.Update(gameTime);
         }
 

@@ -55,11 +55,8 @@ namespace tower_Defense.Map
                 lstTilesets.Add(mainGame.Content.Load<Texture2D>("Tilesets/" + tmxTileset.Name.ToString()));
                 lstTilesetsGrid.Add(tmxTileset.FirstGid);
             }
-
             mapWidth = map.Width;
-            Debug.WriteLine(map.Layers[0].Name) ;
             mapHeight = map.Height;
-          
             int nbLayers = map.Layers.Count;
             int nLayer = 0;
             foreach (TmxLayer layer in map.Layers)
@@ -173,19 +170,7 @@ namespace tower_Defense.Map
                 nLayer++;
             }            
         }        
-        public void Load(SceneMap currentScene)
-        {
-            SpriteMap sprMap;
-            foreach (Tile tile in lstTilesWater)
-            {
-                sprMap = new SpriteMap(mainGame, tile._position, new Vector2(0, 0), "tileAnimated", tile);
-                sprMap.position = tile._position;
-                sprMap.isFrame = true;
-                sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 1f / 12f, tile.offsetX, tile.offsetY, true, tile.initOffsetX);
-                sprMap.RunAnimation("map");
-            }
-        }
-
+        
         public void Update(GameTime gameTime)
         {
             NotifyTiles();

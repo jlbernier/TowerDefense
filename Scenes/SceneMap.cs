@@ -234,7 +234,6 @@ namespace tower_Defense.Scenes
             map.LoadMap();            
             LoadSceneMap loadSceneMap = new LoadSceneMap();
             loadSceneMap.Load(mainGame, map, this);
-
             base.Load();
         }
 
@@ -245,6 +244,7 @@ namespace tower_Defense.Scenes
 
         public override void Update(GameTime gameTime)
         {
+           
             TDData.CurrentTimerWave += isGameSpeedUp ?
                  (float)gameTime.ElapsedGameTime.TotalSeconds * 20 :
                  (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -270,7 +270,8 @@ namespace tower_Defense.Scenes
             spriteEnnemyFilter
                 .UpdateVelocity(this)
                 .ImpactCollision()
-                .RemoveDeadEnnemy();
+                .RemoveDeadEnnemy()
+                .EnnemyArrived();
             
             map.Update(gameTime);
             if (!isGamePaused) ennemiesWave.Update(mainGame, mainGame._graphics, gameTime, this, isGameSpeedUp);
@@ -290,14 +291,14 @@ namespace tower_Defense.Scenes
             lstTilesWater.ForEach(actor => actor.Draw(gameTime));
             map.Draw(MainGame.spriteBatch, map.lstTilesPath);
             map.Draw(MainGame.spriteBatch, map.lstTilesTreesAndStones);
-            map.Draw(MainGame.spriteBatch, map.lstTilesBridges);
             map.Draw(MainGame.spriteBatch, map.lstTilesSartEnd);
             
-            listButtons.ForEach(actor => actor.Draw(gameTime));
             spriteWeaponFilter.DrawAll(gameTime);
             spriteMissileFilter.DrawAll(gameTime);
             spriteImpactFilter.DrawAll(gameTime);
             spriteEnnemyFilter.DrawAll(gameTime);
+            listButtons.ForEach(actor => actor.Draw(gameTime));
+            map.Draw(MainGame.spriteBatch, map.lstTilesBridges);
             MainGame.spriteBatch.DrawString(SmallFont,
                 TDData.LevelAndWave, new Vector2(40, 120), Color.White);
             MainGame.spriteBatch.DrawString(SmallFont,

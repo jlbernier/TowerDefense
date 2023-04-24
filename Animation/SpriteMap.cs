@@ -18,7 +18,7 @@ namespace tower_Defense.Animation
             frameWidth = tile.frameWidth;
             frameHeight = tile.frameHeight;           
             isFrame = true;          
-            scale = 1f;           
+            scale = 1f;    
         }
                 
         public override void Update(GameTime gameTime)

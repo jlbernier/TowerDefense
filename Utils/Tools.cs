@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,103 +17,525 @@ namespace tower_Defense.Utils
     {
         public Tools() { }
 
-        public static Vector2 NewVelocity(SpriteEnnemy spriteEnnemy)
+        public static void IsMouseVisible(Boolean isVisible)
         {
-            Vector2 velocity = new Vector2(0,0);
-            if (spriteEnnemy.CurrentBox + new Vector2(1,0) == spriteEnnemy.NextBox)
-            {
-                if (spriteEnnemy.NextBox + new Vector2(0, -1) == spriteEnnemy.NextAfterBox)
-                {
-                    // right up
-                    return new Vector2(1, -1);
-
-                }
-                if (spriteEnnemy.NextBox + new Vector2(1, 0) == spriteEnnemy.NextAfterBox)
-                {
-                    // right right
-                    return new Vector2 (1, 0);
-                }
-                if (spriteEnnemy.NextBox + new Vector2(0, 1) == spriteEnnemy.NextAfterBox)
-                {
-                    // right bottom
-                    return new Vector2(1, 0);
-
-                }
-
-            }
-
-            return velocity;
+            if (isVisible)
+                Mouse.SetCursor(MouseCursor.Arrow);
+            Mouse.SetCursor(MouseCursor.FromTexture2D(MainGame.transparentTexture, 0, 0));
         }
 
-        public static Vector2 NextAfterBox(SceneMap currentScene,SpriteEnnemy spriteEnnemy)
+        public static int BoxToCheck(SceneMap currentScene,SpriteEnnemy spriteEnnemy, TDData.eDirection direction)
         {
-            int rightBox = (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X + 1, (int)spriteEnnemy.NextBox.Y];
-            int upBox = ((int)spriteEnnemy.NextBox.Y == 0) ? 0 :
-                (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y - 1];
-            int downBox = ((int)spriteEnnemy.NextBox.Y == currentScene.map.arrayPath.GetLength(1)) ? 0 :
-                (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y + 1];
-            Vector2 nextAfterBox = new Vector2();
-            switch (spriteEnnemy.nextDestination)
+            switch (direction)
             {
-                case TDData.eDirection.None:
-                    break;
                 case TDData.eDirection.Left:
-                    break;
+                    return ((int)spriteEnnemy.NextBox.X == 0) ? 0 :
+                (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X - 1, (int)spriteEnnemy.NextBox.Y];
                 case TDData.eDirection.Right:
-                     if (spriteEnnemy.currentDestination == TDData.eDirection.Right)
-                    {
-                        switch (rightBox)
-                        {
-                            case TDData.HorizontalPath:
-                                return new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
-                            case TDData.StonePath:
-                                if (spriteEnnemy.IsFlying)
-                                    return new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
-                                if (spriteEnnemy.IsPreferredDirectionLeft && (upBox == TDData.VerticalPath || upBox == TDData.VerticalBridge1))
-                                    return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
-                                return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
-                            default:
-                                break;
-                        }
-                        Debug.WriteLine(currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X +1, (int)spriteEnnemy.NextBox.Y].ToString());
-                    }
-                    break;
-                case TDData.eDirection.Up:
-                    if (spriteEnnemy.currentDestination == TDData.eDirection.Up)
-                        Debug.WriteLine(currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X + 1, (int)spriteEnnemy.NextBox.Y].ToString());
-                    switch (upBox)
-                    {
-                        case TDData.VerticalPath:
-                        case TDData.VerticalBridge2:
-                        case TDData.UpRight:
-                            return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
-                        case TDData.StonePath:
-                            if (spriteEnnemy.IsFlying)
-                                return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y -1); 
-                            break;
-                        case TDData.VerticalBridge1:
-                            if (!spriteEnnemy.IsFlying)
-                                return new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
-
-
-                            // bridge pour volants à faire
-                            break;
-                        default:
-                            break;
-                    }
-
-
-
-                    break;
+                    return ((int)spriteEnnemy.NextBox.X == currentScene.map.arrayPath.GetLength(0)) ? 0 :
+                             (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X + 1, (int)spriteEnnemy.NextBox.Y]; break;
                 case TDData.eDirection.Botton:
+                    return ((int)spriteEnnemy.NextBox.Y == currentScene.map.arrayPath.GetLength(1)) ? 0 :
+                          (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y + 1]; break;
+                case TDData.eDirection.Up:
+                    return ((int)spriteEnnemy.NextBox.Y == 0) ? 0 :
+                             (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y - 1]; break;
+                default:
+                    return 0;
+            }
+        }
+
+        public static void NextDestinationLeft(SceneMap currentScene, SpriteEnnemy spriteEnnemy)
+        {
+            if (spriteEnnemy.IsArrivalNextCurrentBox)
+            {
+                spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                spriteEnnemy.IsArrivalCurrentBox = true;
+                return;
+            }
+            if (spriteEnnemy.IsArrivalAfterNextCurrentBox)
+            {
+                spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                spriteEnnemy.IsArrivalNextCurrentBox = true;
+                return;
+            }
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Left))
+            {
+                case TDData.EndBox:
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                    spriteEnnemy.IsArrivalAfterNextCurrentBox = true;
+                    return;
+                case TDData.HorizontalPath:   
+                case TDData.HorizontalPathBis:
+                case TDData.BottomLeft3:
+                case TDData.UpLeft3: 
+                case TDData.LeftUp1:
+                case TDData.LeftBottom1: 
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                    return;
+                case TDData.LeftUp2:
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Up;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                    return;
+                case TDData.LeftBottom2:
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Botton;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                    return;
+                case TDData.StonePath:
+                    if (spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                        return;
+                    }
+                    break;
+                case TDData.VerticalBridge1:
+                case TDData.VerticalBridge2:
+                    if (!spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                        return;
+                    }
                     break;
                 default:
                     break;
             }
-
-            return nextAfterBox;
+            if (TDData.Data[spriteEnnemy.ennemyID].isPreferredDirectionLeft)
+                switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Up))
+                {
+                    case TDData.StonePath:
+                        if (spriteEnnemy.IsFlying)
+                        {
+                            spriteEnnemy.currentDestination = TDData.eDirection.Up;
+                            spriteEnnemy.nextAfterDestination = TDData.eDirection.Up;
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                            return;
+                        }
+                        break;
+                    case TDData.HorizontalBridge1:
+                        if (!spriteEnnemy.IsFlying)
+                        {
+                            spriteEnnemy.currentDestination = TDData.eDirection.Up;
+                            spriteEnnemy.nextAfterDestination = TDData.eDirection.Up;
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                            return;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Botton))
+            {
+                case TDData.StonePath:
+                    spriteEnnemy.currentDestination = TDData.eDirection.Botton;
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Botton;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                    break;
+                case TDData.HorizontalBridge1:
+                    spriteEnnemy.currentDestination = TDData.eDirection.Botton;
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Botton;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                    break;
+                default:
+                    break;
+            }
         }
 
+        public static void NextDestinationRight(SceneMap currentScene, SpriteEnnemy spriteEnnemy)
+        {
+            if (spriteEnnemy.IsArrivalNextCurrentBox)
+            {
+                spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                spriteEnnemy.IsArrivalCurrentBox = true;
+                return;
+            }
+            if (spriteEnnemy.IsArrivalAfterNextCurrentBox)
+            {
+                spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                spriteEnnemy.IsArrivalNextCurrentBox = true;
+                return;
+            }
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Right))
+            {
+                case TDData.EndBox:
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                    spriteEnnemy.IsArrivalAfterNextCurrentBox = true;
+                    return;
+                case TDData.HorizontalPath:
+                case TDData.HorizontalPathBis:
+                case TDData.Crossing1:
+                case TDData.Crossing2:
+                case TDData.Crossing3:
+                case TDData.RightDown1:
+                case TDData.BottomRight3:
+                case TDData.RightUp1: 
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X +1, spriteEnnemy.NextBox.Y);
+                    return;
+                case TDData.RightUp2: 
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Up;
+                    return;
+                
+                case TDData.RightDown2:
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Botton;
+                    return;
+                case TDData.UpRight3: // end of turn up right
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                    return;
+                case TDData.StonePath:
+                    if (spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X +1, spriteEnnemy.NextBox.Y);
+                        return;
+                    }
+                    break;
+                case TDData.VerticalBridge1:
+                case TDData.VerticalBridge2:
+                    if (!spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X+1, spriteEnnemy.NextBox.Y);
+                        return;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if (TDData.Data[spriteEnnemy.ennemyID].isPreferredDirectionLeft)
+                //Debug.WriteLine(BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Up));
+                switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Up))
+                {
+                    case TDData.StonePath:
+                        if (spriteEnnemy.IsFlying)
+                        {
+                            spriteEnnemy.nextDestination = TDData.eDirection.Up;
+                            spriteEnnemy.nextAfterDestination = TDData.eDirection.Up;
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                            return;
+                        }
+                        break;
+                    case TDData.HorizontalBridge1:
+                        if (!spriteEnnemy.IsFlying)
+                        {
+                            spriteEnnemy.nextDestination = TDData.eDirection.Up;
+                            spriteEnnemy.nextAfterDestination = TDData.eDirection.Up;
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                            return;
+                        }
+                        break;
+                        case TDData.VerticalPath:
+                        spriteEnnemy.nextDestination = TDData.eDirection.Up;
+                        spriteEnnemy.nextAfterDestination = TDData.eDirection.Up;
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                        return; ;
+                    default:
+                        break;
+                }
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Botton))
+            {
+                case TDData.StonePath:
+                case TDData.HorizontalBridge2:
+                case TDData.DownRight1:
+                case TDData.DownLeft1:
+                case TDData.VerticalPath:
+                case TDData.Crossing1:
+                case TDData.Crossing2:
+                case TDData.Crossing3:
+                case TDData.Crossing4:
+                    spriteEnnemy.nextDestination = TDData.eDirection.Botton;
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Botton;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                    break;
+                default:
+                    Debug.WriteLine(BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Botton));
+                    break;
+            }
+        }
+
+        public static void NextDestinationUp(SceneMap currentScene, SpriteEnnemy spriteEnnemy)
+        {
+            if (spriteEnnemy.IsArrivalNextCurrentBox)
+            {
+                spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                spriteEnnemy.IsArrivalCurrentBox = true;
+                return;
+            }
+            if (spriteEnnemy.IsArrivalAfterNextCurrentBox)
+            {
+                spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                spriteEnnemy.IsArrivalNextCurrentBox = true;
+                return;
+            }
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Up))
+            {
+                case TDData.EndBox:
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                    spriteEnnemy.IsArrivalAfterNextCurrentBox = true;
+                    return;
+                case TDData.VerticalPath:
+                case TDData.HorizontalBridge2:
+                case TDData.UpRight1:
+                case TDData.RightUp3:
+                case TDData.LeftUp3:
+                case TDData.UpLeft1:
+                case TDData.Crossing1:
+                case TDData.Crossing2:
+                case TDData.Crossing3:
+                case TDData.Crossing4:
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Up;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                    return;
+                case TDData.UpLeft2:
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Left;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                    return;
+                case TDData.UpRight2:
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Right;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                    return;
+                 case TDData.StonePath:
+                    if (spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                        return;
+                    }
+                    break;
+                case TDData.HorizontalBridge1:
+                    if (!spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                        return;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if (TDData.Data[spriteEnnemy.ennemyID].isPreferredDirectionLeft)
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Left))
+            {
+                case TDData.StonePath:
+                        if (spriteEnnemy.IsFlying)
+                        {
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                            return;
+                        }
+                    break;
+                case TDData.HorizontalBridge1:
+                        if (!spriteEnnemy.IsFlying)
+                        {
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                            return;
+                        }
+                    break;
+                default:
+                        int box = ((int)spriteEnnemy.NextBox.Y == 0) ? 0 :
+                             (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y]; 
+
+                        if (box == TDData.Crossing3)
+                        {
+                            // turn Right after Crossing3
+                            spriteEnnemy.nextDestination = TDData.eDirection.Right;
+                            spriteEnnemy.nextAfterDestination = TDData.eDirection.Right;
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                        }
+                        break;
+            }
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Right))
+            {
+                case TDData.StonePath:
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                    break;
+                case TDData.HorizontalBridge1:
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
+                    break;
+                case TDData.HorizontalPath:
+                case TDData.HorizontalPathBis:
+                    spriteEnnemy.nextDestination = TDData.eDirection.Right;
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Right;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static void NextDestinationBotton(SceneMap currentScene, SpriteEnnemy spriteEnnemy)
+        {
+
+            if (spriteEnnemy.IsArrivalNextCurrentBox)
+            {
+                spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                spriteEnnemy.IsArrivalCurrentBox = true;
+                return;
+            }
+            if (spriteEnnemy.IsArrivalAfterNextCurrentBox)
+            {
+                spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                spriteEnnemy.IsArrivalNextCurrentBox = true;
+                return;
+            }
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Botton))
+            {
+                case TDData.EndBox:
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                    spriteEnnemy.IsArrivalAfterNextCurrentBox = true;
+                    return;
+                case TDData.VerticalPath:
+                case TDData.HorizontalBridge1:
+                case TDData.BottomRight1:
+                case TDData.BottomLeft1:
+                case TDData.LeftBottom3:
+                case TDData.RightDown3:
+                case TDData.Crossing4:
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                    return;
+                case TDData.BottomRight2:
+                case TDData.BottomRight2bis:
+                case TDData.Crossing1:
+                case TDData.Crossing2:
+                case TDData.Crossing3:
+                    // we have to turn right or left
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Right;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                    return;
+                case TDData.BottomLeft2:
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Left;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                    return;
+                case TDData.StonePath:
+                    if (!spriteEnnemy.IsFlying)
+                    {
+                        Debug.WriteLine(BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Right));
+                    }
+                        if (spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                        return;
+                    }
+                    break;
+                case TDData.HorizontalBridge2:
+                    if (!spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
+                        return;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if (TDData.Data[spriteEnnemy.ennemyID].isPreferredDirectionLeft)
+                switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Right))
+                {
+                    case TDData.Crossing1:
+                    case TDData.Crossing2:
+                    case TDData.Crossing3:
+                    case TDData.HorizontalPath:
+                    case TDData.HorizontalPathBis:
+                        spriteEnnemy.nextDestination = TDData.eDirection.Right;
+                        spriteEnnemy.nextAfterDestination = TDData.eDirection.Right;
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                        return;
+                    case TDData.StonePath:
+                        if (spriteEnnemy.IsFlying)
+                        {
+                            spriteEnnemy.nextAfterDestination = TDData.eDirection.Right;
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                            return;
+                        }
+                        break;
+                    case TDData.VerticalBridge1:
+                        if (!spriteEnnemy.IsFlying)
+                        {
+                            spriteEnnemy.nextAfterDestination = TDData.eDirection.Right;
+                            spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                            return;
+                        }
+                        break;
+                    default:
+                       break;
+                }
+            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Left))
+            {
+                case TDData.Crossing1:
+                case TDData.Crossing2:
+                case TDData.Crossing3:
+                case TDData.HorizontalPath:
+                case TDData.HorizontalPathBis:
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Left;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                    return;
+                case TDData.StonePath:
+                    if (spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.nextAfterDestination = TDData.eDirection.Left;
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                    }
+                    break;
+                case TDData.VerticalBridge2: // modif
+                    if (!spriteEnnemy.IsFlying)
+                    {
+                        spriteEnnemy.nextAfterDestination = TDData.eDirection.Left;
+                        spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
+                    }
+                    break;
+                default:
+                    spriteEnnemy.nextDestination = TDData.eDirection.Right;
+                    spriteEnnemy.nextAfterDestination = TDData.eDirection.Right;
+                    spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
+                    break;
+            }
+        }
+        public static void NextAfterBox(SceneMap currentScene,SpriteEnnemy spriteEnnemy)
+        {           
+            switch (spriteEnnemy.nextDestination)
+            {
+                case TDData.eDirection.Left:
+                    NextDestinationLeft(currentScene, spriteEnnemy);
+                    break;
+                case TDData.eDirection.Right:
+                    NextDestinationRight(currentScene, spriteEnnemy);
+                    break;
+                case TDData.eDirection.Up:
+                    NextDestinationUp(currentScene, spriteEnnemy);
+                    break;
+                case TDData.eDirection.Botton:
+                    NextDestinationBotton(currentScene, spriteEnnemy);
+                    break;
+                default:
+                    break;
+            }
+        }
+        public static void EnnemyArrival(SpriteEnnemy spriteEnnemy)
+        {
+            switch (spriteEnnemy.nextDestination)
+            {
+                case TDData.eDirection.Left: // à vérifier
+                    if (spriteEnnemy.position.X <= (spriteEnnemy.CurrentBox.X + 1) * TDData.BoxWidth - TDData.BoxWidth / 2)
+                    {
+                        Debug.WriteLine("spriteEnnemy.Arrival: " + spriteEnnemy.CurrentBox.ToString());
+                        spriteEnnemy.ennemyVelocity = new Vector2();
+                        spriteEnnemy.IsArrived = true;
+                        return;
+                    }
+                        break;
+                case TDData.eDirection.Right:
+                    if (spriteEnnemy.position.X >= spriteEnnemy.CurrentBox.X * TDData.BoxWidth + TDData.BoxWidth / 2)
+                    {
+                        Debug.WriteLine("spriteEnnemy.Arrival: " + spriteEnnemy.CurrentBox.ToString());
+                        spriteEnnemy.ennemyVelocity = new Vector2();
+                        spriteEnnemy.IsArrived = true;
+                        return;
+                    }
+                    break;
+                case TDData.eDirection.Up:
+                    
+                    break;
+                case TDData.eDirection.Botton:
+                    
+                    break;
+                default:
+                    break;
+            }
+        }
         public static float AngleRadian(Vector2 velocity)
         {
             float rotation = 0f;

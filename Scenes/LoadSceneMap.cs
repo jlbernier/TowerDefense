@@ -14,7 +14,7 @@ namespace tower_Defense.Scenes
 {
     public class LoadSceneMap
     {
-        SpriteMap sprMap;
+        private SpriteMap sprMap;
         Tower _tower { get; set; }
         Button _button { get; set; }
         public LoadSceneMap()
@@ -22,14 +22,19 @@ namespace tower_Defense.Scenes
         }
         public void Load(Game mainGame, MapTiled mapTiled, SceneMap currentScene)
         {
+            Random rand = new Random();
+            float time = 1 / 12f;
 
             foreach (Tile tile in mapTiled.lstTilesWater)
             {
+                time = 1f / 12f;
                 sprMap = new SpriteMap(mainGame, tile._position, new Vector2(0, 0), "tileAnimated", tile);
                 sprMap.position = tile._position;
                 sprMap.isFrame = true;
-                sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 1f / 12f, tile.offsetX, tile.offsetY, true, tile.initOffsetX, tile.initOffsetY);
+                time *= rand.Next(1, 3);
+                sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, time, tile.offsetX, tile.offsetY, true, tile.initOffsetX, tile.initOffsetY);
                 sprMap.RunAnimation("map");
+                sprMap.frame = rand.Next(0,10);
                 currentScene.lstTilesWater.Add(sprMap);
             }
             Rectangle Screen = mainGame.Window.ClientBounds;

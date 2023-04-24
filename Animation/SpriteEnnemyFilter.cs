@@ -25,24 +25,30 @@ namespace tower_Defense.Animation
             this.liste = new();
             filtredListe = new();
         }
-        public SpriteEnnemyFilter AddEnnemy(Game mainGame, SceneMap currentScene, string ennemyID)
+        public static (Vector2,Vector2) StartPositionAndBox(SceneMap currentScene, string ennemyID)
         {
-            Vector2 position =new Vector2();
-            Vector2 currentBox =new Vector2();
+            Vector2 position = new Vector2();
+            Vector2 currentBox = new Vector2();
             for (int line = 0; line < currentScene.map.arrayPath.GetLength(0); line++)
             {
                 for (int column = 0; column < currentScene.map.arrayPath.GetLength(1); column++)
                 {
                     if (currentScene.map.arrayPath[line, column] == TDData.StartBox)
                     {
-                        position = new Vector2(line * TDData.BoxWidth + TDData.BoxWidth/2,
-                            column * TDData.BoxHeight + TDData.BoxHeight/2);
+                        position = new Vector2(line * TDData.BoxWidth + TDData.BoxWidth / 2,
+                            column * TDData.BoxHeight + TDData.BoxHeight / 2);
                         currentBox = new Vector2(line, column);
                     }
                 }
             }
-            SpriteEnnemy spriteEnnemy = new SpriteEnnemy(mainGame, position, 
-                currentBox, ennemyID);
+            return (position, currentBox);
+        }
+   
+        
+        public SpriteEnnemyFilter AddEnnemy(Game mainGame, SceneMap currentScene, string ennemyID)
+        {
+            (Vector2 position, Vector2 currentBox) = StartPositionAndBox(currentScene, ennemyID);
+            SpriteEnnemy spriteEnnemy = new SpriteEnnemy(mainGame, position, currentBox, ennemyID);
             spriteEnnemy.AddAnimation(
                 "Ennemy",
                 TDData.Data[ennemyID].ArrayFrames,
@@ -52,49 +58,166 @@ namespace tower_Defense.Animation
                 TDData.Data[ennemyID].IsLoop,
                 TDData.Data[ennemyID].InitOffsetX,
                 TDData.Data[ennemyID].InitOffsetY);
-            NextEnnemyDestination(spriteEnnemy, spriteEnnemy.CurrentBox, spriteEnnemy.NextBox);
-            spriteEnnemy.NextAfterBox = Tools.NextAfterBox(currentScene, spriteEnnemy);
+            spriteEnnemy.currentDestination = eDirection.Right;
+            spriteEnnemy.nextDestination = eDirection.Right;
+            spriteEnnemy.ennemyVelocity = new Vector2(1,0);
+            spriteEnnemy.CurrentBox = currentBox;
+            spriteEnnemy.NextBox = currentBox + new Vector2(1,0);
+            Tools.NextAfterBox(currentScene, spriteEnnemy);
+            spriteEnnemy.nextDestination = spriteEnnemy.nextAfterDestination;
+            if (spriteEnnemy.nextAfterDestination == eDirection.None)
+            {
+                spriteEnnemy.nextDestination = eDirection.Right;
+                spriteEnnemy.nextAfterDestination = eDirection.Right;
+            }
             spriteEnnemy.RunAnimation("Ennemy");
             liste.Add(spriteEnnemy);
             return this;
         }
         public bool EnnemyInCurrentBox(SpriteEnnemy spriteEnnemy)
         {
-            if (spriteEnnemy.position.X >= spriteEnnemy.CurrentBox.X * spriteEnnemy.frameWidth &&
-                spriteEnnemy.position.X <= (spriteEnnemy.CurrentBox.X + 1) * spriteEnnemy.frameWidth &&
-                spriteEnnemy.position.Y >= spriteEnnemy.CurrentBox.Y * spriteEnnemy.frameHeight &&
-                spriteEnnemy.position.Y <= (spriteEnnemy.CurrentBox.Y + 1) * spriteEnnemy.frameHeight)
+            if (spriteEnnemy.position.X >= spriteEnnemy.CurrentBox.X * TDData.BoxWidth &&
+                spriteEnnemy.position.X <= (spriteEnnemy.CurrentBox.X + 1) * TDData.BoxWidth &&
+                spriteEnnemy.position.Y >= spriteEnnemy.CurrentBox.Y * TDData.BoxHeight &&
+                spriteEnnemy.position.Y <= (spriteEnnemy.CurrentBox.Y + 1) * TDData.BoxHeight)
                 return true;
             return false;
         }
-        public void NextEnnemyDestination(SpriteEnnemy spriteEnnemy, Vector2 boxOrigine, Vector2 boxDestination)
+        public void ContinueStraight(SpriteEnnemy spriteEnnemy)
         {
-            Vector2 destination = boxDestination - boxOrigine;
-            switch (destination)
+            switch (spriteEnnemy.currentDestination)
             {
-                case Vector2(0,0):
-                    spriteEnnemy.nextDestination = spriteEnnemy.currentDestination;
+                case TDData.eDirection.Right:
+                    spriteEnnemy.currentAnimation.initOffsetY = TDData.Data[spriteEnnemy.ennemyID].InitOffsetY;
+                    spriteEnnemy.isFlipHorizontally = TDData.Data[spriteEnnemy.ennemyID].isTilesetDirectionLeft;
+                    spriteEnnemy.ennemyVelocity = new Vector2(1, 0);
                     break;
-                case Vector2(1,0):
-                    spriteEnnemy.IsMirrored = !TDData.Data[spriteEnnemy.ennemyID].isMirrored;
-                    spriteEnnemy.nextDestination = eDirection.Right;
+                case TDData.eDirection.Left:
+                    spriteEnnemy.currentAnimation.initOffsetY = TDData.Data[spriteEnnemy.ennemyID].InitOffsetY;
+                    spriteEnnemy.isFlipHorizontally = !TDData.Data[spriteEnnemy.ennemyID].isTilesetDirectionLeft;
+                    spriteEnnemy.ennemyVelocity = new Vector2(-1, 0);
                     break;
-                case Vector2(-1, 0):
-                    spriteEnnemy.IsMirrored = TDData.Data[spriteEnnemy.ennemyID].isMirrored;
-                    spriteEnnemy.nextDestination = eDirection.Left;
-                    break;
-                case Vector2(0, 1):
-                    spriteEnnemy.nextDestination = eDirection.Botton;
-                    break;
-                case Vector2(0, -1):
-                case Vector2(1,-1):
-                case Vector2(-1, -1):
+                case TDData.eDirection.Up:
                     spriteEnnemy.currentAnimation.initOffsetY = TDData.Data[spriteEnnemy.ennemyID].InitOffsetYUp;
-                    spriteEnnemy.nextDestination = eDirection.Up;
+                    spriteEnnemy.ennemyVelocity = new Vector2(0, -1);
+                    break;
+                case TDData.eDirection.Botton:
+                    spriteEnnemy.currentAnimation.initOffsetY = TDData.Data[spriteEnnemy.ennemyID].InitOffsetYBottom;
+                    spriteEnnemy.ennemyVelocity = new Vector2(0, 1);
                     break;
                 default:
                     break;
             }
+        }
+        public void TurnRightUpOrRightBottom(SpriteEnnemy spriteEnnemy)
+        {
+
+            if (spriteEnnemy.nextDestination == eDirection.Up)
+            {
+                spriteEnnemy.currentAnimation.initOffsetY = TDData.Data[spriteEnnemy.ennemyID].InitOffsetY;
+                spriteEnnemy.isFlipHorizontally = TDData.Data[spriteEnnemy.ennemyID].isTilesetDirectionLeft;
+                spriteEnnemy.ennemyVelocity = new Vector2(1, -1);
+                spriteEnnemy.rotation = (float)Math.PI / 4 * -1;
+
+            }
+            else
+            {
+                spriteEnnemy.currentAnimation.initOffsetY = TDData.Data[spriteEnnemy.ennemyID].InitOffsetY;
+                spriteEnnemy.isFlipHorizontally = TDData.Data[spriteEnnemy.ennemyID].isTilesetDirectionLeft;
+                spriteEnnemy.ennemyVelocity = new Vector2(1, 1);
+                spriteEnnemy.rotation = (float)Math.PI / 4;
+            }
+        }
+        public void TurnLeftUpOrLeftBottom(SpriteEnnemy spriteEnnemy)
+        {
+            if (spriteEnnemy.nextDestination == eDirection.Up)
+            {
+                spriteEnnemy.currentAnimation.initOffsetY = TDData.Data[spriteEnnemy.ennemyID].InitOffsetY;
+                spriteEnnemy.isFlipHorizontally = !TDData.Data[spriteEnnemy.ennemyID].isTilesetDirectionLeft;
+                spriteEnnemy.ennemyVelocity = new Vector2(-1, -1);
+                spriteEnnemy.rotation = (float)Math.PI / 4  ;
+            }
+            else
+            {
+                spriteEnnemy.currentAnimation.initOffsetY = TDData.Data[spriteEnnemy.ennemyID].InitOffsetY;
+                spriteEnnemy.isFlipHorizontally = !TDData.Data[spriteEnnemy.ennemyID].isTilesetDirectionLeft;
+                spriteEnnemy.ennemyVelocity = new Vector2(-1, 1);
+                spriteEnnemy.rotation = (float)Math.PI / 4 * -1;
+            }
+        }
+        public void TurnUpRightOrUpLeft(SpriteEnnemy spriteEnnemy)
+        {
+            spriteEnnemy.isFlipHorizontally = false;
+            if (spriteEnnemy.nextDestination == eDirection.Right)
+            {
+                spriteEnnemy.ennemyVelocity = new Vector2(1, -1);
+                spriteEnnemy.rotation = (float)Math.PI / 4;
+            }
+            else
+            {
+                spriteEnnemy.ennemyVelocity = new Vector2(-1, -1);
+                spriteEnnemy.rotation = (float)Math.PI / 4 * -1;
+
+            }
+        }
+        public void TurnBottomRightOrBottomLeft(SpriteEnnemy spriteEnnemy)
+        {
+            spriteEnnemy.isFlipHorizontally = false;
+            if (spriteEnnemy.nextDestination == eDirection.Right)
+            {
+                spriteEnnemy.ennemyVelocity = new Vector2(1, 1);
+                spriteEnnemy.rotation = (float)Math.PI / 4 * -1;
+            }
+            else
+            {
+                spriteEnnemy.ennemyVelocity = new Vector2(-1, 1);
+                spriteEnnemy.rotation = (float)Math.PI / 4 ;
+            }
+        }
+        public void StartTurning(SpriteEnnemy spriteEnnemy)
+        {
+            switch (spriteEnnemy.currentDestination)
+            {
+                case TDData.eDirection.Right:
+                    TurnRightUpOrRightBottom(spriteEnnemy);
+                    break;
+                case TDData.eDirection.Left:
+                    TurnLeftUpOrLeftBottom(spriteEnnemy);
+                    break;
+                case TDData.eDirection.Up:
+                    TurnUpRightOrUpLeft(spriteEnnemy);
+                    break;
+                case TDData.eDirection.Botton:
+                    TurnBottomRightOrBottomLeft(spriteEnnemy);
+                    break;
+                default:
+                    break;
+            }            
+        }
+        public void NextEnnemyDestination(SpriteEnnemy spriteEnnemy)
+        {
+            Debug.WriteLine("NextEnnemyDestination");
+
+            if ((spriteEnnemy.currentDestination == spriteEnnemy.nextDestination
+                && spriteEnnemy.nextDestination == spriteEnnemy.nextAfterDestination) || spriteEnnemy.IsEnnemyTurning)
+            {
+                Debug.WriteLine("ContinueStraight");
+                ContinueStraight(spriteEnnemy);
+                spriteEnnemy.IsEnnemyTurning = false;
+                spriteEnnemy.rotation = 0;
+            }
+            else if (spriteEnnemy.currentDestination != spriteEnnemy.nextDestination)
+            {
+                Debug.WriteLine("StartTurning");
+                StartTurning(spriteEnnemy);
+                spriteEnnemy.currentDestination = spriteEnnemy.nextDestination;
+                spriteEnnemy.nextDestination = spriteEnnemy.nextAfterDestination;
+                spriteEnnemy.IsEnnemyTurning = true;
+                return;
+            }
+            spriteEnnemy.currentDestination = spriteEnnemy.nextDestination;
+            spriteEnnemy.nextDestination = spriteEnnemy.nextAfterDestination;
+            //spriteEnnemy.rotation = 0;
         }
 
         public void ReplaceEnnemy(SpriteEnnemy spriteEnnemy)
@@ -102,20 +225,20 @@ namespace tower_Defense.Animation
             switch (spriteEnnemy.currentDestination)
             {
                 case eDirection.Left:
-                    spriteEnnemy.position = new Vector2(spriteEnnemy.CurrentBox.X * TDData.BoxWidth - TDData.BoxWidth,
+                    spriteEnnemy.position = new Vector2(spriteEnnemy.CurrentBox.X * TDData.BoxWidth - 1,
                         spriteEnnemy.CurrentBox.Y * TDData.BoxHeight + TDData.BoxHeight / 2);
                     break;
                 case eDirection.Right:
-                    spriteEnnemy.position = new Vector2(spriteEnnemy.CurrentBox.X * TDData.BoxWidth + TDData.BoxWidth,
+                    spriteEnnemy.position = new Vector2(spriteEnnemy.CurrentBox.X * TDData.BoxWidth + TDData.BoxWidth + 1,
                         spriteEnnemy.CurrentBox.Y * TDData.BoxHeight + TDData.BoxHeight / 2);
                     break;
                 case eDirection.Up:
                     spriteEnnemy.position = new Vector2(spriteEnnemy.CurrentBox.X * TDData.BoxWidth + TDData.BoxWidth - TDData.BoxWidth / 2,
-                        spriteEnnemy.CurrentBox.Y * TDData.BoxHeight);
+                        spriteEnnemy.CurrentBox.Y * TDData.BoxHeight -1);
                     break;
                 case eDirection.Botton:
-                    spriteEnnemy.position = new Vector2(spriteEnnemy.CurrentBox.X * TDData.BoxWidth - TDData.BoxWidth - TDData.BoxWidth / 2,
-                        spriteEnnemy.CurrentBox.Y * TDData.BoxHeight);
+                    spriteEnnemy.position = new Vector2(spriteEnnemy.CurrentBox.X * TDData.BoxWidth + TDData.BoxWidth - TDData.BoxWidth / 2,
+                        (spriteEnnemy.CurrentBox.Y + 1) * TDData.BoxHeight + 1);
                     break;
                 default:
                     break;
@@ -126,35 +249,29 @@ namespace tower_Defense.Animation
         {
             liste.ForEach(spriteEnnemy =>
             {
-                if (!EnnemyInCurrentBox(spriteEnnemy))
+
+                if (spriteEnnemy.IsArrivalCurrentBox)
                 {
-                    ReplaceEnnemy(spriteEnnemy);
-                    NextEnnemyDestination(spriteEnnemy, spriteEnnemy.CurrentBox, spriteEnnemy.NextAfterBox);
-                    spriteEnnemy.currentDestination = spriteEnnemy.nextDestination;
-                    spriteEnnemy.CurrentBox = spriteEnnemy.NextBox;
-                    spriteEnnemy.NextBox = spriteEnnemy.NextAfterBox;
-                    spriteEnnemy.NextAfterBox = Tools.NextAfterBox(currentScene, spriteEnnemy);
+                    Tools.EnnemyArrival(spriteEnnemy);
                 }
-                spriteEnnemy.ennemyVelocity = Tools.NewVelocity(spriteEnnemy);
-                spriteEnnemy.velocity = new Vector2(spriteEnnemy.ennemyVelocity.X * spriteEnnemy.speed, 
-                    spriteEnnemy.ennemyVelocity.Y * spriteEnnemy.speed);               
+                else
+                {
+                    if (!EnnemyInCurrentBox(spriteEnnemy))
+                    {
+                        ReplaceEnnemy(spriteEnnemy);
+                        NextEnnemyDestination(spriteEnnemy);
+                        spriteEnnemy.CurrentBox = spriteEnnemy.NextBox;
+                        spriteEnnemy.NextBox = spriteEnnemy.NextAfterBox;
+                        Tools.NextAfterBox(currentScene, spriteEnnemy);
+                    }
+                    if (spriteEnnemy.CurrentBox == new Vector2(19, 3))
+                        Debug.WriteLine("spriteEnnemy.CurrentBox: " + spriteEnnemy.CurrentBox.ToString());
+                }
+                spriteEnnemy.velocity = new Vector2(spriteEnnemy.ennemyVelocity.X * spriteEnnemy.speed,
+                    spriteEnnemy.ennemyVelocity.Y * spriteEnnemy.speed);
             });
             return this;
         }
-
-
-        public SpriteEnnemyFilter UpdateAll(GameTime pGametime)
-        {
-            liste.ForEach(sprite => sprite.Update(pGametime));
-            return this;
-        }
-
-        public SpriteEnnemyFilter DrawAll(GameTime pGametime)
-        {
-            liste.ForEach(sprite => sprite.Draw(pGametime));
-            return this;
-        }
-
      
         public SpriteEnnemyFilter ImpactCollision()
         {
@@ -168,11 +285,35 @@ namespace tower_Defense.Animation
             return this;
         }
 
+        public SpriteEnnemyFilter EnnemyArrived()
+        {
+            liste.ForEach(spriteEnnemy =>
+            {
+                if (spriteEnnemy.IsArrived)
+                {
+                    TDData.Life -= Data[spriteEnnemy.ennemyID].LifeMinus;
+                }
+            });
+            liste.RemoveAll(spriteEnnemy => spriteEnnemy.IsArrived);
+            return this;
+        }
+
         public SpriteEnnemyFilter RemoveDeadEnnemy()
         {
             liste.RemoveAll(spriteEnnemy => spriteEnnemy.ToRemove);
             return this;
         }
 
+        public SpriteEnnemyFilter UpdateAll(GameTime pGametime)
+        {
+            liste.ForEach(sprite => sprite.Update(pGametime));
+            return this;
+        }
+
+        public SpriteEnnemyFilter DrawAll(GameTime pGametime)
+        {
+            liste.ForEach(sprite => sprite.Draw(pGametime));
+            return this;
+        }
     }
 }

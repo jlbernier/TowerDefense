@@ -42,7 +42,7 @@ namespace tower_Defense.EnnemiesWave
         
         public void LeftRightEnnemy(SpriteEnnemy sprEnnemy)
         {
-            sprEnnemy.IsMirrored = !sprEnnemy.IsMirrored;
+            sprEnnemy.isFlipHorizontally = !sprEnnemy.isFlipHorizontally;
             sprEnnemy.velocity = new Vector2(-1 * sprEnnemy.velocity.X, -1 * sprEnnemy.velocity.Y);            
         }
 

@@ -10,6 +10,7 @@ namespace tower_Defense
     {
         public GraphicsDeviceManager _graphics;
         public static SpriteBatch spriteBatch;
+        public static Texture2D transparentTexture;
         public GameState _gameState;
         public MainGame()
         {
@@ -29,7 +30,9 @@ namespace tower_Defense
         }
         protected override void LoadContent()
         {
-            // /!\ this.spriteBatch = new SpriteBatch(GraphicsDevice);
+            transparentTexture = new Texture2D(GraphicsDevice, 1, 1);
+            transparentTexture.SetData(new[] { Color.Transparent });
+            
             MainGame.spriteBatch = new SpriteBatch(GraphicsDevice);
         }
         protected override void Update(GameTime gameTime)

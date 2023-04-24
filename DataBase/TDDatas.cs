@@ -7,6 +7,7 @@ using tower_Defense.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Runtime.CompilerServices;
+using static tower_Defense.TDData;
 
 namespace tower_Defense
 {
@@ -125,13 +126,16 @@ namespace tower_Defense
         public Vector2 Velocity;
         public int speed;
         public bool isFlying;
+        public bool isTilesetDirectionLeft;
         public bool isPreferredDirectionLeft; 
         public bool isMirrored;
+        public int LifeMinus;
         public int FrameWidth;
         public int FrameHeight;
         public int InitOffsetX;
         public int InitOffsetY;
         public int InitOffsetYUp;
+        public int InitOffsetYBottom;
         public int OffsetSelectedX;
         public int OffsetSelectedY;
         public int OffsetPushX;
@@ -162,13 +166,79 @@ namespace tower_Defense
         public static string LevelAndWave = "Level: 1 Wave: 1/7";
         public static float TimerWave = 200;
         public static float CurrentTimerWave = 0;
+
+        static public int LENGHTLIFEWIDTH = 40;
+        static public int LENGHTLIFEOFFSETX = -20;
+        static public int LENGHTLIFEHEIGHT = 6;
+        static public int LENGHTLIFEOFFSETY = -23;
+
         public const int StartBox = 837;
+        public const int EndBox = 838;
+
         public const int HorizontalPath = 545;
+        public const int HorizontalPathBis = 513;
+
         public const int VerticalPath = 530;
-        public const int VerticalBridge1 = 723;
-        public const int VerticalBridge2 = 707;
-        public const int UpRight= 518;
+
+        public const int HorizontalBridge2 = 707;
+        public const int HorizontalBridge1 = 723;
+
+        public const int VerticalBridge1 = 571;
+        public const int VerticalBridge2 = 572;
+
+        public const int DownRight1 = 550;
+        public const int DownRight2 = 566;
+        public const int DownRight2bis = 565;
+        public const int DownRight3 = 567;
+        public const int DownLeft1 = 520;
+        public const int DownLeft2 = 521;
+        public const int DownLeft3 = 537;
+
+
+        public const int UpRight1= 534;
+        public const int UpRight2 = 518;
+        public const int UpRight3 = 519;
+
+        public const int UpLeft1 = 537;
+        public const int UpLeft2 = 521;
+        public const int UpLeft3 = 520;
+
+        public const int RightDown1 = 520;
+        public const int RightDown2 = 521;
+        public const int RightDown3 = 537;
+        public const int RightUp1 = 568;
+        public const int RightUp2 = 569;
+        public const int RightUp3 = 553;
+
+        public const int LeftBottom1 = 519;
+        public const int LeftBottom2 = 518;
+        public const int LeftBottom3 = 534;
+
+        public const int LeftUp1 = 567;
+        public const int LeftUp2 = 566;
+        public const int LeftUp3 = 550;
+
+
+        public const int BottomRight1= 550;
+        public const int BottomRight2= 566;
+        public const int BottomRight2bis= 565;
+        public const int BottomRight3= 567;
+
+        public const int BottomLeft1 = 553;
+        public const int BottomLeft2 = 569;
+        public const int BottomLeft3 = 568;
+
+
         public const int StonePath = 696;
+
+        public const int Crossing1 = 540;
+        public const int Crossing2 = 605;
+        public const int Crossing3 = 508;
+        public const int Crossing4 = 492;
+
+
+
+
 
 
         public enum eDirection
@@ -205,13 +275,14 @@ namespace tower_Defense
                 NameTexture = "CLAMPBEETLE",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                Direction = eDirection.Left,
-                Velocity = new Vector2(50,50),
                 isPreferredDirectionLeft = true,
+                isTilesetDirectionLeft = true,
                 OffsetX = 64,
                 InitOffsetX = 0,
                 OffsetY = 0,
                 InitOffsetY = 64 * 5,
+                InitOffsetYUp = 64 * 4,
+                InitOffsetYBottom = 64 * 3,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -220,8 +291,9 @@ namespace tower_Defense
                 isMirrored = false,
                 MaxHP = 100,
                 HP = 100,
-                speed = 15,
+                speed = 40,
                 Gold = 100,
+                LifeMinus = 1,
             });
 
             Data.Add("FIREBUG", new TDDataBase
@@ -231,13 +303,14 @@ namespace tower_Defense
                 NameTexture = "FIREBUG",
                 FrameWidth = 128,
                 FrameHeight = 64,
-                Direction = eDirection.Left,
-                Velocity = new Vector2(50,50),
-                isPreferredDirectionLeft = true,
+                isPreferredDirectionLeft = false,
+                isTilesetDirectionLeft = false,
                 OffsetX = 128,
                 OffsetY = 0,
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
+                InitOffsetYUp = 64 * 4,
+                InitOffsetYBottom = 64 * 3,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 2f / 12f,
                 IsLoop = true,
@@ -246,8 +319,9 @@ namespace tower_Defense
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
-                speed = 15,
+                speed = 40,
                 Gold = 100,
+                LifeMinus = 1,
             });
 
             Data.Add("FIREWASP", new TDDataBase
@@ -256,14 +330,15 @@ namespace tower_Defense
                 Name = "Firewasp",
                 NameTexture = "FIREWASP",
                 FrameWidth = 96,
-                FrameHeight = 99,
-                Direction = eDirection.Left,
-                Velocity = new Vector2(50,50),
+                FrameHeight = 96,
                 isPreferredDirectionLeft = false,
+                isTilesetDirectionLeft = false,
                 OffsetX = 96,
                 OffsetY = 0,
                 InitOffsetX = 0,
-                InitOffsetY = 99 * 2,
+                InitOffsetY = 96 * 2,
+                InitOffsetYUp = 96 * 1,
+                InitOffsetYBottom = 64 * 0,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -273,7 +348,8 @@ namespace tower_Defense
                 MaxHP = 100,
                 HP = 100,
                 Gold = 100,
-                speed = 15
+                speed = 40,
+                LifeMinus = 1,
             });
 
             Data.Add("FLYING_LOCUST", new TDDataBase
@@ -283,13 +359,14 @@ namespace tower_Defense
                 NameTexture = "FLYING_LOCUST",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                Direction = eDirection.Left,
-                Velocity = new Vector2(50,50),
-                isPreferredDirectionLeft = false,
+                isPreferredDirectionLeft = true,
+                isTilesetDirectionLeft = false,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 2,
+                InitOffsetYUp = 64 * 1,
+                InitOffsetYBottom = 64 * 0,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
@@ -299,7 +376,8 @@ namespace tower_Defense
                 MaxHP = 100,
                 HP = 100,
                 Gold = 100,
-                speed = 15
+                speed = 40,
+                LifeMinus = 1,
             });
             Data.Add("LEAFBUG", new TDDataBase
             {
@@ -308,14 +386,14 @@ namespace tower_Defense
                 NameTexture = "LEAFBUG",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                Direction = eDirection.Left,
-                Velocity = new Vector2(50,50),
                 isPreferredDirectionLeft = true,
+                isTilesetDirectionLeft = false,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
                 InitOffsetYUp = 64 * 4,
+                InitOffsetYBottom = 64 * 3,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 0.8f / 12f,
                 IsLoop = true,
@@ -325,7 +403,8 @@ namespace tower_Defense
                 MaxHP = 100,
                 HP = 100,
                 Gold = 100,
-                speed = 13
+                speed = 37,
+                LifeMinus = 1,
             });
             Data.Add("MAGMA_CRAB", new TDDataBase
             {
@@ -334,13 +413,14 @@ namespace tower_Defense
                 NameTexture = "MAGMA_CRAB",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                Direction = eDirection.Left,
-                Velocity = new Vector2(50,50),
                 isPreferredDirectionLeft = true,
+                isTilesetDirectionLeft = true,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
+                InitOffsetYUp = 64 * 4,
+                InitOffsetYBottom = 64 * 3,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 3f / 12f,
                 IsLoop = true,
@@ -350,7 +430,8 @@ namespace tower_Defense
                 MaxHP = 100,
                 HP = 100,
                 Gold = 100,
-                speed = 15
+                speed = 40,
+                LifeMinus = 1,
             });
             Data.Add("SCORPION", new TDDataBase
             {
@@ -359,13 +440,14 @@ namespace tower_Defense
                 NameTexture = "SCORPION",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                Direction = eDirection.Left,
-                Velocity = new Vector2(50,50),
                 isPreferredDirectionLeft = false,
+                isTilesetDirectionLeft = true,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 5,
+                InitOffsetYUp = 64 * 4,
+                InitOffsetYBottom = 64 * 3,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 3f / 12f,
                 IsLoop = true,
@@ -375,7 +457,8 @@ namespace tower_Defense
                 MaxHP = 100,
                 HP = 100,
                 Gold = 100,
-                speed = 15
+                speed = 40,
+                LifeMinus = 1,
             });
             Data.Add("VOIDBUTTERFLY", new TDDataBase
             {
@@ -384,23 +467,25 @@ namespace tower_Defense
                 NameTexture = "VOIDBUTTERFLY",
                 FrameWidth = 64,
                 FrameHeight = 64,
-                Direction = eDirection.Left,
-                Velocity = new Vector2(50,50),
                 isPreferredDirectionLeft = false,
+                isTilesetDirectionLeft = false,
                 OffsetX = 64,
                 OffsetY = 0,
                 InitOffsetX = 0,
                 InitOffsetY = 64 * 2,
+                InitOffsetYUp = 64 * 1,
+                InitOffsetYBottom = 64 * 0,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
-                FramesDuration = 1f / 12f,
+                FramesDuration = 2f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
-                isFlying = false,
+                isFlying = true,
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
                 Gold = 100,
-                speed = 15
+                speed = 40,
+                LifeMinus = 1,
             });
 
 

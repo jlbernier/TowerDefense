@@ -32,8 +32,8 @@ namespace tower_Defense.DataBase
         public enum eEnnemyID
         {
             LEAFBUG,
-            MAGMA_CRAB,
             SCORPION,
+            MAGMA_CRAB,
             FIREBUG,
             VOIDBUTTERFLY,
             FLYING_LOCUST,
@@ -56,19 +56,19 @@ namespace tower_Defense.DataBase
                 Name = "Level1Wave1",
                 Level = 1,
                 Wave = 1,
-                TimeBetweenEnnemies = 5f,
-                waveTimer = 200,
+                TimeBetweenEnnemies = 3,
+                waveTimer = 500,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
-                        eEnnemyID.LEAFBUG,
-                        eEnnemyID.MAGMA_CRAB ,
-                        eEnnemyID.SCORPION,                      
-                        eEnnemyID.FIREBUG,
-                        eEnnemyID.VOIDBUTTERFLY,
-                        eEnnemyID.FLYING_LOCUST,
-                        eEnnemyID.CLAMPBEETLE,
-                        eEnnemyID.FIREWASP},
-            }) ;
+                        eEnnemyID.SCORPION, //Big Walking turn Right               
+                        eEnnemyID.MAGMA_CRAB, //Big Walking turn Left
+                        eEnnemyID.FIREBUG, //Small walking turn Right
+                        eEnnemyID.LEAFBUG, //Small walking turn left
+                        eEnnemyID.FLYING_LOCUST, // Small Fluing turn Left
+                        eEnnemyID.VOIDBUTTERFLY,// Small Flying turn Right
+                        eEnnemyID.CLAMPBEETLE, // Big Flying turn Left
+                        eEnnemyID.FIREWASP, //Big Flying turn Right
+                },}) ;
             DataWave.Add("LEVEL1WAVE2", new WaveDatas
             {
                 ID = "LEVEL1WAVE2",
