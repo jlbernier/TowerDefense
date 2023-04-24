@@ -21,10 +21,10 @@ namespace tower_Defense.Buttons
         public string buttonID { get; set; }
         public Rectangle boundingBox { get; set; }
         public bool IsHover { get; private set; }
+        private MouseState oldMouseState;
         public bool OldIsHoverState { get; private set; }
         public bool IsClick { get; private set; }
         public bool IsPush { get; set; }
-        private MouseState oldMouseState;
         public OnClick OnClick { get; set; }
         public OnHover OnHover { get; set; }
 

@@ -256,7 +256,7 @@ namespace tower_Defense.Scenes
             if (!isGamePaused) towerList.ForEach(tower => tower.BuildMenu(this, tower, _tower));
             towerList.ForEach(tower => tower.BuildTowerType(gameTime, this, tower, _tower));
             spriteWeaponFilter
-                .EnnemyWithinRangeWeapon(mainGame, this)
+               .EnnemyWithinRangeWeapon(mainGame, this)
                .CooldownShootIsUp(mainGame, this);
             spriteMissileFilter
                 .FollowTarget()
@@ -293,12 +293,12 @@ namespace tower_Defense.Scenes
             map.Draw(MainGame.spriteBatch, map.lstTilesTreesAndStones);
             map.Draw(MainGame.spriteBatch, map.lstTilesSartEnd);
             
-            spriteWeaponFilter.DrawAll(gameTime);
             spriteMissileFilter.DrawAll(gameTime);
             spriteImpactFilter.DrawAll(gameTime);
             spriteEnnemyFilter.DrawAll(gameTime);
-            listButtons.ForEach(actor => actor.Draw(gameTime));
             map.Draw(MainGame.spriteBatch, map.lstTilesBridges);
+            listButtons.ForEach(actor => actor.Draw(gameTime));
+            spriteWeaponFilter.DrawAll(gameTime);
             MainGame.spriteBatch.DrawString(SmallFont,
                 TDData.LevelAndWave, new Vector2(40, 120), Color.White);
             MainGame.spriteBatch.DrawString(SmallFont,

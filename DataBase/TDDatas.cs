@@ -94,6 +94,7 @@ namespace tower_Defense
             // 3 levels construction
             Textures.Add("TOWERCONSTRUCTION", mainGame.Content.Load<Texture2D>("Misc/Tower Construction"));
             // 3 levels per png
+            Textures.Add("TOWERBASE", mainGame.Content.Load<Texture2D>("Tower/main_houses64"));
             Textures.Add("TOWER1", mainGame.Content.Load<Texture2D>("Tower/Tower 01"));
             Textures.Add("TOWER2", mainGame.Content.Load<Texture2D>("Tower/Tower 02"));
             Textures.Add("TOWER3", mainGame.Content.Load<Texture2D>("Tower/Tower 03"));
@@ -102,11 +103,11 @@ namespace tower_Defense
             Textures.Add("TOWER6", mainGame.Content.Load<Texture2D>("Tower/Tower 06"));
             Textures.Add("TOWER7", mainGame.Content.Load<Texture2D>("Tower/Tower 07"));
             Textures.Add("TOWER8", mainGame.Content.Load<Texture2D>("Tower/Tower 08"));
+            // GUI
             Textures.Add("BOUNDINGBOX", mainGame.Content.Load<Texture2D>("GUI/BoundingBox"));
             Textures.Add("GUI WOODEN PIXEL ART", mainGame.Content.Load<Texture2D>("GUI/Wooden Pixel Art GUI 32x32"));
             Textures.Add("PLAY", mainGame.Content.Load<Texture2D>("Buttons/button"));
             Textures.Add("ICONS", mainGame.Content.Load<Texture2D>("GUI/Transparent Icons"));
-            Textures.Add("TOWERBASE", mainGame.Content.Load<Texture2D>("Tilesets/Grass Tileset"));
         }
     }
 
@@ -488,7 +489,21 @@ namespace tower_Defense
                 LifeMinus = 1,
             });
 
-
+            Data.Add("TOWERBASE", new TDDataBase
+            {
+                ID = "TOWERBASE",
+                NameTexture = "TOWERBASE",
+                FrameWidth = 64,
+                FrameHeight = 64,
+                InitOffsetX = 0,
+                InitOffsetY = 0,
+                OffsetSelectedX = 0,
+                OffsetSelectedY = 0,
+                OffsetPushX = 0,
+                OffsetPushY = 0,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
 
 
             Data.Add("PLAY", new TDDataBase
@@ -611,6 +626,30 @@ namespace tower_Defense
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseTileset
             });
+
+            Data.Add("MENUUPRIGHT", new TDDataBase
+            {
+                ID = "MENUUPRIGHT",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32 * 3,
+                FrameHeight = 32 * 3,
+                InitOffsetX = 32 * 5,
+                InitOffsetY = 32 * 20,
+                Scale = 2.5f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("MENUBOTTOMRIGHT", new TDDataBase
+            {
+                ID = "MENUBOTTOMRIGHT",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32 * 3,
+                FrameHeight = 32 * 3,
+                InitOffsetX = 32 * 5,
+                InitOffsetY = 32 * 20,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+
             Data.Add("WOODENLIFE", new TDDataBase
             {
                 ID = "WoodenLifex",
@@ -658,7 +697,7 @@ namespace tower_Defense
                 buttonAnimation = eButtonAnimation.UseTileset
             });
             // Tower base where to build
-            Data.Add("TOWERBASE", new TDDataBase
+            /*Data.Add("TOWERBASE", new TDDataBase
             {
                 ID = "TOWERBASE",
                 NameTexture = "TOWERBASE",
@@ -668,7 +707,7 @@ namespace tower_Defense
                 InitOffsetY = 64 * 7,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseTDRectangle
-            });
+            });*/
             
             // 8 types of towers in tilsets with 3 levels: tower 41 is type weapon 4 level tower 1
             Data.Add("TOWER11", new TDDataBase

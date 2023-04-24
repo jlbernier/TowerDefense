@@ -47,6 +47,7 @@ namespace tower_Defense.Scenes
                 _tower.OnHover = currentScene.onHoverTowerBase;
                 currentScene.listButtons.Add(_tower);
             }
+
             _button = new Button(mainGame, new Vector2(75, 110), new Vector2(0, 0), "CHAIN");
             _button.OnClick = currentScene.onClickDefault;
             _button.OnHover = currentScene.onHoverDefault;
@@ -73,6 +74,11 @@ namespace tower_Defense.Scenes
             currentScene.listButtons.Add(_button);
             _button = new Button(mainGame, new Vector2(Screen.Width / 2, Screen.Height / 2), new Vector2(0, 0), "PLAY");
             _button.OnClick = currentScene.onClickPlay;
+            _button.OnHover = currentScene.onHoverDefault;
+            currentScene.listButtons.Add(_button);
+
+            _button = new Button(mainGame, new Vector2(Screen.Width + 10, 350), new Vector2(0, 0), "MENUUPRIGHT");
+            _button.OnClick = currentScene.onClickDefault;
             _button.OnHover = currentScene.onHoverDefault;
             currentScene.listButtons.Add(_button);
             _button = new Button(mainGame, new Vector2(Screen.Width - 100, 100), new Vector2(0, 0), "PAUSE");
