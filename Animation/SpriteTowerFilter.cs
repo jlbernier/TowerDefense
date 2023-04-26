@@ -11,7 +11,7 @@ using tower_Defense.Scenes;
 namespace tower_Defense.Animation
 {
     public class SpriteTowerFilter
-    {
+    {  
         public List<Tower> liste;
         public SpriteTowerFilter()
         {
