@@ -37,7 +37,7 @@ namespace tower_Defense.Map
         public List<ITiles> lstTilesGrass = new();
         public List<ITiles> lstTilesPath = new();
         public List<ITiles> lstTilesBridges = new();
-        public List<ITiles> lstTilesTowers = new();
+        public static List<ITiles> lstTilesTowers = new();
         public List<ITiles> lstTilesWater = new();
         public List<ITiles> lstTilesTreesAndStones = new ();
         public List<ITiles> lstTilesSartEnd = new();

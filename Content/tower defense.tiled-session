@@ -5,8 +5,8 @@
     },
     "activeFile": "Tilesets/myMap.tmx",
     "expandedProjectPaths": [
-        "Tilesets",
-        "."
+        ".",
+        "Tilesets"
     ],
     "file.lastUsedOpenFilter": "Tous les Fichiers (*)",
     "fileStates": {
@@ -42,8 +42,8 @@
             "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 364,
-                "y": 552.6666666666667
+                "x": 1497.333333333333,
+                "y": 432.66666666666674
             }
         },
         "myMap.tmx": {

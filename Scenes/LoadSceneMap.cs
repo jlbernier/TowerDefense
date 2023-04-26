@@ -20,6 +20,65 @@ namespace tower_Defense.Scenes
         public LoadSceneMap()
         {
         }
+        public static void LoadMenu(Game mainGame, MapTiled mapTiled, SceneMap currentScene, int left, int up, int nbBoxWidth, int nbBoxHeight)
+        {
+            Rectangle Screen = mainGame.Window.ClientBounds;
+            Button _button = new Button(mainGame, new Vector2(Screen.Width + left, up), new Vector2(0, 0), "MENUUPLEFT");
+            _button.OnClick = currentScene.onClickDefault;
+            _button.OnHover = currentScene.onHoverDefault;
+            currentScene.listButtons.Add(_button);
+            for (int i = 1; i < nbBoxWidth + 1; i++)
+            {
+                _button = new Button(mainGame, new Vector2(Screen.Width + left + i * 32, up), new Vector2(0, 0), "MENUUP");
+                _button.OnClick = currentScene.onClickDefault;
+                _button.OnHover = currentScene.onHoverDefault;
+                currentScene.listButtons.Add(_button);
+            }
+
+            _button = new Button(mainGame, new Vector2(Screen.Width + left + (nbBoxWidth +1) * 32, up), new Vector2(0, 0), "MENUUPRIGHT");
+            _button.OnClick = currentScene.onClickDefault;
+            _button.OnHover = currentScene.onHoverDefault;
+            currentScene.listButtons.Add(_button);
+            for (int i = 1; i < nbBoxHeight + 1; i++)
+            {
+                _button = new Button(mainGame, new Vector2(Screen.Width + left, up + i * 32), new Vector2(0, 0), "MENULEFT");
+                _button.OnClick = currentScene.onClickDefault;
+                _button.OnHover = currentScene.onHoverDefault;
+                currentScene.listButtons.Add(_button);
+            }
+            for (int i = 1; i < nbBoxHeight + 1; i++)
+            {
+                _button = new Button(mainGame, new Vector2(Screen.Width + left + 32 * (nbBoxWidth + 1), up + i * 32), new Vector2(0, 0), "MENURIGHT");
+                _button.OnClick = currentScene.onClickDefault;
+                _button.OnHover = currentScene.onHoverDefault;
+                currentScene.listButtons.Add(_button);
+            }
+            for (int i = 1; i < nbBoxWidth + 1; i++)
+            {
+                for (int j = 1; j < nbBoxHeight + 1; j++)
+                {
+                    _button = new Button(mainGame, new Vector2(Screen.Width + left + i * 32, up + j * 32), new Vector2(0, 0), "MENUMIDDLE");
+                    _button.OnClick = currentScene.onClickDefault;
+                    _button.OnHover = currentScene.onHoverDefault;
+                    currentScene.listButtons.Add(_button);
+                }
+            }
+            _button = new Button(mainGame, new Vector2(Screen.Width + left, up + 32 * (nbBoxHeight + 1)), new Vector2(0, 0), "MENUBOTTOMLEFT");
+            _button.OnClick = currentScene.onClickDefault;
+            _button.OnHover = currentScene.onHoverDefault;
+            currentScene.listButtons.Add(_button);
+            for (int i = 1; i < nbBoxWidth + 1; i++)
+            {
+                _button = new Button(mainGame, new Vector2(Screen.Width + left + i * 32, up + 32 * (nbBoxHeight + 1)), new Vector2(0, 0), "MENUBOTTOM");
+                _button.OnClick = currentScene.onClickDefault;
+                _button.OnHover = currentScene.onHoverDefault;
+                currentScene.listButtons.Add(_button);
+            }
+            _button = new Button(mainGame, new Vector2(Screen.Width + left + (nbBoxWidth + 1) * 32, up + 32 * (nbBoxHeight + 1)), new Vector2(0, 0), "MENUBOTTOMRIGHT");
+            _button.OnClick = currentScene.onClickDefault;
+            _button.OnHover = currentScene.onHoverDefault;
+            currentScene.listButtons.Add(_button);
+        }
         public void Load(Game mainGame, MapTiled mapTiled, SceneMap currentScene)
         {
             Random rand = new Random();
@@ -34,19 +93,25 @@ namespace tower_Defense.Scenes
                 time *= rand.Next(1, 3);
                 sprMap.AddAnimation("map", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, time, tile.offsetX, tile.offsetY, true, tile.initOffsetX, tile.initOffsetY);
                 sprMap.RunAnimation("map");
-                sprMap.frame = rand.Next(0,10);
+                sprMap.frame = rand.Next(0, 10);
                 currentScene.lstTilesWater.Add(sprMap);
             }
             Rectangle Screen = mainGame.Window.ClientBounds;
-            foreach (Tile tile in mapTiled.lstTilesTowers)
+           /* foreach (Tile tile in mapTiled.lstTilesTowers)
             {
                 Vector2 towerPosition = new Vector2(tile._position.X + 32, tile._position.Y + 32);
-                _tower = new Tower(mainGame, towerPosition, new Vector2(0, 0), "TOWERBASE");
+                /*_tower = new Tower(mainGame, towerPosition, new Vector2(0, 0), "TOWERBASE");
                 _tower.towerNextID = "TOWERBASE";
                 _tower.OnClick = currentScene.onClickDefault;
                 _tower.OnHover = currentScene.onHoverTowerBase;
-                currentScene.listButtons.Add(_tower);
-            }
+                currentScene.listButtons.Add(_tower);*/
+
+                /*Vector2 towerPosition = new Vector2(tile._position.X + 32, tile._position.Y + 32);
+                _button = new MenuButton(mainGame, towerPosition, new Vector2(0, 0), "TOWERBASE", currentScene);
+                _button.OnClick = currentScene.onClickDefault;
+                _button.OnHover = currentScene.OnHoverMenuTowerBase;
+                currentScene.listMenuTowerBase.Add(_button);
+            }*/
 
             _button = new Button(mainGame, new Vector2(75, 110), new Vector2(0, 0), "CHAIN");
             _button.OnClick = currentScene.onClickDefault;
@@ -77,18 +142,20 @@ namespace tower_Defense.Scenes
             _button.OnHover = currentScene.onHoverDefault;
             currentScene.listButtons.Add(_button);
 
-            _button = new Button(mainGame, new Vector2(Screen.Width + 10, 350), new Vector2(0, 0), "MENUUPRIGHT");
-            _button.OnClick = currentScene.onClickDefault;
-            _button.OnHover = currentScene.onHoverDefault;
-            currentScene.listButtons.Add(_button);
-            _button = new Button(mainGame, new Vector2(Screen.Width - 100, 100), new Vector2(0, 0), "PAUSE");
+            LoadMenu(mainGame, mapTiled, currentScene, TDData.MenuLeft, TDData.MenuUp, 5, 5);
+
+            LoadMenu(mainGame, mapTiled, currentScene, TDData.MenuInfoLeft, TDData.MenuInfoUp, 8, 12);
+
+
+            _button = new Button(mainGame, new Vector2(Screen.Width - 200, 150), new Vector2(0, 0), "PAUSE");
             _button.OnClick = currentScene.onClickPause;
             _button.OnHover = currentScene.onHoverThreeStates;
             currentScene.listButtons.Add(_button);
-            _button = new Button(mainGame, new Vector2(Screen.Width - 100, 160), new Vector2(0, 0), "GAMESPEED");
+            _button = new Button(mainGame, new Vector2(Screen.Width - 100, 150), new Vector2(0, 0), "GAMESPEED");
             _button.OnClick = currentScene.onClickSpeedUp;
             _button.OnHover = currentScene.onHoverThreeStates;
             currentScene.listButtons.Add(_button);
+
         }
     }
 }

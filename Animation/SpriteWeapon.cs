@@ -52,7 +52,6 @@ namespace tower_Defense.Animation
                 if (angleDegree < 0) angleDegree += 360;
                 angleDegree %= 360;                
             }
-
             rotation = MathHelper.ToRadians(angleDegree);
             base.Update(gameTime);
         }

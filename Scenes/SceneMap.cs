@@ -18,17 +18,28 @@ using System.Reflection;
 using System.Xml.Linq;
 using static tower_Defense.DataBase.TDWave;
 using tower_Defense.DataBase;
+using System.Reflection.Metadata;
+using TowerDefence;
 
 namespace tower_Defense.Scenes
 {
     public class SceneMap : Scene
     {
+        // tests
+        public Vector2 positionWaveTimer;
+        private float radiusWaveTimer;
+        private Texture2D tileset;
+        private Rectangle sourceRect;
+        private Vector2 scale;
+
         public SpriteBatch spriteBatch;
         public SpriteFont myFont;
         public SpriteFont SmallFont;
         // Map
         private readonly TmxMap _map;
         public MapTiled map;
+        // GUI
+        private GUI gui;
         // GamePlay
         public Wave ennemiesWave;
         // Buttons
@@ -38,6 +49,8 @@ namespace tower_Defense.Scenes
         public Tower _tower;
         // Filters
         public List<Button> listButtons = new();
+        public SpriteTowerFilter spriteTowerFilter;
+        public MenuButton _menuButton;
         public List<SpriteMap> lstTilesWater = new();
         public SpriteEnnemyFilter spriteEnnemyFilter = new();
         public SpriteWeaponFilter spriteWeaponFilter = new();
@@ -48,7 +61,8 @@ namespace tower_Defense.Scenes
 
         public SceneMap(MainGame mainGame) : base(mainGame)
         {
-            map = new MapTiled(mainGame);            
+            map = new MapTiled(mainGame);
+            gui = new GUI(spriteTowerFilter);
         }
         public bool MenuAlreadyOpen(Button menu)
         {
@@ -65,6 +79,17 @@ namespace tower_Defense.Scenes
             }
             return false;
         }
+
+        public void OnHoverMenuTowerBase(Button pSender)
+        {
+            _menuButton = (MenuButton)pSender;
+            if (pSender.IsHover) 
+            { 
+               // listMenuTowerBase.Add(_menuButton.lstButtonsMenu);
+            }
+            Debug.WriteLine("");
+        }
+
 
         public void onHoverDefault(Button pSender) { }
         public void onClickDefault(Button pSender) { }
@@ -225,6 +250,7 @@ namespace tower_Defense.Scenes
      
         public override void Load()
         {
+            positionWaveTimer = new Vector2();
             myFont = mainGame.Content.Load<SpriteFont>("FontM6");
             SmallFont = mainGame.Content.Load<SpriteFont>("SmallFont");
             isGamePaused = true;
@@ -234,6 +260,14 @@ namespace tower_Defense.Scenes
             map.LoadMap();            
             LoadSceneMap loadSceneMap = new LoadSceneMap();
             loadSceneMap.Load(mainGame, map, this);
+            gui.LoadContent();
+            Rectangle Screen = mainGame.Window.ClientBounds;
+            positionWaveTimer = new Vector2(32, 350);
+            tileset = mainGame.Content.Load<Texture2D>("GUI/Wooden Pixel Art GUI 32x32");
+            sourceRect = new Rectangle(32 * 2, 32 * 27, 32, 32);
+            scale = new Vector2(2f, 2f);
+
+            radiusWaveTimer = 0f;
             base.Load();
         }
 
@@ -244,43 +278,49 @@ namespace tower_Defense.Scenes
 
         public override void Update(GameTime gameTime)
         {
-           
-            TDData.CurrentTimerWave += isGameSpeedUp ?
-                 (float)gameTime.ElapsedGameTime.TotalSeconds * 20 :
-                 (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+           
             listButtons.RemoveAll(actor => actor.ToRemove == true);
             listButtons.ForEach(actor => actor.Update(gameTime));
+            gui.Update(gameTime);
+            if (!isGamePaused)
+                TDData.CurrentTimerWave += isGameSpeedUp ?
+                     (float)gameTime.ElapsedGameTime.TotalSeconds * 20 :
+                     (float)gameTime.ElapsedGameTime.TotalSeconds;
+            radiusWaveTimer = (float)Math.PI*TDData.CurrentTimerWave * -2 / TDData.TimerWave;
+
             List<Tower> towerList = listButtons.Where(button => button.GetType() == typeof(Tower)).Select(button => (Tower)button).ToList();
             towerList.ForEach(tower => tower.RemoveMenu(this, tower, _tower));
             if (!isGamePaused) towerList.ForEach(tower => tower.BuildMenu(this, tower, _tower));
             towerList.ForEach(tower => tower.BuildTowerType(gameTime, this, tower, _tower));
-            spriteWeaponFilter
+
+            if (!isGamePaused)
+            {
+                spriteWeaponFilter
+                .UpdateAll(gameTime)
                .EnnemyWithinRangeWeapon(mainGame, this)
                .CooldownShootIsUp(mainGame, this);
-            spriteMissileFilter
-                .FollowTarget()
-                .TimeOutMissile()
-                .OutOfRange()
-                .ImpactCollision(mainGame, this, spriteEnnemyFilter)
-                .CollisionFinished();
-            spriteImpactFilter
-                .ImpactCollision(mainGame, this, spriteEnnemyFilter)
-                .ImpactFinish();
-            spriteEnnemyFilter
-                .UpdateVelocity(this)
-                .ImpactCollision()
-                .RemoveDeadEnnemy()
-                .EnnemyArrived();
-            
+                spriteMissileFilter
+                    .UpdateAll(gameTime)
+                    .FollowTarget()
+                    .TimeOutMissile()
+                    .OutOfRange()
+                    .ImpactCollision(mainGame, this, spriteEnnemyFilter)
+                    .CollisionFinished();
+                spriteImpactFilter
+                    .UpdateAll(gameTime)
+                    .ImpactCollision(mainGame, this, spriteEnnemyFilter)
+                    .ImpactFinish();
+                spriteEnnemyFilter
+                    .UpdateAll(gameTime)
+                    .UpdateVelocity(this)
+                    .ImpactCollision()
+                    .RemoveDeadEnnemy()
+                    .EnnemyArrived();
+                ennemiesWave.Update(mainGame, mainGame._graphics, gameTime, this, isGameSpeedUp);
+            }
             map.Update(gameTime);
-            if (!isGamePaused) ennemiesWave.Update(mainGame, mainGame._graphics, gameTime, this, isGameSpeedUp);
-
             lstTilesWater.ForEach(actor => actor.Update(gameTime));
-            spriteWeaponFilter.UpdateAll(gameTime);
-            spriteMissileFilter.UpdateAll(gameTime);
-            spriteImpactFilter.UpdateAll(gameTime);
-            spriteEnnemyFilter.UpdateAll(gameTime);           
             base.Update(gameTime);
         }
 
@@ -298,6 +338,8 @@ namespace tower_Defense.Scenes
             spriteEnnemyFilter.DrawAll(gameTime);
             map.Draw(MainGame.spriteBatch, map.lstTilesBridges);
             listButtons.ForEach(actor => actor.Draw(gameTime));
+            gui.Draw();
+
             spriteWeaponFilter.DrawAll(gameTime);
             MainGame.spriteBatch.DrawString(SmallFont,
                 TDData.LevelAndWave, new Vector2(40, 120), Color.White);
@@ -305,6 +347,40 @@ namespace tower_Defense.Scenes
                 TDData.Life.ToString(), new Vector2(60, 38), Color.White);
             MainGame.spriteBatch.DrawString(SmallFont,
               TDData.Gold.ToString(), new Vector2(140, 38), Color.White);
+           
+            Color color = Color.White;
+            Vector2 textureCenter = new Vector2(sourceRect.Width / 2f, sourceRect.Height / 2f);
+
+            for (int i = sourceRect.X; i < sourceRect.X + sourceRect.Width; i++)
+            {
+                for (int j = sourceRect.Y; j < sourceRect.Y + sourceRect.Height; j++)
+                {
+                    Vector2 texturePosition = new Vector2(i - sourceRect.X, j - sourceRect.Y);
+                    Vector2 positionScaled = positionWaveTimer - (textureCenter * scale);
+                    texturePosition *= scale;
+                    float cosangle = (float)Math.Cos(radiusWaveTimer);
+                    float sinAngle = (float)Math.Sin(radiusWaveTimer);
+                    float abscisseX = i - sourceRect.X - sourceRect.Width / 2;
+                    float abscisseY = j - sourceRect.Y - sourceRect.Height / 2;
+                    float distanceX = abscisseX / (sourceRect.Width / 2);
+                    float distanceY = abscisseY / (sourceRect.Height / 2);
+
+                    if (distanceX >= cosangle)// || distanceY  >= sinAngle)
+                    //if (distanceY  >= sinAngle && distanceX >= cosangle)// || )
+                    {
+                        color = Color.White;
+
+                    }
+                    else
+                    {
+                        float alpha = 0.3f;
+                        color = new Color(alpha, alpha, alpha);
+                    }
+                    MainGame.spriteBatch.Draw(tileset, positionScaled + texturePosition, new Rectangle(i, j, 1, 1), color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                }
+            }
+           
+
             base.Draw(gameTime);
         }
     }

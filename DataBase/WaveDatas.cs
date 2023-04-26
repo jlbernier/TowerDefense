@@ -57,7 +57,7 @@ namespace tower_Defense.DataBase
                 Level = 1,
                 Wave = 1,
                 TimeBetweenEnnemies = 3,
-                waveTimer = 500,
+                waveTimer = 50,
                 NbWaves = 7,
                 ListEnnemies = new List<TDWave.eEnnemyID> {
                         eEnnemyID.SCORPION, //Big Walking turn Right               

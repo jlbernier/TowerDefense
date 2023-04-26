@@ -160,6 +160,12 @@ namespace tower_Defense
 
     public static class TDData
     {
+        public static int MenuUp = 100;
+        public static int MenuLeft = -250;
+
+        public static int MenuInfoUp = 500;
+        public static int MenuInfoLeft = -350;
+
         public static int Gold = 1500;
         public static int Life = 20;
         public const int BoxWidth = 64;
@@ -556,6 +562,23 @@ namespace tower_Defense
                 buttonAnimation = eButtonAnimation.UseTileset
             });
 
+            Data.Add("WAVETIMER", new TDDataBase
+            {
+                ID = "WAVETIMER",
+                NameTexture = "Buttons/button",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 2,
+                InitOffsetY = 32 * 27,
+                OffsetSelectedX = 32 * 9,
+                OffsetSelectedY = 32 * 0,
+                OffsetPushX = 32 * 18,
+                OffsetPushY = 32 * 0,
+                Scale = 1.5f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+
+
             Data.Add("ICONTOWERUP", new TDDataBase
             {
                 ID = "IconTowerUp",
@@ -627,25 +650,102 @@ namespace tower_Defense
                 buttonAnimation = eButtonAnimation.UseTileset
             });
 
+            Data.Add("MENUUPLEFT", new TDDataBase
+            {
+                ID = "MENUUPLEFT",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 5,
+                InitOffsetY = 32 * 20,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("MENUUP", new TDDataBase
+            {
+                ID = "MENUUP",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 6,
+                InitOffsetY = 32 * 20,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
             Data.Add("MENUUPRIGHT", new TDDataBase
             {
                 ID = "MENUUPRIGHT",
                 NameTexture = "GUI WOODEN PIXEL ART",
-                FrameWidth = 32 * 3,
-                FrameHeight = 32 * 3,
-                InitOffsetX = 32 * 5,
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 7,
                 InitOffsetY = 32 * 20,
-                Scale = 2.5f,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("MENULEFT", new TDDataBase
+            {
+                ID = "MENULEFT",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 5,
+                InitOffsetY = 32 * 21,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("MENURIGHT", new TDDataBase
+            {
+                ID = "MENURIGHT",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 7,
+                InitOffsetY = 32 * 21,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("MENUMIDDLE", new TDDataBase
+            {
+                ID = "MENUMIDDLE",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 6,
+                InitOffsetY = 32 * 21,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("MENUBOTTOMLEFT", new TDDataBase
+            {
+                ID = "MENUBOTTOMLEFT",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 5,
+                InitOffsetY = 32 * 22,
+                Scale = 1f,
+                buttonAnimation = eButtonAnimation.UseTileset
+            });
+            Data.Add("MENUBOTTOM", new TDDataBase
+            {
+                ID = "MENUBOTTOM",
+                NameTexture = "GUI WOODEN PIXEL ART",
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 6,
+                InitOffsetY = 32 * 22,
+                Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseTileset
             });
             Data.Add("MENUBOTTOMRIGHT", new TDDataBase
             {
                 ID = "MENUBOTTOMRIGHT",
                 NameTexture = "GUI WOODEN PIXEL ART",
-                FrameWidth = 32 * 3,
-                FrameHeight = 32 * 3,
-                InitOffsetX = 32 * 5,
-                InitOffsetY = 32 * 20,
+                FrameWidth = 32,
+                FrameHeight = 32,
+                InitOffsetX = 32 * 7,
+                InitOffsetY = 32 * 22,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseTileset
             });
