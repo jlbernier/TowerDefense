@@ -18,6 +18,8 @@ namespace tower_Defense.Animation
             this.liste = new();
         }
 
+
+
         public SpriteTowerFilter AddTower(Game mainGame, String towerID, Tower weaponTower, SceneMap currentScene)
         {
             Tower tower = new Tower(mainGame, weaponTower.position, new Vector2(0, 0), towerID);
