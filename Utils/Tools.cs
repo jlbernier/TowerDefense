@@ -577,13 +577,10 @@ namespace tower_Defense.Utils
             int frameWidth = TDData.Data[ennemyID].FrameWidth;
             int frameHeight = TDData.Data[ennemyID].FrameHeight;
             int initOffsetY = TDData.Data[ennemyID].InitOffsetY;
-
             int left = frameNumber * frameWidth;
             int right = frameNumber * frameWidth + frameWidth;
             int top = initOffsetY;
             int bottom = initOffsetY + frameHeight;
-
-
             return new Rectangle();
         }
 

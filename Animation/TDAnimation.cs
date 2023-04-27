@@ -52,7 +52,7 @@ namespace tower_Defense.Animation
         public TDAnimation currentAnimation;
         protected SpriteEffects effect;
         public int frame { get;  set; }
-        public int frameWidth { get;   protected set; }
+        public int frameWidth { get;   set; }
         public int frameHeight { get;  set; }
         private float time;       
         public bool isFrame;

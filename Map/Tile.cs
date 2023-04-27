@@ -30,6 +30,7 @@ namespace tower_Defense.Map
         public Rectangle _rectangleMap { get; private set; }
         public ETypeTexture _typeTexture { get; private set; }
         public Vector2 _velocity { get; private set; }
+        public bool isMenuTowerBuilderOpen;
         public Tile(Texture2D texture, Vector2 position, int tileFrame, Vector2 positionTileset, Rectangle rectangleMap)
         {
             this.texture = texture;

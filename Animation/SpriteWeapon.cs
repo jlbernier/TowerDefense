@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using tower_Defense.Buttons;
 
 namespace tower_Defense.Animation
 {
@@ -25,9 +24,9 @@ namespace tower_Defense.Animation
         public string towerType { get; set; }
         public string missileID { get; set; }
         public float speedMissile { get; set; }
-        Tower tower { get; set; }
+        SpriteTower tower { get; set; }
 
-        public SpriteWeapon(Game mainGame, Vector2 position, Vector2 velocity, String weaponID, Tower tower, int angleSelected = 0) : base(mainGame, position, velocity, weaponID)
+        public SpriteWeapon(Game mainGame, Vector2 position, Vector2 velocity, String weaponID, SpriteTower tower, int angleSelected = 0) : base(mainGame, position, velocity, weaponID)
         {
             this.weaponID = weaponID;
             towerType = weaponID;

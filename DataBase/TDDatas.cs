@@ -166,6 +166,9 @@ namespace tower_Defense
         public static int MenuInfoUp = 500;
         public static int MenuInfoLeft = -350;
 
+        public static int MenuRightBottomX = 1710;
+        public static int MenuRightBottomY = 590;
+
         public static int Gold = 1500;
         public static int Life = 20;
         public const int BoxWidth = 64;

@@ -34,7 +34,7 @@ namespace tower_Defense.Scenes
 
         public SpriteBatch spriteBatch;
         public SpriteFont myFont;
-        public SpriteFont SmallFont;
+        public static SpriteFont SmallFont;
         // Map
         private readonly TmxMap _map;
         public MapTiled map;
@@ -46,11 +46,10 @@ namespace tower_Defense.Scenes
         public bool isGamePaused;
         static bool isGameSpeedUp;
         public Button _button;
-        public Tower _tower;
+        public SpriteTower _tower;
         // Filters
         public List<Button> listButtons = new();
-        public SpriteTowerFilter spriteTowerFilter;
-        public MenuButton _menuButton;
+        public static SpriteTowerFilter spriteTowerFilter = new();
         public List<SpriteMap> lstTilesWater = new();
         public SpriteEnnemyFilter spriteEnnemyFilter = new();
         public SpriteWeaponFilter spriteWeaponFilter = new();
@@ -62,35 +61,10 @@ namespace tower_Defense.Scenes
         public SceneMap(MainGame mainGame) : base(mainGame)
         {
             map = new MapTiled(mainGame);
-            gui = new GUI(spriteTowerFilter);
+            gui = new GUI(mainGame, spriteTowerFilter);
         }
-        public bool MenuAlreadyOpen(Button menu)
-        {
-            List<Tower> towerList = listButtons.Where(button => button.GetType() == typeof(Tower)).Select(button => (Tower)button).ToList();
-            int numberOfmenus = towerList.Count(tower => tower.isMenuAlreadyBuild);
-            if (numberOfmenus > 0 && menu.IsHover == true)
-            {
-                List<Tower> listMenuOpen = towerList.FindAll(tower => tower.isMenuAlreadyBuild);
-                listMenuOpen.ForEach(menu =>
-                {
-                    menu.isMenuToRemove = true;
-                });
-                return true;
-            }
-            return false;
-        }
-
-        public void OnHoverMenuTowerBase(Button pSender)
-        {
-            _menuButton = (MenuButton)pSender;
-            if (pSender.IsHover) 
-            { 
-               // listMenuTowerBase.Add(_menuButton.lstButtonsMenu);
-            }
-            Debug.WriteLine("");
-        }
-
-
+        
+        
         public void onHoverDefault(Button pSender) { }
         public void onClickDefault(Button pSender) { }
         public void onClickPlay(Button pSender)
@@ -169,57 +143,6 @@ namespace tower_Defense.Scenes
             //SpriteButton.lstButtonSprites.ForEach(spritebutton => spritebutton.isPaused = pSender.IsPush);
             isGamePaused = pSender.IsPush;
         }
-        public void onClickTowerType(Button pSender)
-        {
-            _tower= (Tower)pSender;
-            _tower.towerNextID = _tower.towerToBuild;
-            _tower.positionBase = new Vector2(_tower.positionBase.X, _tower.positionBase.Y + 16);
-            _tower.towerID = "MENUTILEMAP";
-        }
-        public void onHoverTowerBase(Button pSender)
-        {
-            if (isGamePaused) return;            
-            _tower = (Tower)pSender;
-            if (MenuAlreadyOpen(pSender)) return;            
-            _tower.isMenuToBuild = pSender.IsHover;
-        }
-        public void onHoverTower(Button pSender)
-        {
-            if (isGamePaused) return;
-            _tower = (Tower)pSender;
-            _tower.towerID = "MENUUPGRADE";
-            if (MenuAlreadyOpen(pSender)) return;
-            _tower.isMenuToBuild = pSender.IsHover;
-        }
-        public void onHoverMenuSelectTowerType(Button pSender)
-        {
-            if (isGamePaused) return;
-            _tower = (Tower)pSender;
-            if (_tower.towerID != "MENUSELECTTYPETOWER") { Debug.WriteLine("test"); }
-            _tower.isMenuToRemove = !pSender.IsHover;          
-        }
-        public void onHoverMenuUpgrade(Button pSender)
-        {
-            if (isGamePaused) return;
-            _tower = (Tower)pSender;
-            if (_tower.towerID != "MENUSELECTUPGRADE") { Debug.WriteLine("test"); }
-            _tower.towerID = "MENUUPGRADE";
-            _tower.isMenuToRemove = !pSender.IsHover;
-        }
-        public void onClickTowerUpgrade(Button pSender)
-        {
-            if (isGamePaused) return;
-            _tower = (Tower)pSender;
-            if (_tower.towerID == "ICONROTATEWEAPON") _tower.towerID = "ROTATEWEAPON";
-            else
-            {
-                //_tower.weaponLevel++;
-                _tower.towerToBuild = "TOWER" + _tower.towerType + (_tower.towerLevel).ToString();
-                _tower.towerNextID = _tower.towerToBuild;
-                _tower.WeaponOrTowerUpgrade = true;
-                _tower.towerID = "UPGRADE";
-            }          
-        }
         public void onHoverThreeStates(Button pSender)
         {
             if (!pSender.IsHover)
@@ -282,24 +205,26 @@ namespace tower_Defense.Scenes
            
             listButtons.RemoveAll(actor => actor.ToRemove == true);
             listButtons.ForEach(actor => actor.Update(gameTime));
-            gui.Update(gameTime);
             if (!isGamePaused)
+            {
+                gui.Update(gameTime);
                 TDData.CurrentTimerWave += isGameSpeedUp ?
                      (float)gameTime.ElapsedGameTime.TotalSeconds * 20 :
                      (float)gameTime.ElapsedGameTime.TotalSeconds;
-            radiusWaveTimer = (float)Math.PI*TDData.CurrentTimerWave * -2 / TDData.TimerWave;
-
-            List<Tower> towerList = listButtons.Where(button => button.GetType() == typeof(Tower)).Select(button => (Tower)button).ToList();
-            towerList.ForEach(tower => tower.RemoveMenu(this, tower, _tower));
-            if (!isGamePaused) towerList.ForEach(tower => tower.BuildMenu(this, tower, _tower));
-            towerList.ForEach(tower => tower.BuildTowerType(gameTime, this, tower, _tower));
+                radiusWaveTimer = (float)Math.PI * TDData.CurrentTimerWave * -2 / TDData.TimerWave;
+            }
 
             if (!isGamePaused)
             {
+                spriteTowerFilter
+                   .UpdateAll(gameTime)
+                   .TimerBuildUpdate(gameTime)
+                   .BuildTowerAnimation(mainGame)
+                   .BuildTower(mainGame);
                 spriteWeaponFilter
-                .UpdateAll(gameTime)
-               .EnnemyWithinRangeWeapon(mainGame, this)
-               .CooldownShootIsUp(mainGame, this);
+                   .UpdateAll(gameTime)
+                   .EnnemyWithinRangeWeapon(mainGame, this)
+                   .CooldownShootIsUp(mainGame, this);
                 spriteMissileFilter
                     .UpdateAll(gameTime)
                     .FollowTarget()
@@ -338,7 +263,6 @@ namespace tower_Defense.Scenes
             spriteEnnemyFilter.DrawAll(gameTime);
             map.Draw(MainGame.spriteBatch, map.lstTilesBridges);
             listButtons.ForEach(actor => actor.Draw(gameTime));
-            gui.Draw();
 
             spriteWeaponFilter.DrawAll(gameTime);
             MainGame.spriteBatch.DrawString(SmallFont,
@@ -348,6 +272,9 @@ namespace tower_Defense.Scenes
             MainGame.spriteBatch.DrawString(SmallFont,
               TDData.Gold.ToString(), new Vector2(140, 38), Color.White);
            
+            spriteTowerFilter.DrawAll(gameTime);
+            if (!isGamePaused)
+                gui.Draw();
             Color color = Color.White;
             Vector2 textureCenter = new Vector2(sourceRect.Width / 2f, sourceRect.Height / 2f);
 

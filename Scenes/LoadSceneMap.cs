@@ -15,7 +15,7 @@ namespace tower_Defense.Scenes
     public class LoadSceneMap
     {
         private SpriteMap sprMap;
-        Tower _tower { get; set; }
+        SpriteTower _tower { get; set; }
         Button _button { get; set; }
         public LoadSceneMap()
         {

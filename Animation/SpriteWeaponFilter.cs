@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using tower_Defense.Buttons;
 using tower_Defense.Scenes;
 using tower_Defense.Utils;
 
@@ -12,7 +11,7 @@ namespace tower_Defense.Animation
         public List<SpriteWeapon> liste;
         public SpriteWeaponFilter() {this.liste = new();}
 
-        public SpriteWeaponFilter AddWeapon(Game mainGame, string weaponID, Vector2 position, Vector2 velocity, Tower tower)
+        public SpriteWeaponFilter AddWeapon(Game mainGame, string weaponID, Vector2 position, Vector2 velocity, SpriteTower tower)
         {
             SpriteWeapon spriteWeapon = new SpriteWeapon(mainGame, position, velocity, weaponID, tower, tower.weaponSelectedAngle);
             spriteWeapon.AddAnimation(
