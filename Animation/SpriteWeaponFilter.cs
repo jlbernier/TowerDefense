@@ -44,7 +44,7 @@ namespace tower_Defense.Animation
             return this;
         }
 
-        public SpriteWeaponFilter EnnemyWithinRangeWeapon(Game mainGame, SceneMap pCurrentScene)
+        public SpriteWeaponFilter EnnemyWithinRangeWeapon(Game mainGame)
         {
             SpriteEnnemy missileTarget = null;
             float outOfRange;
@@ -58,7 +58,7 @@ namespace tower_Defense.Animation
                 outOfRange = Tools.OutOfRange(spriteWeapon);
                 ennemyInRange = outOfRange + 1;
                 spriteWeapon.angle = 0;
-                pCurrentScene.spriteEnnemyFilter.liste.ForEach(spriteEnnemy =>
+                SceneMap.spriteEnnemyFilter.liste.ForEach(spriteEnnemy =>
                 {
                     ennemyDistance = Tools.EnnemyDistanceFromWeapon(spriteWeapon, spriteEnnemy);
                     if (ennemyDistance < outOfRange) 
@@ -81,15 +81,15 @@ namespace tower_Defense.Animation
                 return this;
         }
 
-        static void AddMissile7X(Game mainGame, SceneMap pCurrentScene, SpriteWeapon spriteWeapon)
+        static void AddMissile7X(Game mainGame, SpriteWeapon spriteWeapon)
         {
-            pCurrentScene.spriteMissileFilter.AddMissile(mainGame,
+            SceneMap.spriteMissileFilter.AddMissile(mainGame,
                                  "MISSILETOWER7LEVEL1",
                             new Vector2(spriteWeapon.position.X, spriteWeapon.position.Y - 40),
                             new Vector2(0, -30),
                             spriteWeapon.weaponLevel, spriteWeapon.towerLevel, spriteWeapon.weaponType, spriteWeapon);
             if (spriteWeapon.weaponLevel >= 2)
-                pCurrentScene.spriteMissileFilter.AddMissile(mainGame,
+                SceneMap.spriteMissileFilter.AddMissile(mainGame,
                         "MISSILETOWER7LEVEL2",
                    new Vector2(spriteWeapon.position.X, spriteWeapon.position.Y + 40),
                    new Vector2(0, 30),
@@ -97,12 +97,12 @@ namespace tower_Defense.Animation
 
             if (spriteWeapon.weaponLevel >= 3)
             {
-                pCurrentScene.spriteMissileFilter.AddMissile(mainGame,
+                SceneMap.spriteMissileFilter.AddMissile(mainGame,
                         "MISSILETOWER7LEVEL3",
                    new Vector2(spriteWeapon.position.X - 40, spriteWeapon.position.Y),
                    new Vector2(-30, 0),
                    spriteWeapon.weaponLevel, spriteWeapon.towerLevel, spriteWeapon.weaponType, spriteWeapon);
-                pCurrentScene.spriteMissileFilter.AddMissile(mainGame,
+                SceneMap.spriteMissileFilter.AddMissile(mainGame,
                         "MISSILETOWER7LEVEL3",
                    new Vector2(spriteWeapon.position.X + 40, spriteWeapon.position.Y),
                    new Vector2(30, 0),
@@ -121,15 +121,15 @@ namespace tower_Defense.Animation
                     Vector2 velocity = Tools.VelocityAngleSpeed(spriteWeapon.angle, spriteWeapon.speedMissile);
                     if (spriteWeapon.weaponType == "7")
                     {
-                        AddMissile7X(mainGame, pCurrentScene, spriteWeapon);
+                        AddMissile7X(mainGame, spriteWeapon);
                     }
                     else if (spriteWeapon.weaponType == "8")
-                    {                        
-                        pCurrentScene.spriteImpactFilter.AddImpact8(mainGame, spriteWeapon);
+                    {
+                        SceneMap.spriteImpactFilter.AddImpact8(mainGame, spriteWeapon);
                     }
                     else
                     {
-                        pCurrentScene.spriteMissileFilter.AddMissile(mainGame,
+                        SceneMap.spriteMissileFilter.AddMissile(mainGame,
                              missileID,
                              Tools.originePositionMissile(spriteWeapon.position, velocity, missileID),
                              velocity,

@@ -40,8 +40,7 @@ namespace tower_Defense.Animation
         public bool IsPreferredDirectionLeft { get; set; }
         public int HP { get; set; }
         public int MaxHP { get; set; }
-        public Rectangle ennemyRectangle { get; set; }
-        public BoundingBox ennemyBoundingBox { get; set; }
+        public Rectangle ennemyBoundingBox { get; set; }
                         
         public SpriteEnnemy(Game mainGame, Vector2 position, Vector2 velocity, String ennemyID) : base(mainGame, position, velocity, ennemyID)
         {
@@ -64,6 +63,11 @@ namespace tower_Defense.Animation
         
         public override void Update(GameTime gameTime)
         {
+            ennemyBoundingBox = new Rectangle(
+               (int)(position.X - frameWidth / 2),
+               (int)(position.Y - frameHeight / 2),
+               frameWidth,
+               frameHeight);
             effect = isFlipHorizontally ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             velocity = new Vector2(ennemyVelocity.X * speed, ennemyVelocity.Y * speed);
             rectangleLife.Rect.X = (int)(position.X + LENGHTLIFEOFFSETX);
@@ -72,7 +76,6 @@ namespace tower_Defense.Animation
             rectangleDeath.Rect.X = (int)(rectangleLife.Rect.X + rectangleLife.Rect.Width);
             rectangleDeath.Rect.Y = (int)(position.Y + LENGHTLIFEOFFSETY);
             rectangleDeath.Rect.Width = ((int)(LENGHTLIFEWIDTH - rectangleLife.Rect.Width));
-           
             base.Update(gameTime);
         }
 

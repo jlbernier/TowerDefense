@@ -62,7 +62,7 @@ namespace tower_Defense.EnnemiesWave
 
         }
 
-        public void Update(Game mainGame, GraphicsDeviceManager graphics, GameTime gameTime, SceneMap currentScene, bool pGameIsSpeedUp = false)
+        public void Update(Game mainGame, GraphicsDeviceManager graphics, GameTime gameTime, bool pGameIsSpeedUp = false)
         {
             timerEnnemies += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (indexEnnemy > lstWaveEnnemies.Count() - 1)
@@ -74,7 +74,7 @@ namespace tower_Defense.EnnemiesWave
             {
                 if (indexEnnemy > lstWaveEnnemies.Count() - 1) return;
                 ennemyID = lstWaveEnnemies[indexEnnemy].ToString();
-                currentScene.spriteEnnemyFilter.AddEnnemy(mainGame, currentScene, ennemyID);
+                SceneMap.spriteEnnemyFilter.AddEnnemy(mainGame, ennemyID);
                 indexEnnemy++;
                 timerEnnemies = 0;
             }  

@@ -18,26 +18,19 @@ namespace tower_Defense.Animation
         public Vector2 positionBase { get; set; }
         public bool IsBuilded { get; set; }
         public bool IsActiveTower { get; set; }
+        public bool IsMenuUpgradeOpen { get; set; }
+        public SpriteWeapon spriteWeapon { get; set; }
 
-        public bool isMenuToRemove { get; set; }
-        public List<SpriteTower> lstButtonsMenu { get; private set; }
-        public SpriteTower towerBase { get; private set; }
-        public SpriteTower menuTower { get; private set; }
-        public SpriteWeapon spriteWeapon { get; private set; }
+
         public int weaponSelectedAngle { get; set; }
-        public SpriteTower towerToUpgrade { get; private set; }
-        public string towerToBuild { get; set; }
-        public bool WeaponOrTowerUpgrade { get; set; }
         public string towerID { get; set; }
-        public string towerNextID { get; set; }
         public string towerType { get; set; }
         public int towerLevel { get; set; }
         public int weaponLevel { get; set; }
         public float timerBuild { get; set; }
         public int offsetCenterY { get; set; }
-        public bool isCooldownShootUp { get; set; }
         public Rectangle BoundingBox { get; set; }
-        public SpriteTower(Game mainGame, Vector2 position, Vector2 velocity, string towerID, string towerType) : base(mainGame, position, velocity, towerID)
+        public SpriteTower(Game mainGame, Vector2 position, Vector2 velocity, string towerID, string towerType, int towerLevel) : base(mainGame, position, velocity, towerID)
         {
             texture = TDTextures.Textures[TDData.Data[towerID].NameTexture];
             frameWidth = TDData.Data[towerID].FrameWidth;
@@ -47,9 +40,12 @@ namespace tower_Defense.Animation
             else isFrame = false;
             scale = 1f;
             this.towerType = towerType;
-            towerLevel = 1;
-            weaponLevel = 1;
+            this.towerLevel = towerLevel;
             scale = 1;
+            BoundingBox = new Rectangle((int)(position.X - TDData.Data[towerID].FrameWidth/2),
+                                        (int)(position.Y - TDData.Data[towerID].FrameHeight/2),
+                                        TDData.Data[towerID].FrameWidth,
+                                        TDData.Data[towerID].FrameHeight);
         }
 
         public void RotateWeapon(SceneMap pCurrentScene, SpriteTower pCurrentTower)

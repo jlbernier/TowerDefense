@@ -127,6 +127,7 @@ namespace tower_Defense
         public Vector2 Velocity;
         public int speed;
         public bool isFlying;
+        public bool isArmored;
         public bool isTilesetDirectionLeft;
         public bool isPreferredDirectionLeft; 
         public bool isMirrored;
@@ -145,6 +146,9 @@ namespace tower_Defense
         public int OffsetY;
         public int OffsetCenterX;
         public int OffsetCenterY;
+        public int OffsetMenuInfoY;
+        public int OffsetTowerWeaponY;
+        public int OffsetMenuTowerWeaponY;
         public bool IsLoop;
         public int[] ArrayFrames;
         public float FramesDuration;
@@ -278,6 +282,7 @@ namespace tower_Defense
 
         public static void PopulateData()
         {
+            // Big Flying turn Left
             Data.Add("CLAMPBEETLE", new TDDataBase
             {
                 ID = "CLAMPBEETLE",
@@ -293,19 +298,21 @@ namespace tower_Defense
                 InitOffsetY = 64 * 5,
                 InitOffsetYUp = 64 * 4,
                 InitOffsetYBottom = 64 * 3,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = true,
+                isArmored =true,
                 isMirrored = false,
-                MaxHP = 100,
-                HP = 100,
+                MaxHP = 300,
+                HP = 300,
                 speed = 40,
-                Gold = 100,
-                LifeMinus = 1,
+                Gold = 500,
+                LifeMinus = 3,
             });
-
+            //Small walking turn Right
             Data.Add("FIREBUG", new TDDataBase
             {
                 ID = "FIREBUG",
@@ -321,11 +328,13 @@ namespace tower_Defense
                 InitOffsetY = 64 * 5,
                 InitOffsetYUp = 64 * 4,
                 InitOffsetYBottom = 64 * 3,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 2f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = false,
+                isArmored = false,
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
@@ -333,7 +342,7 @@ namespace tower_Defense
                 Gold = 100,
                 LifeMinus = 1,
             });
-
+            //Big Flying turn Right
             Data.Add("FIREWASP", new TDDataBase
             {
                 ID = "FIREWASP",
@@ -349,11 +358,13 @@ namespace tower_Defense
                 InitOffsetY = 96 * 2,
                 InitOffsetYUp = 96 * 1,
                 InitOffsetYBottom = 64 * 0,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = true,
+                isArmored =true,
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
@@ -361,7 +372,7 @@ namespace tower_Defense
                 speed = 40,
                 LifeMinus = 1,
             });
-
+            // Small Flying turn Left
             Data.Add("FLYING_LOCUST", new TDDataBase
             {
                 ID = "FLYING_LOCUST",
@@ -377,11 +388,13 @@ namespace tower_Defense
                 InitOffsetY = 64 * 2,
                 InitOffsetYUp = 64 * 1,
                 InitOffsetYBottom = 64 * 0,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
                 FramesDuration = 1f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = true,
+                isArmored = false,
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
@@ -389,6 +402,7 @@ namespace tower_Defense
                 speed = 40,
                 LifeMinus = 1,
             });
+            //Small walking turn left
             Data.Add("LEAFBUG", new TDDataBase
             {
                 ID = "LEAFBUG",
@@ -404,11 +418,13 @@ namespace tower_Defense
                 InitOffsetY = 64 * 5,
                 InitOffsetYUp = 64 * 4,
                 InitOffsetYBottom = 64 * 3,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 0.8f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = false,
+                isArmored = false,
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
@@ -416,6 +432,7 @@ namespace tower_Defense
                 speed = 37,
                 LifeMinus = 1,
             });
+            //Big Walking turn Left
             Data.Add("MAGMA_CRAB", new TDDataBase
             {
                 ID = "MAGMA_CRAB",
@@ -431,11 +448,13 @@ namespace tower_Defense
                 InitOffsetY = 64 * 5,
                 InitOffsetYUp = 64 * 4,
                 InitOffsetYBottom = 64 * 3,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 3f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = false,
+                isArmored =true,
                 isMirrored = false,
                 MaxHP = 100,
                 HP = 100,
@@ -443,6 +462,7 @@ namespace tower_Defense
                 speed = 40,
                 LifeMinus = 1,
             });
+            //Big Walking turn Right 
             Data.Add("SCORPION", new TDDataBase
             {
                 ID = "SCORPION",
@@ -458,11 +478,13 @@ namespace tower_Defense
                 InitOffsetY = 64 * 5,
                 InitOffsetYUp = 64 * 4,
                 InitOffsetYBottom = 64 * 3,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
                 FramesDuration = 3f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = false,
+                isArmored =true,
                 isMirrored = false,
                 MaxHP = 100,
                 HP = 100,
@@ -470,6 +492,7 @@ namespace tower_Defense
                 speed = 40,
                 LifeMinus = 1,
             });
+            // Small Flying turn Right
             Data.Add("VOIDBUTTERFLY", new TDDataBase
             {
                 ID = "VOIDBUTTERFLY",
@@ -485,11 +508,13 @@ namespace tower_Defense
                 InitOffsetY = 64 * 2,
                 InitOffsetYUp = 64 * 1,
                 InitOffsetYBottom = 64 * 0,
+                OffsetCenterY = -48,
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 2f / 12f,
                 IsLoop = true,
                 buttonAnimation = eButtonAnimation.UseFrames,
                 isFlying = true,
+                isArmored = false,
                 isMirrored = true,
                 MaxHP = 100,
                 HP = 100,
@@ -799,18 +824,7 @@ namespace tower_Defense
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.UseTileset
             });
-            // Tower base where to build
-            /*Data.Add("TOWERBASE", new TDDataBase
-            {
-                ID = "TOWERBASE",
-                NameTexture = "TOWERBASE",
-                FrameWidth = 64,
-                FrameHeight = 64,
-                InitOffsetX = 64 * 6,
-                InitOffsetY = 64 * 7,
-                Scale = 1f,
-                buttonAnimation = eButtonAnimation.UseTDRectangle
-            });*/
+            
             
             // 8 types of towers in tilsets with 3 levels: tower 41 is type weapon 4 level tower 1
             Data.Add("TOWER11", new TDDataBase
@@ -821,7 +835,9 @@ namespace tower_Defense
                 FrameHeight = 128,
                 OffsetX = 64,
                 InitOffsetX = 0,
-                OffsetCenterY = -48 ,
+                OffsetCenterY = -48,
+                OffsetTowerWeaponY = 0,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 maxDistanceTower = 300,
                 Gold = 100,
@@ -836,6 +852,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -12,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 maxDistanceTower = 500,
                 Gold = 100,
@@ -850,6 +868,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64*2,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -20,
+                OffsetMenuTowerWeaponY = -16,
                 Scale = 1f,
                 maxDistanceTower = 700,
                 Gold = 100,
@@ -866,6 +886,8 @@ namespace tower_Defense
                 InitOffsetX = 0,
                 OffsetX = 64,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = 0,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -880,6 +902,8 @@ namespace tower_Defense
                 InitOffsetX = 64,
                 OffsetX = 64,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -8,
+                OffsetMenuTowerWeaponY = -8,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -893,6 +917,8 @@ namespace tower_Defense
                 InitOffsetX = 64*2,
                 OffsetX = 64,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = -15,
+                OffsetMenuTowerWeaponY = -16,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); ///
@@ -905,6 +931,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 0,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = 0,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -917,6 +945,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -9,
+                OffsetMenuTowerWeaponY = -9,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -929,6 +959,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64*2,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -18,
+                OffsetMenuTowerWeaponY = -18,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -941,6 +973,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 0,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = 0,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -953,6 +987,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -9,
+                OffsetMenuTowerWeaponY = -9,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             }); 
@@ -966,6 +1002,8 @@ namespace tower_Defense
                 InitOffsetX = 64*2,
                 Scale = 1f,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -18,
+                OffsetMenuTowerWeaponY = -18,
                 buttonAnimation = eButtonAnimation.None
             });
             Data.Add("TOWER51", new TDDataBase
@@ -977,6 +1015,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 0,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = 0,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -989,6 +1029,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -9,
+                OffsetMenuTowerWeaponY = -9,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1001,6 +1043,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64 * 2,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -18,
+                OffsetMenuTowerWeaponY = -18,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1013,6 +1057,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 0,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = 0,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1025,6 +1071,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -9,
+                OffsetMenuTowerWeaponY = -9,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1037,6 +1085,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64 * 2,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -18,
+                OffsetMenuTowerWeaponY = -18,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1049,6 +1099,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 0,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = 0,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1061,6 +1113,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = -9,
+                OffsetMenuTowerWeaponY = -9,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1073,6 +1127,8 @@ namespace tower_Defense
                 OffsetX = 64,
                 InitOffsetX = 64 * 2,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -18,
+                OffsetMenuTowerWeaponY = -18,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1086,6 +1142,8 @@ namespace tower_Defense
                 InitOffsetY = 64,
                 InitOffsetX = 0,
                 OffsetCenterY = -48,
+                OffsetTowerWeaponY = 0,
+                OffsetMenuTowerWeaponY = 0,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1099,6 +1157,8 @@ namespace tower_Defense
                 InitOffsetY = 64,
                 InitOffsetX = 64,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -9,
+                OffsetMenuTowerWeaponY = -9,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1112,6 +1172,8 @@ namespace tower_Defense
                 InitOffsetY = 64,
                 InitOffsetX = 64 * 2,
                 OffsetCenterY = - 48,
+                OffsetTowerWeaponY = -18,
+                OffsetMenuTowerWeaponY = -18,
                 Scale = 1f,
                 buttonAnimation = eButtonAnimation.None
             });
@@ -1843,7 +1905,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1 },
                 FramesDuration = 4f / 12f,
                 IsLoop = false,
-                OffsetCenterY = - 56,
+                OffsetCenterY = -12,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -1859,7 +1922,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1 },
                 FramesDuration = 8f / 12f,
                 IsLoop = false,
-                OffsetCenterY = - 65,
+                OffsetCenterY = -12,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -1874,7 +1938,8 @@ namespace tower_Defense
                 FrameHeight = 96,
                 ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1 },
                 FramesDuration = 8f / 12f,
-                OffsetCenterY = - 74,
+                OffsetCenterY = -12,
+                OffsetMenuInfoY = -64,
                 IsLoop = false,
                 Scale = 1f,
                 speed = 50,
@@ -1893,7 +1958,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8 },
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
-                OffsetCenterY = - 56,
+                OffsetCenterY =  - 9,
+                OffsetMenuInfoY = -58,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -1908,7 +1974,8 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128 / 2,
                 InitOffsetY = 128 / 2,
-                OffsetCenterY = - 56 - 9,
+                OffsetCenterY = - 9,
+                OffsetMenuInfoY = -58,
                 ArrayFrames = new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5, 6, 7, 8 },
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
@@ -1925,7 +1992,8 @@ namespace tower_Defense
                 FrameWidth = 64,
                 FrameHeight = 128 / 2,
                 InitOffsetY = 128 / 2,
-                OffsetCenterY = -56 -18,
+                OffsetCenterY = -9,
+                OffsetMenuInfoY = -64,
                 ArrayFrames = new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
@@ -1945,7 +2013,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 6, 7, 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56,
+                OffsetCenterY = 0,
+                OffsetMenuInfoY = -48,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -1962,7 +2031,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 6, 7, 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56 - 9,
+                OffsetCenterY =  0,
+                OffsetMenuInfoY = -48,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -1978,7 +2048,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 6, 7, 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56 - 18,
+                OffsetCenterY = 0,
+                OffsetMenuInfoY = -48,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -1995,7 +2066,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 5f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -60,
+                OffsetCenterY = -9,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2012,7 +2084,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 5f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -60 -9,
+                OffsetCenterY =  -9,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2028,7 +2101,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 4, 5 },
                 FramesDuration = 5f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -60 - 18,
+                OffsetCenterY = - 9,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2047,7 +2121,8 @@ namespace tower_Defense
                                             17, 18, 19, 20, 21, 22},
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56,
+                OffsetCenterY = 0,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2066,7 +2141,8 @@ namespace tower_Defense
                                             17, 18, 19, 20, 21, 22},
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56 - 9,
+                OffsetCenterY = 0,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2083,7 +2159,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] {23, 24, 25, 26, 27, 28, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 },
                 FramesDuration = 1f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56 - 18,
+                OffsetCenterY = 0,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2100,7 +2177,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1  },
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56,
+                OffsetCenterY = -9,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2117,7 +2195,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1 },
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56 - 9,
+                OffsetCenterY = - 9,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2133,7 +2212,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 2, 3, 4, 5, 0, 1},
                 FramesDuration = 3f / 12f,
                 IsLoop = false,
-                OffsetCenterY =  -56 - 18,
+                OffsetCenterY = - 9,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 50,
                 maxDistance = 300,
@@ -2150,7 +2230,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 4, 5, 0, 1, 2, 3 },
                 FramesDuration = 8f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56,
+                OffsetCenterY = -9,
+                OffsetMenuInfoY = -58,
                 Scale = 1f,
                 speed = 50,
                 maxAngle = 5,
@@ -2167,7 +2248,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 5, 6, 0, 1, 2, 3, 4 },
                 FramesDuration = 8f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56 - 9,
+                OffsetCenterY = - 9,
+                OffsetMenuInfoY = -58,
                 Scale = 1f,
                 speed = 50,
                 maxAngle = 5,
@@ -2183,7 +2265,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 7, 8, 0, 1, 2, 3, 4, 5, 6 },
                 FramesDuration = 8f / 12f,
                 IsLoop = false,
-                OffsetCenterY =  -56 - 18,
+                OffsetCenterY = - 9,
+                OffsetMenuInfoY = -58,
                 Scale = 1f,
                 speed = 50,
                 maxAngle = 5,
@@ -2199,7 +2282,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 8f / 12f,
                 IsLoop = false,
-                OffsetCenterY =  - 56,
+                OffsetCenterY =  -18,
+                OffsetMenuInfoY = -64,
                 speed = 0,
                 Scale = 1f,
                 maxAngle = 5,
@@ -2216,7 +2300,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 8f / 12f,
                 IsLoop = false,
-                OffsetCenterY =  -56 - 9,
+                OffsetCenterY = - 18,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 0,
                 maxAngle = 5,
@@ -2232,7 +2317,8 @@ namespace tower_Defense
                 ArrayFrames = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 FramesDuration = 8f / 12f,
                 IsLoop = false,
-                OffsetCenterY = -56 - 18,
+                OffsetCenterY = - 18,
+                OffsetMenuInfoY = -64,
                 Scale = 1f,
                 speed = 0,
                 maxAngle = 5,

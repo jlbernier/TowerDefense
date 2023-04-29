@@ -17,11 +17,11 @@ namespace TowerDefence
         public MouseState oldMouseState;
         public string towerTypeIconOnHover;
         private Tile tileToBuildTower;
-        public Rectangle boundingBoxMenuOpen;
+        public Rectangle boundingBoxMenuTowerBuilderOpen;
+        public SpriteEnnemy spriteEnnemy;
 
         public TowerBuilder()
         {
-
         }
 
         public void AddButtonSelectTowerIcon(Vector2 position, String towerType, float scale)
@@ -43,34 +43,11 @@ namespace TowerDefence
             if (boundingBox.Contains(MousePos))
             {
                 towerTypeIconOnHover = towerType;
-                MainGame.spriteBatch.Draw(TDTextures.Textures[TDData.Data[towerType].NameTexture],
-                                    new Vector2(TDData.MenuRightBottomX, TDData.MenuRightBottomY + TDData.Data[towerType].OffsetCenterY),
-                                    new Rectangle(
-                                    TDData.Data[towerType].InitOffsetX,
-                                    TDData.Data[towerType].InitOffsetY,
-                                    TDData.Data[towerType].FrameWidth,
-                                    TDData.Data[towerType].FrameHeight),
-                                    Color.White, 0f, 
-                                    new Vector2(TDData.Data[towerType].FrameWidth/2, TDData.Data[towerType].FrameHeight/2), 1f, 0f, 0f);
-                string weaponType = "WEAPONTOWER" + 
-                    towerType.Substring(5,1) + "LEVEL1";
-                MainGame.spriteBatch.Draw(TDTextures.Textures[TDData.Data[weaponType].NameTexture],
-                                    new Vector2(TDData.MenuRightBottomX, TDData.MenuRightBottomY + TDData.Data[weaponType].OffsetCenterY),
-                                    new Rectangle(
-                                    TDData.Data[weaponType].InitOffsetX,
-                                    TDData.Data[weaponType].InitOffsetY,
-                                    TDData.Data[weaponType].FrameWidth,
-                                    TDData.Data[weaponType].FrameHeight),
-                                    Color.White, 0f, 
-                                    new Vector2(TDData.Data[weaponType].FrameWidth / 2, TDData.Data[weaponType].FrameHeight / 2), 1f, 0f, 0f);
-                MainGame.spriteBatch.DrawString(SceneMap.SmallFont,
-                     "blablablabla", new Vector2(TDData.MenuRightBottomX -120, TDData.MenuRightBottomY +30),
-                     
-                     Color.White);
+                DisplayInfoTower(towerTypeIconOnHover, 1);
             }
         }
 
-            public void AddButtonSelectTowerType(Vector2 position)
+        public void AddButtonSelectTowerType(Vector2 position)
         {
             AddButtonSelectTowerIcon(new Vector2(position.X - 27, position.Y - 107),
                             "TOWER81", 0.4f);
@@ -140,9 +117,8 @@ namespace TowerDefence
                     {
                         SceneMap.spriteTowerFilter.AddTower(mainGame, 
                             new Vector2(tile._position.X +32, tile._position.Y), 
-                            "TOWERCONSTRUCTION1", towerTypeIconOnHover.Substring(5, 1));
+                            "TOWERCONSTRUCTION1", towerTypeIconOnHover.Substring(5, 1), 1);
                         tileToBuildTower = tile;
-                        Debug.WriteLine("");
                     }
                 }
                 if (tileToBuildTower != null)
@@ -151,8 +127,82 @@ namespace TowerDefence
             oldMouseState = Mouse.GetState();
         }
 
+        public void DisplayInfoEnnemy(SpriteEnnemy spriteEnnemy)
+        {
+            MainGame.spriteBatch.Draw(TDTextures.Textures[TDData.Data[spriteEnnemy.ennemyID].NameTexture],
+                                    new Vector2(TDData.MenuRightBottomX + 80, 
+                                    TDData.MenuRightBottomY + TDData.Data[spriteEnnemy.ennemyID].OffsetCenterY),
+                                    new Rectangle(
+                                    TDData.Data[spriteEnnemy.ennemyID].InitOffsetX,
+                                    TDData.Data[spriteEnnemy.ennemyID].InitOffsetY,
+                                    TDData.Data[spriteEnnemy.ennemyID].FrameWidth,
+                                    TDData.Data[spriteEnnemy.ennemyID].FrameHeight),
+                                    Color.White, 0f,
+                                    new Vector2(TDData.Data[spriteEnnemy.ennemyID].FrameWidth / 2, TDData.Data[spriteEnnemy.ennemyID].FrameHeight / 2), 1.1f, 0f, 0f);
+
+            MainGame.spriteBatch.DrawString(SceneMap.myFont,
+                 TDData.Data[spriteEnnemy.ennemyID].Name, new Vector2(TDData.MenuRightBottomX - 120, 
+                 TDData.MenuRightBottomY - 60),
+                Color.White);
+            MainGame.spriteBatch.Draw(TDTextures.Textures[TDData.Data["GOLD"].NameTexture],
+                                    new Vector2(TDData.MenuRightBottomX - 80,
+                                    TDData.MenuRightBottomY + 10),
+                                    new Rectangle(
+                                    TDData.Data["GOLD"].InitOffsetX,
+                                    TDData.Data["GOLD"].InitOffsetY,
+                                    TDData.Data["GOLD"].FrameWidth,
+                                    TDData.Data["GOLD"].FrameHeight),
+                                    Color.White, 0f,
+                                    new Vector2(TDData.Data["GOLD"].FrameWidth / 2, TDData.Data["GOLD"].FrameHeight / 2), 0.8f, 0f, 0f);
+            MainGame.spriteBatch.DrawString(SceneMap.SmallFont,
+                 "+ " + TDData.Data[spriteEnnemy.ennemyID].Gold.ToString(), new Vector2(TDData.MenuRightBottomX - 60, TDData.MenuRightBottomY + 5),
+                 Color.White);
+            MainGame.spriteBatch.Draw(TDTextures.Textures[TDData.Data["HEART"].NameTexture],
+                                    new Vector2(TDData.MenuRightBottomX +10,
+                                    TDData.MenuRightBottomY + 10),
+                                    new Rectangle(
+                                    TDData.Data["HEART"].InitOffsetX,
+                                    TDData.Data["HEART"].InitOffsetY,
+                                    TDData.Data["HEART"].FrameWidth,
+                                    TDData.Data["HEART"].FrameHeight),
+                                    Color.White, 0f,
+                                    new Vector2(TDData.Data["HEART"].FrameWidth / 2, TDData.Data["HEART"].FrameHeight / 2), 0.8f, 0f, 0f);
+            MainGame.spriteBatch.DrawString(SceneMap.SmallFont,
+                  "- " + TDData.Data[spriteEnnemy.ennemyID].LifeMinus.ToString(), new Vector2(TDData.MenuRightBottomX + 30, TDData.MenuRightBottomY + 5),
+                 Color.White);
+            string messageText;
+            if (spriteEnnemy.IsFlying) messageText = "Flying Ennemy";
+            else messageText = "Walking Ennemy";
+            MainGame.spriteBatch.DrawString(SceneMap.SmallFont,
+                  messageText,
+                  new Vector2(TDData.MenuRightBottomX - 130, TDData.MenuRightBottomY + 40),
+                 Color.White);
+            messageText = "Speed : ";
+            if (spriteEnnemy.speed < 40) messageText += "slow";
+            else if (spriteEnnemy.speed < 60) messageText += "medium";
+            else if (spriteEnnemy.speed >= 60) messageText += "fast";
+            MainGame.spriteBatch.DrawString(SceneMap.SmallFont,
+                  messageText, 
+                  new Vector2(TDData.MenuRightBottomX - 130, TDData.MenuRightBottomY + 70),
+                 Color.White);
+            messageText = "HP     : " + spriteEnnemy.HP.ToString();
+            MainGame.spriteBatch.DrawString(SceneMap.SmallFont,
+                  messageText,
+                  new Vector2(TDData.MenuRightBottomX - 130, TDData.MenuRightBottomY + 100),
+                 Color.White);
+
+            if (TDData.Data[spriteEnnemy.ID].isArmored) messageText = "Ennemy is Armored";
+            else messageText = "Ennemy has no Armor";
+            MainGame.spriteBatch.DrawString(SceneMap.SmallFont,
+                  messageText,
+                  new Vector2(TDData.MenuRightBottomX - 130, TDData.MenuRightBottomY + 130),
+                 Color.White);
+        }
+
         public override void DrawGUI()
         {
+            spriteEnnemy = SceneMap.spriteEnnemyFilter.OnHover();
+            if (spriteEnnemy != null) DisplayInfoEnnemy(spriteEnnemy);
             foreach (Tile tile in MapTiled.lstTilesTowers)
             {
                 Vector2 towerPosition = new Vector2(tile._position.X, tile._position.Y);

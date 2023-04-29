@@ -97,21 +97,6 @@ namespace tower_Defense.Scenes
                 currentScene.lstTilesWater.Add(sprMap);
             }
             Rectangle Screen = mainGame.Window.ClientBounds;
-           /* foreach (Tile tile in mapTiled.lstTilesTowers)
-            {
-                Vector2 towerPosition = new Vector2(tile._position.X + 32, tile._position.Y + 32);
-                /*_tower = new Tower(mainGame, towerPosition, new Vector2(0, 0), "TOWERBASE");
-                _tower.towerNextID = "TOWERBASE";
-                _tower.OnClick = currentScene.onClickDefault;
-                _tower.OnHover = currentScene.onHoverTowerBase;
-                currentScene.listButtons.Add(_tower);*/
-
-                /*Vector2 towerPosition = new Vector2(tile._position.X + 32, tile._position.Y + 32);
-                _button = new MenuButton(mainGame, towerPosition, new Vector2(0, 0), "TOWERBASE", currentScene);
-                _button.OnClick = currentScene.onClickDefault;
-                _button.OnHover = currentScene.OnHoverMenuTowerBase;
-                currentScene.listMenuTowerBase.Add(_button);
-            }*/
 
             _button = new Button(mainGame, new Vector2(75, 110), new Vector2(0, 0), "CHAIN");
             _button.OnClick = currentScene.onClickDefault;

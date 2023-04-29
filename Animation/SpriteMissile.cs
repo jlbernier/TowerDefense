@@ -28,7 +28,7 @@ namespace tower_Defense.Animation
 
 
         public Rectangle missileRectangle { get; set; }
-        public BoundingBox missileBoundingBox { get; set; }
+        public Rectangle missileBoundingBox { get; set; }
         public SpriteEnnemy spriteEnnemy { get; set; }
         public bool outOfRange { get; set; }
         public Vector2 origineMissile { get; set; }
@@ -61,8 +61,7 @@ namespace tower_Defense.Animation
                (int)(position.Y - TDData.Data[missileID].FrameHeight / 2),
             TDData.Data[missileID].FrameWidth,
                TDData.Data[missileID].FrameHeight);
-            missileBoundingBox = new BoundingBox(new Vector3(missileRectangle.Left, missileRectangle.Top, 0),
-                                                     new Vector3(missileRectangle.Right, missileRectangle.Bottom, 0));
+            missileBoundingBox = missileRectangle;
         }
         public SpriteMissile(Game mainGame, Vector2 position, Vector2 velocity, String impactID, SpriteMissile spriteMissile) : base(mainGame, position, velocity, impactID)
         {
@@ -104,9 +103,7 @@ namespace tower_Defense.Animation
                 (int)(position.Y - frameHeight / 2),
                 frameWidth,
                 frameHeight);
-            missileBoundingBox = new BoundingBox(new Vector3(missileRectangle.Left, missileRectangle.Top, 0),
-                                                   new Vector3(missileRectangle.Right, missileRectangle.Bottom, 0));
-
+            missileBoundingBox = missileRectangle;
             base.Update(gameTime);
         }
 

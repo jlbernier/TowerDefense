@@ -75,7 +75,7 @@ namespace tower_Defense.Animation
                 return this;        
         }
 
-        public SpriteMissileFilter ImpactCollision(MainGame mainGame, SceneMap pCurrentScene, SpriteEnnemyFilter spriteEnnemyFilter)
+        public SpriteMissileFilter ImpactCollision(MainGame mainGame, SpriteEnnemyFilter spriteEnnemyFilter)
         {
             liste.ForEach(spriteMissile => 
             {
@@ -84,7 +84,7 @@ namespace tower_Defense.Animation
                         if (spriteMissile.missileBoundingBox.Intersects(spriteEnnemy.ennemyBoundingBox))
                         {
                             spriteMissile.isCollision = true;
-                            pCurrentScene.spriteImpactFilter.AddImpact(mainGame, spriteMissile);
+                            SceneMap.spriteImpactFilter.AddImpact(mainGame, spriteMissile);
                         }                        
                     });                    
             });

@@ -24,28 +24,28 @@ namespace tower_Defense.Utils
             Mouse.SetCursor(MouseCursor.FromTexture2D(MainGame.transparentTexture, 0, 0));
         }
 
-        public static int BoxToCheck(SceneMap currentScene,SpriteEnnemy spriteEnnemy, TDData.eDirection direction)
+        public static int BoxToCheck(SpriteEnnemy spriteEnnemy, TDData.eDirection direction)
         {
             switch (direction)
             {
                 case TDData.eDirection.Left:
                     return ((int)spriteEnnemy.NextBox.X == 0) ? 0 :
-                (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X - 1, (int)spriteEnnemy.NextBox.Y];
+                (int)SceneMap.map.arrayPath[(int)spriteEnnemy.NextBox.X - 1, (int)spriteEnnemy.NextBox.Y];
                 case TDData.eDirection.Right:
-                    return ((int)spriteEnnemy.NextBox.X == currentScene.map.arrayPath.GetLength(0)) ? 0 :
-                             (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X + 1, (int)spriteEnnemy.NextBox.Y]; break;
+                    return ((int)spriteEnnemy.NextBox.X == SceneMap.map.arrayPath.GetLength(0)) ? 0 :
+                             (int)SceneMap.map.arrayPath[(int)spriteEnnemy.NextBox.X + 1, (int)spriteEnnemy.NextBox.Y]; break;
                 case TDData.eDirection.Botton:
-                    return ((int)spriteEnnemy.NextBox.Y == currentScene.map.arrayPath.GetLength(1)) ? 0 :
-                          (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y + 1]; break;
+                    return ((int)spriteEnnemy.NextBox.Y == SceneMap.map.arrayPath.GetLength(1)) ? 0 :
+                          (int)SceneMap.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y + 1]; break;
                 case TDData.eDirection.Up:
                     return ((int)spriteEnnemy.NextBox.Y == 0) ? 0 :
-                             (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y - 1]; break;
+                             (int)SceneMap.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y - 1]; break;
                 default:
                     return 0;
             }
         }
 
-        public static void NextDestinationLeft(SceneMap currentScene, SpriteEnnemy spriteEnnemy)
+        public static void NextDestinationLeft(SpriteEnnemy spriteEnnemy)
         {
             if (spriteEnnemy.IsArrivalNextCurrentBox)
             {
@@ -59,7 +59,7 @@ namespace tower_Defense.Utils
                 spriteEnnemy.IsArrivalNextCurrentBox = true;
                 return;
             }
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Left))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Left))
             {
                 case TDData.EndBox:
                     spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X - 1, spriteEnnemy.NextBox.Y);
@@ -100,7 +100,7 @@ namespace tower_Defense.Utils
                     break;
             }
             if (TDData.Data[spriteEnnemy.ennemyID].isPreferredDirectionLeft)
-                switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Up))
+                switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Up))
                 {
                     case TDData.StonePath:
                         if (spriteEnnemy.IsFlying)
@@ -123,7 +123,7 @@ namespace tower_Defense.Utils
                     default:
                         break;
                 }
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Botton))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Botton))
             {
                 case TDData.StonePath:
                     spriteEnnemy.currentDestination = TDData.eDirection.Botton;
@@ -140,7 +140,7 @@ namespace tower_Defense.Utils
             }
         }
 
-        public static void NextDestinationRight(SceneMap currentScene, SpriteEnnemy spriteEnnemy)
+        public static void NextDestinationRight(SpriteEnnemy spriteEnnemy)
         {
             if (spriteEnnemy.IsArrivalNextCurrentBox)
             {
@@ -154,7 +154,7 @@ namespace tower_Defense.Utils
                 spriteEnnemy.IsArrivalNextCurrentBox = true;
                 return;
             }
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Right))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Right))
             {
                 case TDData.EndBox:
                     spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X + 1, spriteEnnemy.NextBox.Y);
@@ -202,7 +202,7 @@ namespace tower_Defense.Utils
             }
             if (TDData.Data[spriteEnnemy.ennemyID].isPreferredDirectionLeft)
                 //Debug.WriteLine(BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Up));
-                switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Up))
+                switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Up))
                 {
                     case TDData.StonePath:
                         if (spriteEnnemy.IsFlying)
@@ -230,7 +230,7 @@ namespace tower_Defense.Utils
                     default:
                         break;
                 }
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Botton))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Botton))
             {
                 case TDData.StonePath:
                 case TDData.HorizontalBridge2:
@@ -246,12 +246,12 @@ namespace tower_Defense.Utils
                     spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
                     break;
                 default:
-                    Debug.WriteLine(BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Botton));
+                    Debug.WriteLine(BoxToCheck(spriteEnnemy, TDData.eDirection.Botton));
                     break;
             }
         }
 
-        public static void NextDestinationUp(SceneMap currentScene, SpriteEnnemy spriteEnnemy)
+        public static void NextDestinationUp(SpriteEnnemy spriteEnnemy)
         {
             if (spriteEnnemy.IsArrivalNextCurrentBox)
             {
@@ -265,7 +265,7 @@ namespace tower_Defense.Utils
                 spriteEnnemy.IsArrivalNextCurrentBox = true;
                 return;
             }
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Up))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Up))
             {
                 case TDData.EndBox:
                     spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
@@ -310,7 +310,7 @@ namespace tower_Defense.Utils
                     break;
             }
             if (TDData.Data[spriteEnnemy.ennemyID].isPreferredDirectionLeft)
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Left))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Left))
             {
                 case TDData.StonePath:
                         if (spriteEnnemy.IsFlying)
@@ -328,7 +328,7 @@ namespace tower_Defense.Utils
                     break;
                 default:
                         int box = ((int)spriteEnnemy.NextBox.Y == 0) ? 0 :
-                             (int)currentScene.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y]; 
+                             (int)SceneMap.map.arrayPath[(int)spriteEnnemy.NextBox.X, (int)spriteEnnemy.NextBox.Y]; 
 
                         if (box == TDData.Crossing3)
                         {
@@ -339,7 +339,7 @@ namespace tower_Defense.Utils
                         }
                         break;
             }
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Right))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Right))
             {
                 case TDData.StonePath:
                     spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y - 1);
@@ -358,7 +358,7 @@ namespace tower_Defense.Utils
             }
         }
 
-        public static void NextDestinationBotton(SceneMap currentScene, SpriteEnnemy spriteEnnemy)
+        public static void NextDestinationBotton(SpriteEnnemy spriteEnnemy)
         {
 
             if (spriteEnnemy.IsArrivalNextCurrentBox)
@@ -373,7 +373,7 @@ namespace tower_Defense.Utils
                 spriteEnnemy.IsArrivalNextCurrentBox = true;
                 return;
             }
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Botton))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Botton))
             {
                 case TDData.EndBox:
                     spriteEnnemy.NextAfterBox = new Vector2(spriteEnnemy.NextBox.X, spriteEnnemy.NextBox.Y + 1);
@@ -404,7 +404,7 @@ namespace tower_Defense.Utils
                 case TDData.StonePath:
                     if (!spriteEnnemy.IsFlying)
                     {
-                        Debug.WriteLine(BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Right));
+                        Debug.WriteLine(BoxToCheck(spriteEnnemy, TDData.eDirection.Right));
                     }
                         if (spriteEnnemy.IsFlying)
                     {
@@ -423,7 +423,7 @@ namespace tower_Defense.Utils
                     break;
             }
             if (TDData.Data[spriteEnnemy.ennemyID].isPreferredDirectionLeft)
-                switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Right))
+                switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Right))
                 {
                     case TDData.Crossing1:
                     case TDData.Crossing2:
@@ -453,7 +453,7 @@ namespace tower_Defense.Utils
                     default:
                        break;
                 }
-            switch (BoxToCheck(currentScene, spriteEnnemy, TDData.eDirection.Left))
+            switch (BoxToCheck(spriteEnnemy, TDData.eDirection.Left))
             {
                 case TDData.Crossing1:
                 case TDData.Crossing2:
@@ -484,21 +484,21 @@ namespace tower_Defense.Utils
                     break;
             }
         }
-        public static void NextAfterBox(SceneMap currentScene,SpriteEnnemy spriteEnnemy)
+        public static void NextAfterBox(SpriteEnnemy spriteEnnemy)
         {           
             switch (spriteEnnemy.nextDestination)
             {
                 case TDData.eDirection.Left:
-                    NextDestinationLeft(currentScene, spriteEnnemy);
+                    NextDestinationLeft(spriteEnnemy);
                     break;
                 case TDData.eDirection.Right:
-                    NextDestinationRight(currentScene, spriteEnnemy);
+                    NextDestinationRight(spriteEnnemy);
                     break;
                 case TDData.eDirection.Up:
-                    NextDestinationUp(currentScene, spriteEnnemy);
+                    NextDestinationUp(spriteEnnemy);
                     break;
                 case TDData.eDirection.Botton:
-                    NextDestinationBotton(currentScene, spriteEnnemy);
+                    NextDestinationBotton(spriteEnnemy);
                     break;
                 default:
                     break;

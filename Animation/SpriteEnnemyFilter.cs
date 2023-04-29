@@ -11,6 +11,7 @@ using static tower_Defense.DataBase.TDWave;
 using tower_Defense.Utils;
 using System.Diagnostics;
 using tower_Defense.Map;
+using Microsoft.Xna.Framework.Input;
 
 namespace tower_Defense.Animation
 {
@@ -25,15 +26,15 @@ namespace tower_Defense.Animation
             this.liste = new();
             filtredListe = new();
         }
-        public static (Vector2,Vector2) StartPositionAndBox(SceneMap currentScene, string ennemyID)
+        public static (Vector2,Vector2) StartPositionAndBox(string ennemyID)
         {
             Vector2 position = new Vector2();
             Vector2 currentBox = new Vector2();
-            for (int line = 0; line < currentScene.map.arrayPath.GetLength(0); line++)
+            for (int line = 0; line < SceneMap.map.arrayPath.GetLength(0); line++)
             {
-                for (int column = 0; column < currentScene.map.arrayPath.GetLength(1); column++)
+                for (int column = 0; column < SceneMap.map.arrayPath.GetLength(1); column++)
                 {
-                    if (currentScene.map.arrayPath[line, column] == TDData.StartBox)
+                    if (SceneMap.map.arrayPath[line, column] == TDData.StartBox)
                     {
                         position = new Vector2(line * TDData.BoxWidth + TDData.BoxWidth / 2,
                             column * TDData.BoxHeight + TDData.BoxHeight / 2);
@@ -45,9 +46,9 @@ namespace tower_Defense.Animation
         }
    
         
-        public SpriteEnnemyFilter AddEnnemy(Game mainGame, SceneMap currentScene, string ennemyID)
+        public SpriteEnnemyFilter AddEnnemy(Game mainGame, string ennemyID)
         {
-            (Vector2 position, Vector2 currentBox) = StartPositionAndBox(currentScene, ennemyID);
+            (Vector2 position, Vector2 currentBox) = StartPositionAndBox(ennemyID);
             SpriteEnnemy spriteEnnemy = new SpriteEnnemy(mainGame, position, currentBox, ennemyID);
             spriteEnnemy.AddAnimation(
                 "Ennemy",
@@ -63,7 +64,7 @@ namespace tower_Defense.Animation
             spriteEnnemy.ennemyVelocity = new Vector2(1,0);
             spriteEnnemy.CurrentBox = currentBox;
             spriteEnnemy.NextBox = currentBox + new Vector2(1,0);
-            Tools.NextAfterBox(currentScene, spriteEnnemy);
+            Tools.NextAfterBox(spriteEnnemy);
             spriteEnnemy.nextDestination = spriteEnnemy.nextAfterDestination;
             if (spriteEnnemy.nextAfterDestination == eDirection.None)
             {
@@ -262,7 +263,7 @@ namespace tower_Defense.Animation
                         NextEnnemyDestination(spriteEnnemy);
                         spriteEnnemy.CurrentBox = spriteEnnemy.NextBox;
                         spriteEnnemy.NextBox = spriteEnnemy.NextAfterBox;
-                        Tools.NextAfterBox(currentScene, spriteEnnemy);
+                        Tools.NextAfterBox(spriteEnnemy);
                     }
                     if (spriteEnnemy.CurrentBox == new Vector2(19, 3))
                         Debug.WriteLine("spriteEnnemy.CurrentBox: " + spriteEnnemy.CurrentBox.ToString());
@@ -272,7 +273,13 @@ namespace tower_Defense.Animation
             });
             return this;
         }
-     
+
+        public SpriteEnnemy OnHover()
+        {
+            MouseState mouseState = Mouse.GetState();
+            Point mousePos = mouseState.Position;
+            return liste.FirstOrDefault(sprite => sprite.ennemyBoundingBox.Contains(mousePos));
+        }
         public SpriteEnnemyFilter ImpactCollision()
         {
             liste.ForEach(spriteEnnemy => {

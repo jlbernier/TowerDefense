@@ -39,7 +39,7 @@ namespace tower_Defense.Animation
             weaponLevel = tower.weaponLevel;
             towerLevel = tower.towerLevel;
             speedMissile = TDData.Data[weaponID].speed;
-            this.angleSelected = angleSelected;
+            this.angleSelected = angleSelected;            
         }
 
         public override void Update(GameTime gameTime)

@@ -33,11 +33,11 @@ namespace tower_Defense.Scenes
         private Vector2 scale;
 
         public SpriteBatch spriteBatch;
-        public SpriteFont myFont;
+        public static SpriteFont myFont;
         public static SpriteFont SmallFont;
         // Map
         private readonly TmxMap _map;
-        public MapTiled map;
+        public static MapTiled map;
         // GUI
         private GUI gui;
         // GamePlay
@@ -51,10 +51,10 @@ namespace tower_Defense.Scenes
         public List<Button> listButtons = new();
         public static SpriteTowerFilter spriteTowerFilter = new();
         public List<SpriteMap> lstTilesWater = new();
-        public SpriteEnnemyFilter spriteEnnemyFilter = new();
-        public SpriteWeaponFilter spriteWeaponFilter = new();
-        public SpriteMissileFilter spriteMissileFilter = new();
-        public SpriteImpactFilter spriteImpactFilter = new();
+        public static SpriteEnnemyFilter spriteEnnemyFilter = new();
+        public static SpriteWeaponFilter spriteWeaponFilter = new();
+        public static SpriteMissileFilter spriteMissileFilter = new();
+        public static SpriteImpactFilter spriteImpactFilter = new();
         
         private int level = 1;
 
@@ -223,14 +223,14 @@ namespace tower_Defense.Scenes
                    .BuildTower(mainGame);
                 spriteWeaponFilter
                    .UpdateAll(gameTime)
-                   .EnnemyWithinRangeWeapon(mainGame, this)
+                   .EnnemyWithinRangeWeapon(mainGame)
                    .CooldownShootIsUp(mainGame, this);
                 spriteMissileFilter
                     .UpdateAll(gameTime)
                     .FollowTarget()
                     .TimeOutMissile()
                     .OutOfRange()
-                    .ImpactCollision(mainGame, this, spriteEnnemyFilter)
+                    .ImpactCollision(mainGame, spriteEnnemyFilter)
                     .CollisionFinished();
                 spriteImpactFilter
                     .UpdateAll(gameTime)
@@ -242,7 +242,7 @@ namespace tower_Defense.Scenes
                     .ImpactCollision()
                     .RemoveDeadEnnemy()
                     .EnnemyArrived();
-                ennemiesWave.Update(mainGame, mainGame._graphics, gameTime, this, isGameSpeedUp);
+                ennemiesWave.Update(mainGame, mainGame._graphics, gameTime, isGameSpeedUp);
             }
             map.Update(gameTime);
             lstTilesWater.ForEach(actor => actor.Update(gameTime));
@@ -264,7 +264,6 @@ namespace tower_Defense.Scenes
             map.Draw(MainGame.spriteBatch, map.lstTilesBridges);
             listButtons.ForEach(actor => actor.Draw(gameTime));
 
-            spriteWeaponFilter.DrawAll(gameTime);
             MainGame.spriteBatch.DrawString(SmallFont,
                 TDData.LevelAndWave, new Vector2(40, 120), Color.White);
             MainGame.spriteBatch.DrawString(SmallFont,
@@ -273,6 +272,7 @@ namespace tower_Defense.Scenes
               TDData.Gold.ToString(), new Vector2(140, 38), Color.White);
            
             spriteTowerFilter.DrawAll(gameTime);
+            spriteWeaponFilter.DrawAll(gameTime);
             if (!isGamePaused)
                 gui.Draw();
             Color color = Color.White;

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tower_Defense;
 using tower_Defense.Animation;
+using tower_Defense.Scenes;
 
 namespace TowerDefence
 {
@@ -10,6 +11,7 @@ namespace TowerDefence
     {
         public MainGame mainGame;
         public MouseState oldMouseState;
+        public SpriteEnnemy spriteEnnemy;
         public static SpriteTowerFilter spriteTowerFilter;
         public static SpriteTower currentTower;
         private TowerBuilder towerBuild = new();
@@ -31,21 +33,15 @@ namespace TowerDefence
         {
             this.controller = towerBuild;
         }
-
+        
         public void Update(GameTime gameTime)
         {
-            MouseState mouseState = Mouse.GetState();
-            if (mouseState.LeftButton == ButtonState.Pressed &&
-                        mouseState.LeftButton != oldMouseState.LeftButton)
-            {
-                currentTower = null;
-                currentTower = spriteTowerFilter.IsSelected();
-                if (currentTower != null)
-                    this.controller = towerUpgrade;
-            }
-            oldMouseState = Mouse.GetState();
+            currentTower = null;
+            currentTower = SceneMap.spriteTowerFilter.OnHover();
+            this.controller = (currentTower != null) ? towerUpgrade : towerBuild;
             controller.Update();
             controller.CheckClic(mainGame);
+            
         }
 
         public void Draw()

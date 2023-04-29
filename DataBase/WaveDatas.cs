@@ -64,8 +64,8 @@ namespace tower_Defense.DataBase
                         eEnnemyID.MAGMA_CRAB, //Big Walking turn Left
                         eEnnemyID.FIREBUG, //Small walking turn Right
                         eEnnemyID.LEAFBUG, //Small walking turn left
-                        eEnnemyID.FLYING_LOCUST, // Small Fluing turn Left
-                        eEnnemyID.VOIDBUTTERFLY,// Small Flying turn Right
+                        eEnnemyID.FLYING_LOCUST, // Small Flying turn Left
+                        eEnnemyID.VOIDBUTTERFLY, // Small Flying turn Right
                         eEnnemyID.CLAMPBEETLE, // Big Flying turn Left
                         eEnnemyID.FIREWASP, //Big Flying turn Right
                 },}) ;
